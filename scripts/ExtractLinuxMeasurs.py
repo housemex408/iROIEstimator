@@ -76,4 +76,15 @@ print(msg)
 # Get total LOC up to this version
 
 # Create a line item { toVersion, NC, NO, E_Module, E_Line, T_Module, T_Line }
+header = 'Version, NC, NO, E_Module, E_Line'
+template = '\n{toVersion}, {NC}, {NO}, {E_Module}, {E_Line}'
+
+f = open("./output/data_analysis.csv", "w")
+f.write(header)
+
+line = template.format(toVersion=toVersion, NC=NC, NO=NO, E_Module=E_Module, E_Line=E_Line)
+
+f.write(line)
+
+f.close()
 
