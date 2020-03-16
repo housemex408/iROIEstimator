@@ -84,11 +84,6 @@ while True:
     msg = 'T_Line: {T_Line}'.format(T_Line=T_Line)
     print(msg)
 
-    # Checkout master
-    checkoutMaster = "git checkout master --force"
-    process = subprocess.run([checkoutMaster], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd='../linux/')
-    print(process.stdout.strip())
-
     # Create a line item { toVersion, NC, NO, E_Module, E_Line, T_Module, T_Line }
     template = '\n{toVersion}, {NC}, {NO}, {E_Module}, {E_Line}, {T_Module}, {T_Line}'
     line = template.format(toVersion=toVersion, NC=NC, NO=NO, E_Module=E_Module, E_Line=E_Line, T_Module=T_Module, T_Line=T_Line)
