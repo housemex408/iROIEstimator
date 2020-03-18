@@ -1,16 +1,31 @@
 import subprocess
 
-tags = open('tags.txt', 'r')
-data_analysis = open("./output/data_analysis_part2.csv", "w")
-header = 'Version, NC, NO, E_Module, E_Line, T_Module, T_Line'
+tags = open('tags_with_dates_major_versions.csv', 'r')
+data_analysis = open("./output/data_analysis_major_versions_with_dates.csv", "w")
+header = 'Version, NC, NO, E_Module, E_Line, T_Module, T_Line, Release Date'
 data_analysis.write(header)
-fromVersion = tags.readline()
-toVersion = tags.readline()
 
+class Tag(object):
+    def __init__(self, row):
+      self.version = row[0].strip()
+      self.release_date = row[1].strip()
+      self.print_template = 'Version: {version}, Release Date: {release_date}'
+    def print(self):
+        msg = self.print_template.format(version=self.version, release_date=self.release_date)
+        print(msg)
+
+seperator = ","
+
+fromTag = Tag(tags.readline().split(seperator))
+toTag = Tag(tags.readline().split(seperator))
+
+fromTag.print()
+toTag.print()
 
 while True:
-    toVersion = toVersion.strip()
-    fromVersion = fromVersion.strip()
+    toVersion = toTag.version
+    Release_Date = toTag.release_date
+    fromVersion = fromTag.version
 
     versionRange = "'{fromV}'..'{toV}'".format(toV=toVersion, fromV=fromVersion)
     print(versionRange)
@@ -85,13 +100,13 @@ while True:
     print(msg)
 
     # Create a line item { toVersion, NC, NO, E_Module, E_Line, T_Module, T_Line }
-    template = '\n{toVersion}, {NC}, {NO}, {E_Module}, {E_Line}, {T_Module}, {T_Line}'
-    line = template.format(toVersion=toVersion, NC=NC, NO=NO, E_Module=E_Module, E_Line=E_Line, T_Module=T_Module, T_Line=T_Line)
+    template = '\n{toVersion}, {NC}, {NO}, {E_Module}, {E_Line}, {T_Module}, {T_Line}, {Release_Date}'
+    line = template.format(toVersion=toVersion, NC=NC, NO=NO, E_Module=E_Module, E_Line=E_Line, T_Module=T_Module, T_Line=T_Line, Release_Date=Release_Date)
     data_analysis.write(line)
+    print(line)
 
-    fromVersion = toVersion
-
-    toVersion = tags.readline()
+    fromTag = toTag
+    toTag = Tag(tags.readline().split(seperator))
     #print(toVersion.strip())
 
     if not toVersion:
