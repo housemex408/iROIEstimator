@@ -3,6 +3,7 @@ import os
 
 # get list of tags
 repo = "angular"
+key = "angular/angular"
 workingDirectory = "../{repo}".format(repo = repo)
 outputDirectory = "../iROIEstimatorMetrics/{repo}".format(repo = repo)
 tempDirectory = "{outputDirectory}/temp".format(outputDirectory = outputDirectory)
@@ -17,16 +18,18 @@ def create_directory(name):
 create_directory(outputDirectory)
 create_directory(tempDirectory)
 
+# TODO:  add key to each row
 getTags = "git for-each-ref --format '%(refname:lstrip=2)%2C %(creatordate:short)' refs/tags  --sort=creatordate > {versionsFile}".format(versionsFile = versionsFile)
 process = subprocess.run([getTags], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=workingDirectory)
 msg = process.stderr.strip()
 print(msg)
 
+# TODO:  get all commits along with files/loc and write to a file
 
 tags = open(versionsFile, 'r')
 versionMetricsFile = "{outputDirectory}/{repo}_version_metrics.csv".format(outputDirectory = outputDirectory, repo = repo)
 data_analysis = open(versionMetricsFile, "w")
-header = 'Version,NC,NO,E_Module,E_Line,T_Module,T_Line,Release Date'
+header = 'Key,Version,NC,NO,E_Module,E_Line,T_Module,T_Line,Release Date'
 data_analysis.write(header)
 
 class Tag(object):
@@ -62,6 +65,7 @@ while True:
     #print(getChangeLog)
     process = subprocess.run([getChangeLog], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=workingDirectory)
 
+    # TODO: get commits between two tags
 
     # Get corrective tasks
     getNC = 'grep -Ec "fix|bug|defect" {outputFile}'.format(outputFile=changeLog)
@@ -124,8 +128,8 @@ while True:
     print(msg)
 
     # Create a line item { toVersion, NC, NO, E_Module, E_Line, T_Module, T_Line }
-    template = '\n{toVersion},{NC},{NO},{E_Module},{E_Line},{T_Module},{T_Line},{Release_Date}'
-    line = template.format(toVersion=toVersion, NC=NC, NO=NO, E_Module=E_Module, E_Line=E_Line, T_Module=T_Module, T_Line=T_Line, Release_Date=Release_Date)
+    template = '\n{key},{toVersion},{NC},{NO},{E_Module},{E_Line},{T_Module},{T_Line},{Release_Date}'
+    line = template.format(key=key,toVersion=toVersion, NC=NC, NO=NO, E_Module=E_Module, E_Line=E_Line, T_Module=T_Module, T_Line=T_Line, Release_Date=Release_Date)
     data_analysis.write(line)
     print(line)
 
