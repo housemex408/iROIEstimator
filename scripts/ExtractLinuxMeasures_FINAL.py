@@ -3,11 +3,12 @@ import os
 
 # get list of tags
 repo = "angular"
-key = "angular/angular"
+key = "angular\angular"
 workingDirectory = "../{repo}".format(repo = repo)
 outputDirectory = "../iROIEstimatorMetrics/{repo}".format(repo = repo)
 tempDirectory = "{outputDirectory}/temp".format(outputDirectory = outputDirectory)
 versionsFile = "{outputDirectory}/{repo}_versions.csv".format(outputDirectory = outputDirectory, repo = repo)
+commitsFile = "{outputDirectory}/{repo}_commits.csv".format(outputDirectory = outputDirectory, repo = repo)
 
 def create_directory(name):
   try:  
@@ -24,7 +25,15 @@ process = subprocess.run([getTags], universal_newlines=True, stdout=subprocess.P
 msg = process.stderr.strip()
 print(msg)
 
-# TODO:  get all commits along with files/loc and write to a file
+# get all commits along with files/loc and write to a file
+commits = open(commitsFile, "w")
+header = 'Key,SHA,E_Module,E_Line'
+commits.write(header)
+commits.close()
+getCommits = "git log  --oneline --pretty='@%H'  --stat   | grep -v \| |  tr '\n' ' '  |  tr '@' '\n' | awk 'BEGIN {{OFS=\",\";}} {{print \"{key}\", $1, $2, $5 + $7}}' >> {commitsFile}".format(key = key, commitsFile=commitsFile)
+process = subprocess.run([getCommits], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=workingDirectory)
+msg = process.stderr.strip()
+print(msg)
 
 tags = open(versionsFile, 'r')
 versionMetricsFile = "{outputDirectory}/{repo}_version_metrics.csv".format(outputDirectory = outputDirectory, repo = repo)
