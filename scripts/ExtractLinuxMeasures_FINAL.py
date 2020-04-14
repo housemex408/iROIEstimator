@@ -25,7 +25,7 @@ versions = open(versionsFile, "w")
 header = 'Key,Version,Release Date\n'
 versions.write(header)
 versions.close()
-getTags = "git for-each-ref --format '%(refname:lstrip=2)%2C %(creatordate:short)' refs/tags  --sort=creatordate | awk '{{print \"{key},\", $1, $2}}' >> {versionsFile}".format(key = key, versionsFile = versionsFile)
+getTags = "git for-each-ref --format '%(refname:lstrip=2) %(creatordate:short)' refs/tags  --sort=creatordate | awk 'BEGIN {{OFS=\",\";}} {{print \"{key}\", $1, $2}}' >> {versionsFile}".format(key = key, versionsFile = versionsFile)
 process = subprocess.run([getTags], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=workingDirectory)
 msg = process.stderr.strip()
 print(msg)
