@@ -8,8 +8,9 @@ workingDirectory = "../{repo}".format(repo = repo)
 outputDirectory = "../iROIEstimatorMetrics/{repo}".format(repo = repo)
 tempDirectory = "{outputDirectory}/temp".format(outputDirectory = outputDirectory)
 versionsFile = "{outputDirectory}/{repo}_versions.csv".format(outputDirectory = outputDirectory, repo = repo)
-commitsFile = "{outputDirectory}/{repo}_commits.csv".format(outputDirectory = outputDirectory, repo = repo)
+commitsFile = "{outputDirectory}/{repo}_all_commits.csv".format(outputDirectory = outputDirectory, repo = repo)
 versionMetricsFile = "{outputDirectory}/{repo}_version_metrics.csv".format(outputDirectory = outputDirectory, repo = repo)
+versionCommitsFile = "{outputDirectory}/{repo}_version_commits.csv".format(outputDirectory = outputDirectory, repo = repo)
 
 def create_directory(name):
   try:  
@@ -30,15 +31,21 @@ process = subprocess.run([getTags], universal_newlines=True, stdout=subprocess.P
 msg = process.stderr.strip()
 print(msg)
 
+## This is not printing out all commits.  Might not need this after all
 # get all commits along with files/loc and write to a file
-commits = open(commitsFile, "w")
-header = 'Key,SHA,E_Module,E_Line\n'
-commits.write(header)
-commits.close()
-getCommits = "git log  --oneline --pretty='@%H'  --stat   | grep -v \| |  tr '\n' ' '  |  tr '@' '\n' | awk 'BEGIN {{OFS=\",\";}} {{print \"{key}\", $1, $2, $5 + $7}}' >> {commitsFile}".format(key = key, commitsFile=commitsFile)
-process = subprocess.run([getCommits], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=workingDirectory)
-msg = process.stderr.strip()
-print(msg)
+# commits = open(commitsFile, "w")
+# header = 'Key,SHA,E_Module,E_Line\n'
+# commits.write(header)
+# commits.close()
+# getCommits = "git log  --oneline --pretty='@%H'  --stat   | grep -v \| |  tr '\n' ' '  |  tr '@' '\n' | awk 'BEGIN {{OFS=\",\";}} {{print \"{key}\", $1, $2, $5 + $7}}' >> {commitsFile}".format(key = key, commitsFile=commitsFile)
+# process = subprocess.run([getCommits], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=workingDirectory)
+# msg = process.stderr.strip()
+# print(msg)
+
+versionCommits = open(versionCommitsFile, "w")
+header = 'Key,Version,SHA,E_Module,E_Line\n'
+versionCommits.write(header)
+versionCommits.close()
 
 tags = open(versionsFile, 'r')
 data_analysis = open(versionMetricsFile, "w")
@@ -56,6 +63,8 @@ class Tag(object):
 
 seperator = ","
 
+# skip the header line
+tags.readline()
 fromTag = Tag(tags.readline().split(seperator))
 toTag = Tag(tags.readline().split(seperator))
 
@@ -74,11 +83,11 @@ while True:
 
     # Get the change log for the current versionRange
     getChangeLog = 'git log --pretty="%h - %s (%an)" {range} > {outputFile}'.format(range=versionRange, outputFile=changeLog)
-
-    #print(getChangeLog)
     process = subprocess.run([getChangeLog], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=workingDirectory)
 
-    # TODO: get commits between two tags
+    # get commits between two tags
+    getVersionCommits = "git log {range} --pretty='@%H' --stat  | grep -v \| |  tr '\n' ' '  |  tr '@' '\n' | awk 'BEGIN {{OFS=\",\";}} {{print \"{key}\",\"{toVersion}\", $1, $2, $5 + $7}}' >> {versionCommitsFile}".format(range = versionRange, key = key, toVersion = toVersion, versionCommitsFile = versionCommitsFile)
+    process = subprocess.run([getVersionCommits], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=workingDirectory)
 
     # Get corrective tasks
     getNC = 'grep -Ec "fix|bug|defect" {outputFile}'.format(outputFile=changeLog)
@@ -140,17 +149,19 @@ while True:
     msg = 'T_Line: {T_Line}'.format(T_Line=T_Line)
     print(msg)
 
-    # Create a line item { toVersion, NC, NO, E_Module, E_Line, T_Module, T_Line }
+    # Create a line item
     template = '\n{key},{toVersion},{NC},{NO},{E_Module},{E_Line},{T_Module},{T_Line},{Release_Date}'
     line = template.format(key=key,toVersion=toVersion, NC=NC, NO=NO, E_Module=E_Module, E_Line=E_Line, T_Module=T_Module, T_Line=T_Line, Release_Date=Release_Date)
     data_analysis.write(line)
     print(line)
 
     fromTag = toTag
-    toTag = Tag(tags.readline().split(seperator))
+    nextLine = tags.readline()
 
-    if not toVersion:
+    if not nextLine:
         break
+
+    toTag = Tag(nextLine.split(seperator))
 
 tags.close()
 data_analysis.close()
