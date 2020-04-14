@@ -47,8 +47,8 @@ data_analysis.write(header)
 
 class Tag(object):
     def __init__(self, row):
-      self.version = row[0].strip()
-      self.release_date = row[1].strip()
+      self.version = row[1].strip()
+      self.release_date = row[2].strip()
       self.print_template = 'Version: {version}, Release Date: {release_date}'
     def print(self):
         msg = self.print_template.format(version=self.version, release_date=self.release_date)
