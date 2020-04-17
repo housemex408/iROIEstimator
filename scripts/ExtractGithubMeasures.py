@@ -1,9 +1,16 @@
 import subprocess
 import os
+import argparse
+
+parser = argparse.ArgumentParser(description='Github Repo ETL')
+parser.add_argument("--p")
+args = parser.parse_args()
+key = args.p[19:]
+repo = key.split('/')[1]
 
 # get list of tags
-repo = "angular"
-key = "angular/angular"
+# repo = "angular"
+# key = "angular/angular"
 workingDirectory = "../{repo}".format(repo = repo)
 outputDirectory = "../iROIEstimatorMetrics/{repo}".format(repo = repo)
 tempDirectory = "{outputDirectory}/temp".format(outputDirectory = outputDirectory)
@@ -13,10 +20,10 @@ versionMetricsFile = "{outputDirectory}/{repo}_version_metrics.csv".format(outpu
 versionCommitsFile = "{outputDirectory}/{repo}_version_commits.csv".format(outputDirectory = outputDirectory, repo = repo)
 
 def create_directory(name):
-  try:  
-    os.mkdir(name)  
-  except OSError as error:  
-      print(error) 
+  try:
+    os.mkdir(name)
+  except OSError as error:
+      print(error)
 
 create_directory(outputDirectory)
 create_directory(tempDirectory)
