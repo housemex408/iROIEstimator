@@ -9,8 +9,6 @@ key = args.p[19:]
 repo = key.split('/')[1]
 
 # get list of tags
-# repo = "angular"
-# key = "angular/angular"
 workingDirectory = "../{repo}".format(repo = repo)
 outputDirectory = "../iROIEstimatorMetrics/{repo}".format(repo = repo)
 tempDirectory = "{outputDirectory}/temp".format(outputDirectory = outputDirectory)
@@ -18,6 +16,7 @@ versionsFile = "{outputDirectory}/{repo}_versions.csv".format(outputDirectory = 
 commitsFile = "{outputDirectory}/{repo}_all_commits.csv".format(outputDirectory = outputDirectory, repo = repo)
 versionMetricsFile = "{outputDirectory}/{repo}_version_metrics.csv".format(outputDirectory = outputDirectory, repo = repo)
 versionCommitsFile = "{outputDirectory}/{repo}_version_commits.csv".format(outputDirectory = outputDirectory, repo = repo)
+versionCommitsMsgFile = "{outputDirectory}/{repo}_version_commits_msg.csv".format(outputDirectory = outputDirectory, repo = repo)
 
 def create_directory(name):
   try:
@@ -38,21 +37,15 @@ process = subprocess.run([getTags], universal_newlines=True, stdout=subprocess.P
 msg = process.stderr.strip()
 print(msg)
 
-## This is not printing out all commits.  Might not need this after all
-# get all commits along with files/loc and write to a file
-# commits = open(commitsFile, "w")
-# header = 'Key,SHA,E_Module,E_Line\n'
-# commits.write(header)
-# commits.close()
-# getCommits = "git log  --oneline --pretty='@%H'  --stat   | grep -v \| |  tr '\n' ' '  |  tr '@' '\n' | awk 'BEGIN {{OFS=\",\";}} {{print \"{key}\", $1, $2, $5 + $7}}' >> {commitsFile}".format(key = key, commitsFile=commitsFile)
-# process = subprocess.run([getCommits], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=workingDirectory)
-# msg = process.stderr.strip()
-# print(msg)
-
 versionCommits = open(versionCommitsFile, "w")
 header = 'Key,Version,SHA,E_Module,E_Line\n'
 versionCommits.write(header)
 versionCommits.close()
+
+versionCommitsMsg = open(versionCommitsMsgFile, "w")
+header = 'Key,Version,SHA,Message\n'
+versionCommitsMsg.write(header)
+versionCommitsMsg.close()
 
 tags = open(versionsFile, 'r')
 data_analysis = open(versionMetricsFile, "w")
@@ -95,6 +88,10 @@ while True:
     # get commits between two tags
     getVersionCommits = "git log {range} --pretty='@%H' --stat  | grep -v \| |  tr '\n' ' '  |  tr '@' '\n' | awk 'BEGIN {{OFS=\",\";}} {{print \"{key}\",\"{toVersion}\", $1, $2, $5 + $7}}' >> {versionCommitsFile}".format(range = versionRange, key = key, toVersion = toVersion, versionCommitsFile = versionCommitsFile)
     process = subprocess.run([getVersionCommits], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=workingDirectory)
+
+    # get commit messages between two tags
+    getVersionCommitMsgs = "git log {range} --pretty='%H %f' | awk 'BEGIN {{OFS=\",\";}} {{print \"{key}\",\"{toVersion}\", $1, $2}}' >> {versionCommitsMsgFile}".format(range = versionRange, key = key, toVersion = toVersion, versionCommitsMsgFile = versionCommitsMsgFile)
+    process = subprocess.run([getVersionCommitMsgs], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=workingDirectory)
 
     # Get corrective tasks
     getNC = 'grep -Ec "fix|bug|defect" {outputFile}'.format(outputFile=changeLog)
