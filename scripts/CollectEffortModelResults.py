@@ -42,7 +42,6 @@ for task in task_list:
 
     data = {c.OBSERVED:y_test, c.PREDICTED:predictions.round(2), c.DIFFERENCE:abs(y_test - predictions).round(2), c.PERCENT_ERROR:(abs(y_test - predictions)/y_test).round(2)}
     results = pd.DataFrame(data)
-    results[c.VERSION] = np.arange(results.__len__())
 
     r_squared = model.rsquared
     r_squared_adj = model.rsquared_adj
@@ -84,7 +83,6 @@ for task in task_list:
 
     data = {c.OBSERVED:y_test, c.PREDICTED:predictions.round(2), c.DIFFERENCE:abs(y_test - predictions).round(2), c.PERCENT_ERROR:(abs(y_test - predictions)/y_test).round(2)}
     results = pd.DataFrame(data)
-    results[c.VERSION] = np.arange(results.__len__())
 
     r_squared = model.rsquared
     r_squared_adj = model.rsquared_adj
