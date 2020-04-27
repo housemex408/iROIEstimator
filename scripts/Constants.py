@@ -7,6 +7,7 @@ T_LINE = "T_Line"
 T_CC = "T_CC"
 TASK = "Task"
 TASK_LIST = ["BUG", "DOCS", "REFACTOR", "TESTING", "FEATURE", "UPGRADE", "RELEASE", "SUPPORT", "OTHER"]
+T_RECORDS = "T_Records"
 
 # core contributor
 NT_CC = "NT_CC"

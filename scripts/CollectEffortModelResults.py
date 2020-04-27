@@ -12,6 +12,7 @@ import statsmodels.regression.linear_model as lm
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
+from tabulate import tabulate
 sys.path.append(os.path.abspath("/Users/alvaradojo/Documents/Github/iROIEstimator/scripts"))
 import Utilities as utils
 import Constants as c
@@ -19,18 +20,19 @@ import Constants as c
 project_name = "angular"
 directoryPath = "scripts/exports"
 task_list = c.TASK_LIST
-o_df = pd.DataFrame(
-  columns=[c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50]
-)
+headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
+o_df = pd.DataFrame(columns=headers)
 
 for task in task_list:
 
     tasks = "{directoryPath}/{project_name}/{project_name}_dataset_{task}.csv".format(directoryPath=directoryPath, project_name=project_name, task = task)
 
-    cc_columns = [c.VERSION, c.DATE, c.NT_CC, c.NO_CC, c.MODULE_CC, c.LINE_CC, c.T_MODULE, c.T_LINE, c.T_CC]
+    cc_columns = [c.TASK, c.VERSION, c.DATE, c.NT_CC, c.NO_CC, c.MODULE_CC, c.LINE_CC, c.T_MODULE, c.T_LINE, c.T_CC]
     df = pd.read_csv(tasks, usecols = cc_columns)
     df[c.DATE] = pd.to_datetime(df[c.DATE])
-    df = df.dropna(subset=[c.T_MODULE])
+    df = df.dropna(subset=[c.TASK])
+    df.fillna(df.mean(), inplace=True)
+    t_records = df.size
 
     # Let's create multiple regression
     X = df[[c.NT_CC, c.NO_CC]]
@@ -43,15 +45,17 @@ for task in task_list:
     data = {c.OBSERVED:y_test, c.PREDICTED:predictions.round(2), c.DIFFERENCE:abs(y_test - predictions).round(2), c.PERCENT_ERROR:(abs(y_test - predictions)/y_test).round(2)}
     results = pd.DataFrame(data)
 
-    r_squared = model.rsquared
-    r_squared_adj = model.rsquared_adj
-    mae = metrics.mean_absolute_error(y_test, predictions)
-    mse = metrics.mean_squared_error(y_test, predictions)
-    rmse = np.sqrt(metrics.mean_squared_error(y_test, predictions))
+    print("\n{0} - {1} - {2} model performance: \n".format(project_name, task, c.LINE_CC))
+
+    r_squared = round(model.rsquared, 2)
+    r_squared_adj = round(model.rsquared_adj, 2)
+    mae = round(metrics.mean_absolute_error(y_test, predictions), 2)
+    mse = round(metrics.mean_squared_error(y_test, predictions), 2)
+    rmse = round(np.sqrt(metrics.mean_squared_error(y_test, predictions)), 2)
     pred25 = round(utils.calculate_PRED(0.25, results), 2)
     pred50 = round(utils.calculate_PRED(0.50, results), 2)
 
-    print("\n{0} - {1} - {2} model performance: \n".format(project_name, task, c.LINE_CC))
+
     # print(utils.format_perf_metric('Model - R Squared', r_squared))
     # print(utils.format_perf_metric('Model - R Squared Adj', r_squared_adj))
     # print(utils.format_perf_metric('Pred - Mean Absolute Error', mae))
@@ -69,10 +73,10 @@ for task in task_list:
                         c.MSE: [mse],
                         c.RMSE: [rmse],
                         c.PRED_25: [pred25],
-                        c.PRED_50: [pred50]})
+                        c.PRED_50: [pred50],
+                        c.T_RECORDS: t_records})
 
     o_df = pd.concat([row_df, o_df])
-    print(o_df.head())
 
     # Let's create multiple regression
     X = df[[c.NT_CC, c.NO_CC, c.T_MODULE]]
@@ -84,15 +88,17 @@ for task in task_list:
     data = {c.OBSERVED:y_test, c.PREDICTED:predictions.round(2), c.DIFFERENCE:abs(y_test - predictions).round(2), c.PERCENT_ERROR:(abs(y_test - predictions)/y_test).round(2)}
     results = pd.DataFrame(data)
 
-    r_squared = model.rsquared
-    r_squared_adj = model.rsquared_adj
-    mae = metrics.mean_absolute_error(y_test, predictions)
-    mse = metrics.mean_squared_error(y_test, predictions)
-    rmse = np.sqrt(metrics.mean_squared_error(y_test, predictions))
+    print("\n{0} - {1} - {2} model performance: \n".format(project_name, task, c.MODULE_CC))
+
+    r_squared = round(model.rsquared, 2)
+    r_squared_adj = round(model.rsquared_adj, 2)
+    mae = round(metrics.mean_absolute_error(y_test, predictions), 2)
+    mse = round(metrics.mean_squared_error(y_test, predictions), 2)
+    rmse = round(np.sqrt(metrics.mean_squared_error(y_test, predictions)), 2)
     pred25 = round(utils.calculate_PRED(0.25, results), 2)
     pred50 = round(utils.calculate_PRED(0.50, results), 2)
 
-    print("\n{0} - {1} - {2} model performance: \n".format(project_name, task, c.MODULE_CC))
+
     # print(utils.format_perf_metric('Model - R Squared', r_squared))
     # print(utils.format_perf_metric('Model - R Squared Adj', r_squared_adj))
     # print(utils.format_perf_metric('Pred - Mean Absolute Error', mae))
@@ -110,7 +116,9 @@ for task in task_list:
                         c.MSE: [mse],
                         c.RMSE: [rmse],
                         c.PRED_25: [pred25],
-                        c.PRED_50: [pred50]})
+                        c.PRED_50: [pred50],
+                        c.T_RECORDS: t_records})
 
     o_df = pd.concat([row_df, o_df])
-    print(o_df.head())
+o_df.sort_values(by=[c.MODEL, c.TASK], inplace=True)
+print(tabulate(o_df, headers=headers))
