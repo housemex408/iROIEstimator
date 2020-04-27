@@ -1,8 +1,12 @@
 # common
+PROJECT = "Project"
 VERSION = "Version"
 DATE = "Date"
 T_MODULE = "T_Module"
+T_LINE = "T_Line"
 T_CC = "T_CC"
+TASK = "Task"
+TASK_LIST = ["BUG", "DOCS", "REFACTOR", "TESTING", "FEATURE", "UPGRADE", "RELEASE", "SUPPORT", "OTHER"]
 
 # core contributor
 NT_CC = "NT_CC"
@@ -23,3 +27,13 @@ OBSERVED = "Observed"
 PREDICTED = "Predicted"
 DIFFERENCE = "Difference"
 PERCENT_ERROR = "Percent Error"
+
+# results output columns
+MODEL = "Model"
+R_SQUARED = "R_Squared"
+R_SQUARED_ADJ = "R_Squared_Adj"
+MAE = "MAE"
+MSE = "MSE"
+RMSE = "RMSE"
+PRED_25 = "PRED_25"
+PRED_50 = "PRED_50"
