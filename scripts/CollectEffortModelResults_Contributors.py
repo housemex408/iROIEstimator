@@ -25,6 +25,13 @@ def extractPerfMeasures(model, y_test, predictions, results):
   rmse = round(np.sqrt(metrics.mean_squared_error(y_test, predictions)), 2)
   pred25 = round(utils.calculate_PRED(0.25, results), 2)
   pred50 = round(utils.calculate_PRED(0.50, results), 2)
+  # print(utils.format_perf_metric('Model - R Squared', r_squared))
+  # print(utils.format_perf_metric('Model - R Squared Adj', r_squared_adj))
+  # print(utils.format_perf_metric('Pred - Mean Absolute Error', mae))
+  # print(utils.format_perf_metric('Pred - Mean Squared Error', mse))
+  # print(utils.format_perf_metric('Pred - Root Mean Squared Error', rmse))
+  # print(utils.format_PRED("25", pred25))
+  # print(utils.format_PRED("50", pred50))
   return r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50
 
 
@@ -52,8 +59,10 @@ def compareResults(y_test, predictions):
 
 
 # BEGIN Main
+
+project = "elasticsearch"
 directoryPath = "scripts/exports"
-outputFile = "{directory}/effort_prediction_performance.csv".format(directory=directoryPath)
+outputFile = "{directory}/effort_prediction_performance_contributors.csv".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
 o_df = pd.DataFrame(columns=headers)
 
@@ -65,9 +74,8 @@ for project in c.PROJECT_LIST:
     tasks = "{directoryPath}/{project_name}/{project_name}_dataset_{task}.csv".format(directoryPath=directoryPath, project_name=project, task = task)
 
     # BEGIN Core Contributors
-    # cc_columns = [c.TASK, c.VERSION, c.DATE, c.NT, c.NO, c.MODULE, c.LINE, c.T_MODULE, c.T_LINE, c.T_CONTRIBUTORS]
-    df = pd.read_csv(tasks)
-    # df = pd.read_csv(tasks, usecols = cc_columns)
+    cc_columns = [c.TASK, c.VERSION, c.DATE, c.NT_CC, c.NO_CC, c.MODULE_CC, c.LINE_CC, c.T_MODULE, c.T_LINE, c.T_CC]
+    df = pd.read_csv(tasks, usecols = cc_columns)
     df[c.DATE] = pd.to_datetime(df[c.DATE])
     df = df.dropna(subset=[c.TASK])
     df.fillna(df.mean(), inplace=True)
@@ -75,48 +83,83 @@ for project in c.PROJECT_LIST:
       df.fillna(0, inplace=True)
     t_records = df.size
 
-    df[c.NT] = df[c.NT_CC] + df[c.NT_EC]
-    df[c.NO] = df[c.NO_CC] + df[c.NO_EC]
-    df[c.LINE] = df[c.LINE_CC] + df[c.LINE_EC]
-    df[c.MODULE] = df[c.MODULE_CC] + df[c.MODULE_EC]
-    df[c.T_CONTRIBUTORS] = df[c.T_CC] + df[c.T_EC]
-
     # Edge case when < 2 tasks detected
     if t_records < 2:
         break
 
     # Let's create multiple regression
-    X = df[[c.NT, c.NO]]
-    Y = df[c.LINE]
+    X = df[[c.NT_CC, c.NO_CC]]
+    Y = df[c.LINE_CC]
     X_train, X_test, y_train, y_test = train_test_split(X, Y, train_size=0.75, test_size=0.25, random_state=0)
 
-    print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.LINE))
+    print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.LINE_CC))
 
     model = lm.OLS(y_train, X_train).fit()
     predictions = model.predict(X_test)
     results = compareResults(y_test, predictions)
 
     r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, y_test, predictions, results)
-    row_df = createDF(project, c.LINE, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records)
+    row_df = createDF(project, c.LINE_CC, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records)
     o_df = pd.concat([row_df, o_df])
 
     # Let's create multiple regression
-    X = df[[c.NT, c.NO, c.T_MODULE]]
-    Y = df[c.MODULE]
+    X = df[[c.NT_CC, c.NO_CC, c.T_MODULE]]
+    Y = df[c.MODULE_CC]
     X_train, X_test, y_train, y_test = train_test_split(X, Y, train_size=0.75, test_size=0.25, random_state=0)
 
-    print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.MODULE))
+    print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.MODULE_CC))
 
     model = lm.OLS(y_train, X_train).fit()
     predictions = model.predict(X_test)
     results = compareResults(y_test, predictions)
 
     r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, y_test, predictions, results)
-    row_df = createDF(project, c.MODULE, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records)
+    row_df = createDF(project, c.MODULE_CC, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records)
     o_df = pd.concat([row_df, o_df])
 
     # END Core Contributors
 
+    # BEGIN External Contributors
+    ec_columns = [c.TASK, c.VERSION, c.DATE, c.NT_EC, c.NO_EC, c.MODULE_EC, c.LINE_EC, c.T_MODULE, c.T_LINE, c.T_EC]
+    df = pd.read_csv(tasks, usecols = ec_columns)
+    df[c.DATE] = pd.to_datetime(df[c.DATE])
+    df = df.dropna(subset=[c.TASK])
+    df.fillna(df.mean(), inplace=True)
+    if df.isna().values.any():
+      df.fillna(0, inplace=True)
+    t_records = df.size
+
+    # Let's create multiple regression
+    X = df[[c.NT_EC, c.NO_EC]]
+    Y = df[c.LINE_EC]
+    X_train, X_test, y_train, y_test = train_test_split(X, Y, train_size=0.75, test_size=0.25, random_state=0)
+
+    print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.LINE_EC))
+
+    model = lm.OLS(y_train, X_train).fit()
+    predictions = model.predict(X_test)
+    results = compareResults(y_test, predictions)
+
+    r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, y_test, predictions, results)
+    row_df = createDF(project, c.LINE_EC, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records)
+    o_df = pd.concat([row_df, o_df])
+
+    # Let's create multiple regression
+    X = df[[c.NT_EC, c.NO_EC, c.T_MODULE]]
+    Y = df[c.MODULE_EC]
+    X_train, X_test, y_train, y_test = train_test_split(X, Y, train_size=0.75, test_size=0.25, random_state=0)
+
+    print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.MODULE_EC))
+
+    model = lm.OLS(y_train, X_train).fit()
+    predictions = model.predict(X_test)
+    results = compareResults(y_test, predictions)
+
+    r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, y_test, predictions, results)
+    row_df = createDF(project, c.MODULE_EC, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records)
+    o_df = pd.concat([row_df, o_df])
+
+    # END External Contributors
 o_df.sort_values(by=[c.PROJECT, c.MODEL, c.TASK], inplace=True)
 print(tabulate(o_df, headers=headers))
 o_df.to_csv(outputFile)

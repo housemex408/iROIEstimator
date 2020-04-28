@@ -36,6 +36,11 @@ PROJECT_LIST = project_list = [
   ,"OfficeDev/office-js"
 ]
 T_RECORDS = "T_Records"
+NT = "NT"
+NO = "NO"
+LINE = "Line"
+MODULE = "Module"
+T_CONTRIBUTORS = "T_Contributors"
 
 # core contributor
 NT_CC = "NT_CC"
