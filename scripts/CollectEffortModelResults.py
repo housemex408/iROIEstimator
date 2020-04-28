@@ -3,7 +3,6 @@ import numpy as np
 import pandas as pd
 import scipy.stats as st
 import matplotlib.pyplot as plt
-import seaborn as sns
 import os
 import sys
 import statsmodels as sm
@@ -13,7 +12,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from tabulate import tabulate
-sys.path.append(os.path.abspath("/Users/alvaradojo/Documents/Github/iROIEstimator/scripts"))
+sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
 
@@ -163,6 +162,6 @@ for project in c.PROJECT_LIST:
     # END External Contributors
 o_df.sort_values(by=[c.PROJECT, c.MODEL, c.TASK], inplace=True)
 print(tabulate(o_df, headers=headers))
-o_df.to_csv(outputFile)
+# o_df.to_csv(outputFile)
 
 # END Main
