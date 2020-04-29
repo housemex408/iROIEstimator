@@ -74,6 +74,13 @@ for project in c.PROJECT_LIST:
     df.fillna(df.mean(), inplace=True)
     if df.isna().values.any():
       df.fillna(0, inplace=True)
+    # t_records = df.size
+
+    df = utils.remove_outlier(df, c.LINE_CC)
+    df = utils.remove_outlier(df, c.MODULE_CC)
+    df = utils.remove_outlier(df, c.LINE_EC)
+    df = utils.remove_outlier(df, c.MODULE_EC)
+
     t_records = df.size
 
     # Edge case when < 2 tasks detected

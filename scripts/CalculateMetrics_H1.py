@@ -71,13 +71,20 @@ for project in c.PROJECT_LIST:
     df.fillna(df.mean(), inplace=True)
     if df.isna().values.any():
       df.fillna(0, inplace=True)
-    t_records = df.size
+    # t_records = df.size
+
+    df = utils.remove_outlier(df, c.LINE_CC)
+    df = utils.remove_outlier(df, c.MODULE_CC)
+    df = utils.remove_outlier(df, c.LINE_EC)
+    df = utils.remove_outlier(df, c.MODULE_EC)
 
     df[c.NT] = df[c.NT_CC] + df[c.NT_EC]
     df[c.NO] = df[c.NO_CC] + df[c.NO_EC]
     df[c.LINE] = df[c.LINE_CC] + df[c.LINE_EC]
     df[c.MODULE] = df[c.MODULE_CC] + df[c.MODULE_EC]
     df[c.T_CONTRIBUTORS] = df[c.T_CC] + df[c.T_EC]
+
+    t_records = df.size
 
     # Edge case when < 2 tasks detected
     if t_records < 2:
