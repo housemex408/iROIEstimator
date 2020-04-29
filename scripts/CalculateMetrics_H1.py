@@ -53,7 +53,7 @@ def compareResults(y_test, predictions):
 
 # BEGIN Main
 directoryPath = "scripts/exports"
-outputFile = "{directory}/effort_prediction_performance.csv".format(directory=directoryPath)
+outputFile = "scripts/notebook/results/calculate_metrics_h1.csv".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
 o_df = pd.DataFrame(columns=headers)
 
@@ -65,9 +65,7 @@ for project in c.PROJECT_LIST:
     tasks = "{directoryPath}/{project_name}/{project_name}_dataset_{task}.csv".format(directoryPath=directoryPath, project_name=project, task = task)
 
     # BEGIN Core Contributors
-    # cc_columns = [c.TASK, c.VERSION, c.DATE, c.NT, c.NO, c.MODULE, c.LINE, c.T_MODULE, c.T_LINE, c.T_CONTRIBUTORS]
     df = pd.read_csv(tasks)
-    # df = pd.read_csv(tasks, usecols = cc_columns)
     df[c.DATE] = pd.to_datetime(df[c.DATE])
     df = df.dropna(subset=[c.TASK])
     df.fillna(df.mean(), inplace=True)
