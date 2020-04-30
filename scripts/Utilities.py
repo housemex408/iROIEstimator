@@ -33,6 +33,8 @@ def remove_outlier(df_in, col_name):
 def calculated_rsquared_adj(X, X_test, rsquared):
     k = len(X.columns)
     n = len(X_test)
+    if ((n - k) == 1):
+      return rsquared
     rsquared_adj = 1 - (((1-rsquared)*(n-1))/(n-k-1))
     return rsquared_adj
 
