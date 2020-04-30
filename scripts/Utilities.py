@@ -30,3 +30,9 @@ def remove_outlier(df_in, col_name):
     df_out = df_in.loc[(df_in[col_name] > fence_low) & (df_in[col_name] < fence_high)]
     return df_out
 
+def calculated_rsquared_adj(X, X_test, rsquared):
+    k = len(X.columns)
+    n = len(X_test)
+    rsquared_adj = 1 - (((1-rsquared)*(n-1))/(n-k-1))
+    return rsquared_adj
+
