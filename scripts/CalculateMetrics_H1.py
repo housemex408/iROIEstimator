@@ -73,10 +73,10 @@ for project in c.PROJECT_LIST:
       df.fillna(0, inplace=True)
     # t_records = df.size
 
-    df = utils.remove_outlier(df, c.LINE_CC)
-    df = utils.remove_outlier(df, c.MODULE_CC)
-    df = utils.remove_outlier(df, c.LINE_EC)
-    df = utils.remove_outlier(df, c.MODULE_EC)
+    # df = utils.remove_outlier(df, c.LINE_CC)
+    # df = utils.remove_outlier(df, c.MODULE_CC)
+    # df = utils.remove_outlier(df, c.LINE_EC)
+    # df = utils.remove_outlier(df, c.MODULE_EC)
 
     df[c.NT] = df[c.NT_CC] + df[c.NT_EC]
     df[c.NO] = df[c.NO_CC] + df[c.NO_EC]

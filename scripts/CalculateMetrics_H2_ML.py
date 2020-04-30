@@ -15,6 +15,7 @@ from tabulate import tabulate
 sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
+from sklearn.ensemble import RandomForestRegressor
 
 # BEGIN Functions
 def extractPerfMeasures(y_test, predictions, results):
@@ -55,7 +56,7 @@ def compareResults(y_test, predictions):
 
 # BEGIN Main
 directoryPath = "scripts/exports"
-outputFile = "scripts/notebook/results/calculate_metrics_h2.csv".format(directory=directoryPath)
+outputFile = "scripts/notebook/results/calculate_metrics_h2_ML.csv".format(directory=directoryPath)
 # headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
 headers = [c.PROJECT, c.MODEL, c.TASK, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
 o_df = pd.DataFrame(columns=headers)
@@ -76,10 +77,10 @@ for project in c.PROJECT_LIST:
       df.fillna(0, inplace=True)
     # t_records = df.size
 
-    # df = utils.remove_outlier(df, c.LINE_CC)
-    # df = utils.remove_outlier(df, c.MODULE_CC)
-    # df = utils.remove_outlier(df, c.LINE_EC)
-    # df = utils.remove_outlier(df, c.MODULE_EC)
+    df = utils.remove_outlier(df, c.LINE_CC)
+    df = utils.remove_outlier(df, c.MODULE_CC)
+    df = utils.remove_outlier(df, c.LINE_EC)
+    df = utils.remove_outlier(df, c.MODULE_EC)
 
     t_records = df.size
 
@@ -92,14 +93,22 @@ for project in c.PROJECT_LIST:
     Y_cc = df[c.LINE_CC]
     X_train_cc, X_test_cc, y_train_cc, y_test_cc = train_test_split(X_cc, Y_cc, train_size=0.75, test_size=0.25, random_state=0)
 
-    model = lm.OLS(y_train_cc, X_train_cc).fit()
+    # model = lm.OLS(y_train_cc, X_train_cc).fit()
+    # predictions_cc = model.predict(X_test_cc)
+
+    model = RandomForestRegressor(n_estimators=300, random_state=0)
+    model.fit(X_train_cc, y_train_cc)
     predictions_cc = model.predict(X_test_cc)
 
     X_ec = df[[c.NT_EC, c.NO_EC]]
     Y_ec = df[c.LINE_EC]
     X_train_ec, X_test_ec, y_train_ec, y_test_ec = train_test_split(X_ec, Y_ec, train_size=0.75, test_size=0.25, random_state=0)
 
-    model = lm.OLS(y_train_ec, X_train_ec).fit()
+    # model = lm.OLS(y_train_ec, X_train_ec).fit()
+    # predictions_ec = model.predict(X_test_ec)
+
+    model = RandomForestRegressor(n_estimators=300, random_state=0)
+    model.fit(X_train_ec, y_train_ec)
     predictions_ec = model.predict(X_test_ec)
 
     y_test = y_test_cc + y_test_ec
@@ -119,14 +128,22 @@ for project in c.PROJECT_LIST:
     Y_cc = df[c.MODULE_CC]
     X_train_cc, X_test_cc, y_train_cc, y_test_cc = train_test_split(X_cc, Y_cc, train_size=0.75, test_size=0.25, random_state=0)
 
-    model = lm.OLS(y_train_cc, X_train_cc).fit()
+    # model = lm.OLS(y_train_cc, X_train_cc).fit()
+    # predictions_cc = model.predict(X_test_cc)
+
+    model = RandomForestRegressor(n_estimators=300, random_state=0)
+    model.fit(X_train_cc, y_train_cc)
     predictions_cc = model.predict(X_test_cc)
 
     X_ec = df[[c.NT_EC, c.NO_EC]]
-    Y_ec = df[c.MODULE_EC]
+    Y_ec = df[c.LINE_EC]
     X_train_ec, X_test_ec, y_train_ec, y_test_ec = train_test_split(X_ec, Y_ec, train_size=0.75, test_size=0.25, random_state=0)
 
-    model = lm.OLS(y_train_ec, X_train_ec).fit()
+    # model = lm.OLS(y_train_ec, X_train_ec).fit()
+    # predictions_ec = model.predict(X_test_ec)
+
+    model = RandomForestRegressor(n_estimators=300, random_state=0)
+    model.fit(X_train_ec, y_train_ec)
     predictions_ec = model.predict(X_test_ec)
 
     y_test = y_test_cc + y_test_ec

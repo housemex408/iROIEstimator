@@ -72,12 +72,6 @@ for project in c.PROJECT_LIST:
     df.fillna(df.mean(), inplace=True)
     if df.isna().values.any():
       df.fillna(0, inplace=True)
-    # t_records = df.size
-
-    # df = utils.remove_outlier(df, c.LINE_CC)
-    # df = utils.remove_outlier(df, c.MODULE_CC)
-    # df = utils.remove_outlier(df, c.LINE_EC)
-    # df = utils.remove_outlier(df, c.MODULE_EC)
 
     df[c.NT] = df[c.NT_CC] + df[c.NT_EC]
     df[c.NO] = df[c.NO_CC] + df[c.NO_EC]
@@ -101,9 +95,6 @@ for project in c.PROJECT_LIST:
     model = RandomForestRegressor(n_estimators=300, random_state=0)
     model.fit(X_train,y_train)
     predictions = model.predict(X_test)
-
-    # model = lm.OLS(y_train, X_train).fit()
-    # predictions = model.predict(X_test)
     results = compareResults(y_test, predictions)
 
     r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, y_test, predictions, results, X, X_test)
@@ -120,9 +111,6 @@ for project in c.PROJECT_LIST:
     model = RandomForestRegressor(n_estimators=300, random_state=0)
     model.fit(X_train,y_train)
     predictions = model.predict(X_test)
-
-    # model = lm.OLS(y_train, X_train).fit()
-    # predictions = model.predict(X_test)
     results = compareResults(y_test, predictions)
 
     r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, y_test, predictions, results, X, X_test)
