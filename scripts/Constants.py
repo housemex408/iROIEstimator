@@ -55,7 +55,7 @@ OTHER_PROJECT_LIST = [
     ,"yabwe/medium-editor"
     ,"jgm/pandoc"
     ,"swagger-api/swagger-ui"
-    ,"SeleniumHQ/selenium"
+    , "SeleniumHQ/selenium"
     ,"BrowserSync/browser-sync"
     ,"jhipster/generator-jhipster"
     ,"karma-runner/karma"
