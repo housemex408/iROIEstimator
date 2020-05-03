@@ -53,11 +53,11 @@ def compareResults(y_test, predictions):
 
 # BEGIN Main
 directoryPath = "scripts/exports"
-outputFile = "scripts/notebook/results/calculate_metrics_h1.csv".format(directory=directoryPath)
+outputFile = "scripts/notebook/results/calculate_metrics_h1_combined.csv".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
 o_df = pd.DataFrame(columns=headers)
 
-for project in c.PROJECT_LIST:
+for project in c.PROJECT_LIST + c.OTHER_PROJECT_LIST:
   project = project.split('/')[1]
 
   for task in c.TASK_LIST:
@@ -84,7 +84,7 @@ for project in c.PROJECT_LIST:
     df[c.MODULE] = df[c.MODULE_CC] + df[c.MODULE_EC]
     df[c.T_CONTRIBUTORS] = df[c.T_CC] + df[c.T_EC]
 
-    t_records = df.size
+    t_records = len(df)
 
     # Edge case when < 2 tasks detected
     if t_records < 2:
