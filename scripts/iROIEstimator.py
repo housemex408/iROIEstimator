@@ -6,6 +6,9 @@ from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from tabulate import tabulate
 from sklearn.ensemble import RandomForestRegressor
+from scipy.stats import shapiro
+from scipy.special import inv_boxcox
+from scipy.stats import boxcox
 sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
@@ -36,6 +39,40 @@ class EffortMeasurements:
         self.Y = None
         self.results = None
 
+    def forecast_effort(self):
+        data = {
+            c.DATE: self.df.index,
+            c.NT: self.df[self.type]
+        }
+        NT = pd.DataFrame(data) 
+
+        NT.columns = ['ds','y']
+        NT['y_orig'] = NT['y']
+        NT['y'], lam = boxcox(NT['y'])
+
+        m_NT = Prophet(interval_width=0.90)
+        m_NT.fit(NT)
+        future_NT = m_NT.make_future_dataframe(periods=months, freq='m')
+        forecast_NT = m_NT.predict(future_NT)
+
+        m_NT.plot(forecast_NT)
+
+        forecast_NT_inv = pd.DataFrame()
+        forecast_NT_inv['ds'] = forecast_NT['ds']
+        forecast_NT_inv[['yhat','yhat_upper','yhat_lower']] = forecast_NT[['yhat','yhat_upper','yhat_lower']].apply(lambda x: inv_boxcox(x, lam))
+
+        m_NT.history['y_t'] = m_NT.history['y']
+        m_NT.history['y'] = m_NT.history['y_orig']
+
+        NT['y_t'] = NT['y']
+        NT['y'] = NT['y_orig']
+
+        m_NT.plot(forecast_NT_inv)
+
+        self.forecast = forecast_NT_inv
+
+        return self.forecast
+    
     def predict_effort(self):
         if self.type == c.LINE_CC:
             self.X = self.df[[c.NT_CC, c.NO_CC]]
@@ -97,8 +134,12 @@ class iROIEstimator:
     def __init__(self, project):
         self.project_name = project.split('/')[1]
         self.file_template = "{cwd}/{project_name}/{project_name}_dataset_{task}.csv"    
+        self.line_cc = None;
+        self.line_ec = None;
+        self.module_cc = None;
+        self.module_ec = None;
     
-    def predict_effort(self):
+    def execute(self):
         for task in c.TASK_LIST:
             tasks = self.file_template.format(cwd=self.cwd, project_name=self.project_name, task = task)
             df = pd.read_csv(tasks)
@@ -114,46 +155,63 @@ class iROIEstimator:
             # Edge case when < 2 tasks detected
             if t_records < 2:
                 break
-
-            # LINE_CC
-            line_cc = EffortMeasurements(self.project_name, c.LINE_CC, task, df)
-            line_cc_results = line_cc.predict_effort()
-            print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.LINE_CC, line_cc_results.size))
-            line_cc.calculate_perf_measurements()
-            line_cc_output = line_cc.create_output_df()
-            print(line_cc_output.head())
-
-            # LINE_EC
-            line_ec = EffortMeasurements(self.project_name, c.LINE_EC, task, df)
-            line_ec_results = line_ec.predict_effort()
-            print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.LINE_EC, line_ec_results.size))
-            line_ec.calculate_perf_measurements()
-            line_ec_output = line_ec.create_output_df()
-            print(line_ec_output.head())
-
-            # MODULE_CC
-            module_cc = EffortMeasurements(self.project_name, c.MODULE_CC, task, df)
-            module_cc_results = module_cc.predict_effort()
-            print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.MODULE_CC, module_cc_results.size))
-            module_cc.calculate_perf_measurements()
-            module_cc_output = module_cc.create_output_df()
-            print(module_cc_output.head())
             
+            self.predict_effort(task, df)
+    
+    def predict_effort(self, task, df):
+        # LINE_CC
+        self.line_cc = EffortMeasurements(self.project_name, c.LINE_CC, task, df)
+        line_cc_results = self.line_cc.predict_effort()
+        print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.LINE_CC, line_cc_results.size))
+        self.line_cc.calculate_perf_measurements()
+        line_cc_output = self.line_cc.create_output_df()
+        print(line_cc_output.head())
 
-            # MODULE_EC
-            module_ec = EffortMeasurements(self.project_name, c.MODULE_EC, task, df)
-            module_ec_results = module_ec.predict_effort()
-            print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.MODULE_EC, module_ec_results.size))
-            module_ec.calculate_perf_measurements()
-            module_ec_output = module_ec.create_output_df()
-            print(module_ec_output.head())
-            
+        # LINE_EC
+        self.line_ec = EffortMeasurements(self.project_name, c.LINE_EC, task, df)
+        line_ec_results = self.line_ec.predict_effort()
+        print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.LINE_EC, line_ec_results.size))
+        self.line_ec.calculate_perf_measurements()
+        line_ec_output = self.line_ec.create_output_df()
+        print(line_ec_output.head())
 
-    # def forecastEffort():
+        # MODULE_CC
+        self.module_cc = EffortMeasurements(self.project_name, c.MODULE_CC, task, df)
+        module_cc_results = self.module_cc.predict_effort()
+        print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.MODULE_CC, module_cc_results.size))
+        self.module_cc.calculate_perf_measurements()
+        module_cc_output = self.module_cc.create_output_df()
+        print(module_cc_output.head())
+        
+
+        # MODULE_EC
+        self.module_ec = EffortMeasurements(self.project_name, c.MODULE_EC, task, df)
+        module_ec_results = self.module_ec.predict_effort()
+        print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.MODULE_EC, module_ec_results.size))
+        self.module_ec.calculate_perf_measurements()
+        module_ec_output = self.module_ec.create_output_df()
+        print(module_ec_output.head())
+
+    # def forecastEffort(self):
+        # FORECASTING
+        # for task in c.TASK_LIST:
+        #     forecast_NT = forecastVariable(c.NT_CC, df, predictionMonths)
+        #     forecast_NO = forecastVariable(c.NO_CC, df, predictionMonths)
+        #     forecast_T_Module= forecastVariable(c.T_MODULE, df, predictionMonths)
+
+        #     data = {
+        #         c.NT_CC: forecast_NT['yhat'],
+        #         c.NO_CC: forecast_NO['yhat'],
+        #         c.T_MODULE: forecast_T_Module['yhat']
+        #     }
+        #     dateIndex = forecast_NT['ds']
+        #     results = predictFutureEffort(data, dateIndex, c.MODULE_CC, rf_regressor)
+        #     displayFutureEffort(results, c.MODULE_CC, predictionYears)
+    
 
     # def calculateROI():
 
     # def printLine():
 
 angular = iROIEstimator("angular/angular")
-angular.predict_effort()
+angular.execute()
