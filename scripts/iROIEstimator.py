@@ -73,6 +73,7 @@ class Effort:
         NT['y'] = NT['y_orig']
 
         # m_NT.plot(forecast_NT_inv)
+        forecast_NT_inv['yhat'].fillna(forecast_NT_inv['yhat'].tail(24).mean(), inplace=True)
 
         self.forecast = forecast_NT_inv
 
@@ -154,6 +155,8 @@ class iROIEstimator:
         self.module_ec = None
         self.prediction_years = prediction_years
         self.predicton_months = self.prediction_years * 12
+        self.cc_module_forecast_results = None
+        self.ec_module_forecast_results = None
     
     def execute(self):
         for task in c.TASK_LIST:
@@ -162,6 +165,7 @@ class iROIEstimator:
             
             df = df.dropna(subset=[c.T_MODULE])
             df = df.dropna(subset=[c.DATE])
+            df = df.dropna(subset=[c.TASK])
             df[c.DATE] = pd.to_datetime(df[c.DATE])
             df = df.set_index(c.DATE)
             df.index = df.index.strftime('%Y-%m-%d') 
@@ -223,8 +227,8 @@ class iROIEstimator:
         }
 
         dateIndex = forecast_NT['ds']
-        cc_module_results = self.module_cc.forecast_effort(data, dateIndex, c.MODULE_CC, self.module_cc.model)
-        self.displayFutureEffort(cc_module_results, c.MODULE_CC, self.prediction_years)
+        self.cc_module_forecast_results = self.module_cc.forecast_effort(data, dateIndex, c.MODULE_CC, self.module_cc.model)
+        self.displayFutureEffort(self.cc_module_forecast_results, c.MODULE_CC, self.prediction_years)
 
         # FORECASTING EC
         forecast_NT = self.module_ec.forecast_variable(c.NT_EC, self.predicton_months)
@@ -238,13 +242,15 @@ class iROIEstimator:
         }
 
         dateIndex = forecast_NT['ds']
-        ec_module_results = self.module_ec.forecast_effort(data, dateIndex, c.MODULE_EC, self.module_ec.model)
-        self.displayFutureEffort(ec_module_results, c.MODULE_EC, self.prediction_years)
+        self.ec_module_forecast_results = self.module_ec.forecast_effort(data, dateIndex, c.MODULE_EC, self.module_ec.model)
+        self.displayFutureEffort(self.ec_module_forecast_results, c.MODULE_EC, self.prediction_years)
 
     def displayFutureEffort(self, results, variable, predictionYears):
         startDate = results.tail(predictionYears * 12).iloc[0][c.DATE]
         results['Year'] = results[c.DATE].apply(lambda x: x.year)
         results = pd.pivot_table(results,index=["Year"],values=[variable], aggfunc=np.sum).tail(predictionYears + 1)
+
+        print(results.head(predictionYears + 1))
 
         objects = results.index
         y_pos = np.arange(len(objects))
@@ -261,5 +267,5 @@ class iROIEstimator:
 
     # def printLine():
 
-angular = iROIEstimator("angular/linux")
+angular = iROIEstimator("angular/angular.js")
 angular.execute()
