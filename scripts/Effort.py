@@ -12,7 +12,6 @@ import scipy.stats as st
 from scipy.special import inv_boxcox
 from scipy.stats import boxcox
 from fbprophet import Prophet
-from datetime import datetime
 sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
@@ -42,6 +41,7 @@ class Effort:
         self.X = None
         self.Y = None
         self.results = None
+        self.module_forecast_results = None
 
     def forecast_variable(self, variable, predicton_months):
         data = {
@@ -142,3 +142,43 @@ class Effort:
                       c.PRED_50: [self.pred50],
                       c.T_RECORDS: self.t_records})
         return row_df
+
+    def forecast_module_effort(self, predicton_months):
+        NT = c.NT_CC
+        NO = c.NO_CC
+
+        if self.type == c.MODULE_EC:
+            NT = c.NT_EC
+            NO = c.NO_EC
+
+        forecast_NT = self.forecast_variable(NT, predicton_months)
+        forecast_NO = self.forecast_variable(NO, predicton_months)
+        forecast_T_Module = self.forecast_variable(c.T_MODULE, predicton_months)
+        
+        data = {
+            c.NT: forecast_NT['yhat'],
+            c.NO: forecast_NO['yhat'],
+            c.T_MODULE: forecast_T_Module['yhat']
+        }
+
+        dateIndex = forecast_NT['ds']
+        self.module_forecast_results = self.forecast_effort(data, dateIndex, self.type, self.model)
+
+    def display_forecast(self, predictionYears):
+        results = self.module_forecast_results
+
+        # startDate = results.tail(predictionYears * 12).iloc[0][c.DATE]
+        results['Year'] = results[c.DATE].apply(lambda x: x.year)
+        results = pd.pivot_table(results,index=["Year"],values=[self.type], aggfunc=np.sum).tail(predictionYears + 1)
+
+        print(results.head(predictionYears + 1))
+
+        # objects = results.index
+        # y_pos = np.arange(len(objects))
+        # performance = results[self.type]
+
+        # plt.bar(y_pos, performance, align='center', alpha=0.5)
+        # plt.xticks(y_pos, objects)
+        # plt.ylabel(self.type)
+        # plt.title('Effort {0} Years From {1}'.format(predictionYears, startDate.strftime('%Y-%m-%d')))
+        # plt.show(block = False)

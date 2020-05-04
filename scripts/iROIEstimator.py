@@ -12,7 +12,6 @@ import scipy.stats as st
 from scipy.special import inv_boxcox
 from scipy.stats import boxcox
 from fbprophet import Prophet
-from datetime import datetime
 sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
@@ -31,8 +30,6 @@ class iROIEstimator:
         self.module_ec = None
         self.prediction_years = prediction_years
         self.predicton_months = self.prediction_years * 12
-        self.cc_module_forecast_results = None
-        self.ec_module_forecast_results = None
     
     def execute(self):
         for task in c.TASK_LIST:
@@ -56,6 +53,7 @@ class iROIEstimator:
             
             self.predict_effort(task, df)
             self.forecast_effort(df)
+            self.display_forecast(self.prediction_years)
     
     def predict_effort(self, task, df):
         # LINE_CC
@@ -91,52 +89,12 @@ class iROIEstimator:
         print(module_ec_output.head())
 
     def forecast_effort(self, df):
-        # FORECASTING CC
-        forecast_NT = self.module_cc.forecast_variable(c.NT_CC, self.predicton_months)
-        forecast_NO = self.module_cc.forecast_variable(c.NO_CC, self.predicton_months)
-        forecast_T_Module= self.module_cc.forecast_variable(c.T_MODULE, self.predicton_months)
-        
-        data = {
-            c.NT_CC: forecast_NT['yhat'],
-            c.NO_CC: forecast_NO['yhat'],
-            c.T_MODULE: forecast_T_Module['yhat']
-        }
+        self.module_cc.forecast_module_effort(self.predicton_months)
+        self.module_ec.forecast_module_effort(self.predicton_months)
 
-        dateIndex = forecast_NT['ds']
-        self.cc_module_forecast_results = self.module_cc.forecast_effort(data, dateIndex, c.MODULE_CC, self.module_cc.model)
-        self.display_forcast(self.cc_module_forecast_results, c.MODULE_CC, self.prediction_years)
-
-        # FORECASTING EC
-        forecast_NT = self.module_ec.forecast_variable(c.NT_EC, self.predicton_months)
-        forecast_NO = self.module_ec.forecast_variable(c.NO_EC, self.predicton_months)
-        forecast_T_Module= self.module_ec.forecast_variable(c.T_MODULE, self.predicton_months)
-        
-        data = {
-            c.NT_EC: forecast_NT['yhat'],
-            c.NO_EC: forecast_NO['yhat'],
-            c.T_MODULE: forecast_T_Module['yhat']
-        }
-
-        dateIndex = forecast_NT['ds']
-        self.ec_module_forecast_results = self.module_ec.forecast_effort(data, dateIndex, c.MODULE_EC, self.module_ec.model)
-        self.display_forcast(self.ec_module_forecast_results, c.MODULE_EC, self.prediction_years)
-
-    def display_forcast(self, results, variable, predictionYears):
-        startDate = results.tail(predictionYears * 12).iloc[0][c.DATE]
-        results['Year'] = results[c.DATE].apply(lambda x: x.year)
-        results = pd.pivot_table(results,index=["Year"],values=[variable], aggfunc=np.sum).tail(predictionYears + 1)
-
-        print(results.head(predictionYears + 1))
-
-        objects = results.index
-        y_pos = np.arange(len(objects))
-        performance = results[variable]
-
-        plt.bar(y_pos, performance, align='center', alpha=0.5)
-        plt.xticks(y_pos, objects)
-        plt.ylabel(variable)
-        plt.title('Effort {0} Years From {1}'.format(predictionYears, startDate.strftime('%Y-%m-%d')))
-        plt.show(block = False)
+    def display_forecast(self, predictionYears):
+        self.module_cc.display_forecast(predictionYears)
+        self.module_ec.display_forecast(predictionYears)
     
 
     # def calculateROI():
