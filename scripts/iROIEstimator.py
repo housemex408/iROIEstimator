@@ -51,6 +51,7 @@ class Effort:
         NT = pd.DataFrame(data) 
 
         NT.columns = ['ds','y']
+        NT['y'].replace(0, 1, inplace = True)
         NT['y_orig'] = NT['y']
         NT['y'], lam = boxcox(NT['y'])
 
@@ -73,7 +74,6 @@ class Effort:
 
         # m_NT.plot(forecast_NT_inv)
 
-
         self.forecast = forecast_NT_inv
 
         return self.forecast
@@ -85,7 +85,6 @@ class Effort:
 
         resultData = {variable: y_pred_rf.round(2), c.DATE: y_pred_index}
         results = pd.DataFrame(resultData) 
-        print(results.dtypes)
         return results
     
     def predict_effort(self):
@@ -204,39 +203,47 @@ class iROIEstimator:
         print(module_cc_output.head())
 
         # MODULE_EC
-        # self.module_ec = Effort(self.project_name, c.MODULE_EC, task, df)
-        # module_ec_results = self.module_ec.predict_effort()
-        # print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.MODULE_EC, module_ec_results.size))
-        # self.module_ec.calculate_perf_measurements()
-        # module_ec_output = self.module_ec.create_output_df()
-        # print(module_ec_output.head())
+        self.module_ec = Effort(self.project_name, c.MODULE_EC, task, df)
+        module_ec_results = self.module_ec.predict_effort()
+        print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.MODULE_EC, module_ec_results.size))
+        self.module_ec.calculate_perf_measurements()
+        module_ec_output = self.module_ec.create_output_df()
+        print(module_ec_output.head())
 
     def forecast_effort(self, df):
-        # FORECASTING
+        # FORECASTING CC
         forecast_NT = self.module_cc.forecast_variable(c.NT_CC, self.predicton_months)
         forecast_NO = self.module_cc.forecast_variable(c.NO_CC, self.predicton_months)
         forecast_T_Module= self.module_cc.forecast_variable(c.T_MODULE, self.predicton_months)
-
-        print(forecast_NT[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail())
-        print(forecast_NO[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail())
-        print(forecast_T_Module[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail())
         
-
         data = {
             c.NT_CC: forecast_NT['yhat'],
             c.NO_CC: forecast_NO['yhat'],
             c.T_MODULE: forecast_T_Module['yhat']
         }
+
         dateIndex = forecast_NT['ds']
-        print(dateIndex.dtypes)
-        results = self.module_cc.forecast_effort(data, dateIndex, c.MODULE_CC, self.module_cc.model)
-        self.displayFutureEffort(results, c.MODULE_CC, self.prediction_years)
+        cc_module_results = self.module_cc.forecast_effort(data, dateIndex, c.MODULE_CC, self.module_cc.model)
+        self.displayFutureEffort(cc_module_results, c.MODULE_CC, self.prediction_years)
+
+        # FORECASTING EC
+        forecast_NT = self.module_ec.forecast_variable(c.NT_EC, self.predicton_months)
+        forecast_NO = self.module_ec.forecast_variable(c.NO_EC, self.predicton_months)
+        forecast_T_Module= self.module_ec.forecast_variable(c.T_MODULE, self.predicton_months)
+        
+        data = {
+            c.NT_EC: forecast_NT['yhat'],
+            c.NO_EC: forecast_NO['yhat'],
+            c.T_MODULE: forecast_T_Module['yhat']
+        }
+
+        dateIndex = forecast_NT['ds']
+        ec_module_results = self.module_ec.forecast_effort(data, dateIndex, c.MODULE_EC, self.module_ec.model)
+        self.displayFutureEffort(ec_module_results, c.MODULE_EC, self.prediction_years)
 
     def displayFutureEffort(self, results, variable, predictionYears):
-        print(results.dtypes)
         startDate = results.tail(predictionYears * 12).iloc[0][c.DATE]
         results['Year'] = results[c.DATE].apply(lambda x: x.year)
-        results = results.set_index('Year')
         results = pd.pivot_table(results,index=["Year"],values=[variable], aggfunc=np.sum).tail(predictionYears + 1)
 
         objects = results.index
@@ -247,7 +254,7 @@ class iROIEstimator:
         plt.xticks(y_pos, objects)
         plt.ylabel(variable)
         plt.title('Effort {0} Years From {1}'.format(predictionYears, startDate.strftime('%Y-%m-%d')))
-        plt.show()
+        plt.show(block = False)
     
 
     # def calculateROI():
