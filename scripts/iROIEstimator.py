@@ -60,8 +60,8 @@ class iROIEstimator:
 
             self.predict_effort(task, df)
             self.forecast_effort(df, task)
-            self.display_forecast(self.prediction_years)
-            self.calculate_ROI()
+        self.display_forecast(self.prediction_years)
+        self.calculate_ROI()
 
     def predict_effort(self, task, df):
         # LINE_CC
@@ -116,10 +116,12 @@ class iROIEstimator:
         t_effort_ec = 0
 
         for key in self.task_forecasted_effort:
-            t_effort_cc = t_effort_cc + self.task_forecasted_effort[key][c.MODULE_CC].values.sum()
-            t_effort_ec = t_effort_ec + self.task_forecasted_effort[key][c.MODULE_EC].values.sum()
-            print("{0} - {1} CC Forecasted Effort: {2}".format(self.project_name, key, round(t_effort_cc), 2))
-            print("{0} - {1} EC Forecasted Effort: {2}".format(self.project_name, key, round(t_effort_ec), 2))
+            effort_cc = self.task_forecasted_effort[key][c.MODULE_CC].values.sum()
+            effort_ec = self.task_forecasted_effort[key][c.MODULE_EC].values.sum()
+            t_effort_cc = t_effort_cc + effort_cc
+            t_effort_ec = t_effort_ec + effort_ec
+            print("{0} - {1} CC Forecasted Effort: {2}".format(self.project_name, key, round(effort_cc), 2))
+            print("{0} - {1} EC Forecasted Effort: {2}".format(self.project_name, key, round(effort_ec), 2))
 
         print("{0} - Core Contributor Forecasted Effort Over {1} years: {2}".format(self.project_name, self.prediction_years, round(t_effort_cc, 2)))
         print("{0} - External Contributor Forecasted Effort Over {1} years: {2}".format(self.project_name, self.prediction_years, round(t_effort_ec, 2)))

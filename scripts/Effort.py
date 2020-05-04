@@ -52,7 +52,11 @@ class Effort:
         NT = pd.DataFrame(data)
 
         NT.columns = ['ds','y']
-        NT['y'].replace(0, random.randint(1,5), inplace = True)
+
+        for i in range(len(NT)):
+          y_value = NT['y'][i]
+          if y_value == 0:
+            NT['y'][i] = random.randint(1,3)
 
         NT['y_orig'] = NT['y']
         NT['y'], lam = boxcox(NT['y'])
