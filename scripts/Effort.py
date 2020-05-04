@@ -12,6 +12,7 @@ import scipy.stats as st
 from scipy.special import inv_boxcox
 from scipy.stats import boxcox
 from fbprophet import Prophet
+import random
 sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
@@ -51,7 +52,8 @@ class Effort:
         NT = pd.DataFrame(data) 
 
         NT.columns = ['ds','y']
-        NT['y'].replace(0, 1, inplace = True)
+        NT['y'].replace(0, random.randint(1,2), inplace = True)
+
         NT['y_orig'] = NT['y']
         NT['y'], lam = boxcox(NT['y'])
 

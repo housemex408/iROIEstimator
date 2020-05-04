@@ -60,7 +60,7 @@ class iROIEstimator:
             
             self.predict_effort(task, df)
             self.forecast_effort(df, task)
-            self.display_forecast(self.prediction_years)
+            # self.display_forecast(self.prediction_years)
             self.calculate_ROI()
     
     def predict_effort(self, task, df):
