@@ -30,6 +30,13 @@ class iROIEstimator:
         self.module_ec = None
         self.prediction_years = prediction_years
         self.predicton_months = self.prediction_years * 12
+        self.task_forecasted_effort = {};
+        self.amount_invested = None
+        self.amount_returned = None
+        self.investment_gain = None
+        self.roi = None
+        self.annualized_roi = None
+
     
     def execute(self):
         for task in c.TASK_LIST:
@@ -52,8 +59,9 @@ class iROIEstimator:
                 break
             
             self.predict_effort(task, df)
-            self.forecast_effort(df)
+            self.forecast_effort(df, task)
             self.display_forecast(self.prediction_years)
+            self.calculate_ROI()
     
     def predict_effort(self, task, df):
         # LINE_CC
@@ -88,16 +96,30 @@ class iROIEstimator:
         module_ec_output = self.module_ec.create_output_df()
         print(module_ec_output.head())
 
-    def forecast_effort(self, df):
+    def forecast_effort(self, df, task):
         self.module_cc.forecast_module_effort(self.predicton_months)
         self.module_ec.forecast_module_effort(self.predicton_months)
+
+        self.task_forecasted_effort[task] = {
+            c.MODULE_CC: self.module_cc.calculate_total_effort(self.prediction_years), 
+            c.MODULE_EC: self.module_ec.calculate_total_effort(self.prediction_years)
+        }
 
     def display_forecast(self, predictionYears):
         self.module_cc.display_forecast(predictionYears)
         self.module_ec.display_forecast(predictionYears)
     
 
-    # def calculateROI():
+    def calculate_ROI(self):
+        t_effort_cc = 0
+        t_effort_ec = 0
+
+        for key in self.task_forecasted_effort:
+            t_effort_cc = t_effort_cc + self.task_forecasted_effort[key][c.MODULE_CC].values.sum()
+            t_effort_ec = t_effort_ec + self.task_forecasted_effort[key][c.MODULE_EC].values.sum()
+
+        print("{0} - Core Contributor Forecasted Effort Over {1} years: {2}".format(self.project_name, self.prediction_years, round(t_effort_cc, 2)))
+        print("{0} - External Contributor Forecasted Effort Over {1} years: {2}".format(self.project_name, self.prediction_years, round(t_effort_ec, 2)))
 
     # def printLine():
 

@@ -164,14 +164,18 @@ class Effort:
         dateIndex = forecast_NT['ds']
         self.module_forecast_results = self.forecast_effort(data, dateIndex, self.type, self.model)
 
-    def display_forecast(self, predictionYears):
+        return self.module_forecast_results
+    
+    def calculate_total_effort(self, prediction_years):
         results = self.module_forecast_results
-
-        # startDate = results.tail(predictionYears * 12).iloc[0][c.DATE]
         results['Year'] = results[c.DATE].apply(lambda x: x.year)
-        results = pd.pivot_table(results,index=["Year"],values=[self.type], aggfunc=np.sum).tail(predictionYears + 1)
+        results = pd.pivot_table(results,index=["Year"],values=[self.type], aggfunc=np.sum).tail(prediction_years + 1)
+        return results
 
-        print(results.head(predictionYears + 1))
+    def display_forecast(self, prediction_years):
+        results = self.calculate_total_effort(prediction_years)
+
+        print(results.head(prediction_years + 1).sum())
 
         # objects = results.index
         # y_pos = np.arange(len(objects))
