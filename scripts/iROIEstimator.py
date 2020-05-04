@@ -23,7 +23,7 @@ class iROIEstimator:
 
     def __init__(self, project, prediction_years=3):
         self.project_name = project.split('/')[1]
-        self.file_template = "{cwd}/{project_name}/{project_name}_dataset_{task}.csv"    
+        self.file_template = "{cwd}/{project_name}/{project_name}_dataset_{task}.csv"
         self.line_cc = None
         self.line_ec = None
         self.module_cc = None
@@ -37,18 +37,18 @@ class iROIEstimator:
         self.roi = None
         self.annualized_roi = None
 
-    
+
     def execute(self):
         for task in c.TASK_LIST:
             tasks = self.file_template.format(cwd=self.cwd, project_name=self.project_name, task = task)
             df = pd.read_csv(tasks)
-            
+
             df = df.dropna(subset=[c.T_MODULE])
             df = df.dropna(subset=[c.DATE])
             df = df.dropna(subset=[c.TASK])
             df[c.DATE] = pd.to_datetime(df[c.DATE])
             df = df.set_index(c.DATE)
-            df.index = df.index.strftime('%Y-%m-%d') 
+            df.index = df.index.strftime('%Y-%m-%d')
             if df.isna().values.any():
                 df.fillna(0, inplace=True)
 
@@ -57,12 +57,12 @@ class iROIEstimator:
             # Edge case when < 2 tasks detected
             if t_records < 2:
                 break
-            
+
             self.predict_effort(task, df)
             self.forecast_effort(df, task)
-            # self.display_forecast(self.prediction_years)
+            self.display_forecast(self.prediction_years)
             self.calculate_ROI()
-    
+
     def predict_effort(self, task, df):
         # LINE_CC
         # self.line_cc = Effort(self.project_name, c.LINE_CC, task, df)
@@ -101,14 +101,15 @@ class iROIEstimator:
         self.module_ec.forecast_module_effort(self.predicton_months)
 
         self.task_forecasted_effort[task] = {
-            c.MODULE_CC: self.module_cc.calculate_total_effort(self.prediction_years), 
+            c.MODULE_CC: self.module_cc.calculate_total_effort(self.prediction_years),
             c.MODULE_EC: self.module_ec.calculate_total_effort(self.prediction_years)
         }
 
     def display_forecast(self, predictionYears):
-        self.module_cc.display_forecast(predictionYears)
-        self.module_ec.display_forecast(predictionYears)
-    
+        for key in self.task_forecasted_effort:
+            print("\n{0} - {1} Forecasted Effort: \n".format(self.project_name, key))
+            print(self.task_forecasted_effort[key][c.MODULE_CC])
+            print(self.task_forecasted_effort[key][c.MODULE_EC])
 
     def calculate_ROI(self):
         t_effort_cc = 0
@@ -117,6 +118,8 @@ class iROIEstimator:
         for key in self.task_forecasted_effort:
             t_effort_cc = t_effort_cc + self.task_forecasted_effort[key][c.MODULE_CC].values.sum()
             t_effort_ec = t_effort_ec + self.task_forecasted_effort[key][c.MODULE_EC].values.sum()
+            print("{0} - {1} CC Forecasted Effort: {2}".format(self.project_name, key, round(t_effort_cc), 2))
+            print("{0} - {1} EC Forecasted Effort: {2}".format(self.project_name, key, round(t_effort_ec), 2))
 
         print("{0} - Core Contributor Forecasted Effort Over {1} years: {2}".format(self.project_name, self.prediction_years, round(t_effort_cc, 2)))
         print("{0} - External Contributor Forecasted Effort Over {1} years: {2}".format(self.project_name, self.prediction_years, round(t_effort_ec, 2)))
