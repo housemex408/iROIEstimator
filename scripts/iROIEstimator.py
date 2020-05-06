@@ -145,5 +145,5 @@ class iROIEstimator:
         print("{0} - Annualized ROI: {1}".format(self.project_name, self.annualized_roi))
 
 
-angular = iROIEstimator("angular/angular.js")
-angular.execute()
+# angular = iROIEstimator("angular/angular.js")
+# angular.execute()
