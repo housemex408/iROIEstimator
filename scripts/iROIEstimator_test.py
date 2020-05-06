@@ -18,7 +18,7 @@ class TestIROIEstimator(unittest.TestCase):
         self.assertEqual(gain, 1681475)
 
     def test_calculate_ROI(self):
-        roi = self.estimator.calculate_results()
+        roi = self.estimator.calculate_ROI()
         self.assertEqual(roi, 9.22)
 
     def test_calculate_annualized_ROI(self):
