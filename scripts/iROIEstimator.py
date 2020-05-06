@@ -19,6 +19,7 @@ from Effort import Effort
 
 
 class iROIEstimator:
+    # cwd = "../../exports"
     cwd = "scripts/exports"
 
     def __init__(self, project, prediction_years=3):
@@ -39,6 +40,7 @@ class iROIEstimator:
 
     def execute(self):
         for task in c.TASK_LIST:
+            print (os.getcwd())
             tasks = self.file_template.format(cwd=self.cwd, project_name=self.project_name, task = task)
             df = pd.read_csv(tasks)
 
