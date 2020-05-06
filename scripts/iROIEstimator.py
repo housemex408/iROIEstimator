@@ -19,8 +19,8 @@ from Effort import Effort
 
 
 class iROIEstimator:
-    # cwd = "../../exports"
-    cwd = "scripts/exports"
+    cwd = "../../exports"
+    # cwd = "scripts/exports"
 
     def __init__(self, project, prediction_years=3):
         self.project_name = project.split('/')[1]
@@ -147,5 +147,5 @@ class iROIEstimator:
         print("{0} - Annualized ROI: {1}".format(self.project_name, self.annualized_roi))
 
 
-angular = iROIEstimator("angular/angular.js")
-angular.execute()
+# angular = iROIEstimator("angular/angular.js")
+# angular.execute()
