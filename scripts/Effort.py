@@ -78,7 +78,7 @@ class Effort:
         NT['y_t'] = NT['y']
         NT['y'] = NT['y_orig']
 
-        # m_NT.plot(forecast_NT_inv)
+        m_NT.plot(forecast_NT_inv)
         forecast_NT_inv['yhat'].fillna(forecast_NT_inv['yhat'].tail(24).mean(), inplace=True)
 
         self.forecast = forecast_NT_inv

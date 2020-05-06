@@ -60,7 +60,7 @@ class iROIEstimator:
             self.predict_effort(task, df)
             self.forecast_effort(df, task)
         self.display_forecast(self.prediction_years)
-        self.calculate_ROI()
+        self.calculate_results()
 
     def predict_effort(self, task, df):
         # LINE_CC
@@ -110,7 +110,19 @@ class iROIEstimator:
             print(self.task_forecasted_effort[key][c.MODULE_CC])
             print(self.task_forecasted_effort[key][c.MODULE_EC])
 
+    def calculate_investment_gain(self):
+        self.investment_gain = round(self.amount_returned - self.amount_invested, 2)
+        return self.investment_gain
+
     def calculate_ROI(self):
+        self.roi = round(((self.investment_gain + self.amount_invested) / self.amount_invested) - 1, 2)
+        return self.roi
+
+    def calculate_annualized_ROI(self):
+        self.annualized_roi = round(pow(1 + self.roi, 1 / self.prediction_years) - 1, 2)
+        return self.annualized_roi
+
+    def calculate_results(self):
         effort_cc = 0.0
         effort_ec = 0.0
         for key in self.task_forecasted_effort:
@@ -124,18 +136,14 @@ class iROIEstimator:
         print("{0} - Core Contributor Forecasted Effort Over {1} years: {2}".format(self.project_name, self.prediction_years, round(self.amount_invested, 2)))
         print("{0} - External Contributor Forecasted Effort Over {1} years: {2}".format(self.project_name, self.prediction_years, round(self.amount_returned, 2)))
 
-    def calculate_investmemt_gain(self):
-        self.investment_gain = round(self.amount_returned - self.amount_invested, 2)
-        return self.investment_gain
+        self.calculate_investment_gain()
+        self.calculate_ROI()
+        self.calculate_annualized_ROI()
 
-    def calculate_ROI(self):
-        self.roi = round(((self.investment_gain + self.amount_invested) / self.amount_invested) - 1, 2)
-        return self.roi
-
-    def calculate_annualized_ROI(self):
-        self.annualized_roi = round(pow(1 + self.roi, 1 / self.prediction_years) - 1, 2)
-        return self.annualized_roi
+        print("{0} - Investment Gain: {1}".format(self.project_name, self.investment_gain))
+        print("{0} - ROI: {1}".format(self.project_name, self.roi))
+        print("{0} - Annualized ROI: {1}".format(self.project_name, self.annualized_roi))
 
 
-# angular = iROIEstimator("angular/angular.js")
-# angular.execute()
+angular = iROIEstimator("angular/angular.js")
+angular.execute()
