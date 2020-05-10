@@ -19,11 +19,17 @@ from Effort import Effort
 
 
 class iROIEstimator:
-    # cwd = "../../exports"
-    cwd = "scripts/exports"
-    # TASK_LIST = c.TASK_LIST
-    TASK_LIST = ["BUG"]
-    # cwd = "scripts/exports"
+    # input = "../../exports"
+    input = "scripts/exports"
+    output = "scripts/notebook/results"
+    results_file = "{directory}/prediction_results.csv".format(directory=output)
+    performance_measures_file = "{directory}/performance_measures.csv".format(directory=output)
+    roi_measures_file = "{directory}/roi_measures.csv".format(directory=output)
+    TASK_LIST = c.TASK_LIST
+    # TASK_LIST = ["BUG"]
+    results_header = [c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_MODULE, c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR]
+    performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
+    roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.ROI, c.ANNUALIZED_ROI]
 
     def __init__(self, project, prediction_years=3):
         self.project_name = project.split('/')[1]
@@ -35,6 +41,12 @@ class iROIEstimator:
         self.prediction_years = prediction_years
         self.predicton_months = self.prediction_years * 12
         self.task_forecasted_effort = {};
+        self.results = pd.DataFrame(columns = self.results_header)
+        self.performance_measures = pd.DataFrame(columns = self.performance_measures_header)
+        self.results.to_csv(self.results_file, index=False)
+        self.performance_measures.to_csv(self.performance_measures_file, index=False)
+        self.roi_measures = pd.DataFrame(columns = self.roi_header)
+        self.roi_measures.to_csv(self.roi_measures_file, index=False)
         self.amount_invested = 0
         self.amount_returned = 0
         self.investment_gain = 0
@@ -43,8 +55,7 @@ class iROIEstimator:
 
     def execute(self):
         for task in self.TASK_LIST:
-            print (os.getcwd())
-            tasks = self.file_template.format(cwd=self.cwd, project_name=self.project_name, task = task)
+            tasks = self.file_template.format(cwd=self.input, project_name=self.project_name, task = task)
             df = pd.read_csv(tasks)
 
             df = df.dropna(subset=[c.T_MODULE])
@@ -52,6 +63,7 @@ class iROIEstimator:
             df = df.dropna(subset=[c.TASK])
             df[c.DATE] = pd.to_datetime(df[c.DATE])
             df = df.set_index(c.DATE)
+            df.index.name = c.DATE
             df.index = df.index.strftime('%Y-%m-%d')
             if df.isna().values.any():
                 df.fillna(0, inplace=True)
@@ -62,10 +74,16 @@ class iROIEstimator:
             if t_records < 2:
                 break
 
-            self.predict_effort(task, df)
+            results, performance_measures = self.predict_effort(task, df)
+
+            self.results = pd.concat([self.results, results])
+            self.performance_measures = pd.concat([self.performance_measures, performance_measures])
+
             self.forecast_effort(df, task)
         self.display_forecast(self.prediction_years)
+        self.save_results_performance_measures()
         self.calculate_results()
+        self.save_results_roi_measures()
 
     def predict_effort(self, task, df):
         # LINE_CC
@@ -87,20 +105,19 @@ class iROIEstimator:
         # MODULE_CC
         self.module_cc = Effort(self.project_name, c.MODULE_CC, task, df)
         module_cc_results = self.module_cc.predict_effort()
-        print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.MODULE_CC, module_cc_results.size))
-        print(module_cc_results)
         self.module_cc.calculate_perf_measurements()
         module_cc_output = self.module_cc.create_output_df()
-        print(module_cc_output.head())
 
         # MODULE_EC
         self.module_ec = Effort(self.project_name, c.MODULE_EC, task, df)
         module_ec_results = self.module_ec.predict_effort()
-        print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.MODULE_EC, module_ec_results.size))
-        print(module_ec_results)
         self.module_ec.calculate_perf_measurements()
         module_ec_output = self.module_ec.create_output_df()
-        print(module_ec_output.head())
+
+        results_df = pd.concat([module_cc_results, module_ec_results])
+        output_df = pd.concat([module_cc_output, module_ec_output])
+
+        return results_df, output_df
 
     def forecast_effort(self, df, task):
         self.module_cc.forecast_module_effort(self.predicton_months)
@@ -114,8 +131,18 @@ class iROIEstimator:
     def display_forecast(self, predictionYears):
         for key in self.task_forecasted_effort:
             print("\n{0} - {1} Forecasted Effort: \n".format(self.project_name, key))
-            print(self.task_forecasted_effort[key][c.MODULE_CC])
-            print(self.task_forecasted_effort[key][c.MODULE_EC])
+            print(self.task_forecasted_effort[key][c.MODULE_CC].T)
+            print(self.task_forecasted_effort[key][c.MODULE_EC].T)
+
+            self.results[c.DATE] = self.results.index
+            self.results.sort_values(by=[c.DATE, c.PROJECT, c.MODEL, c.TASK], ascending = True, inplace=True)
+            self.performance_measures.sort_values(by=[c.PROJECT, c.MODEL, c.TASK], inplace=True)
+            print(self.results)
+            print(self.performance_measures)
+
+    def save_results_performance_measures(self):
+        self.results.to_csv(self.results_file, header=False, mode = 'a', index=False)
+        self.performance_measures.to_csv(self.performance_measures_file, header=False, mode = 'a', index=False)
 
     def calculate_investment_gain(self):
         self.investment_gain = round(self.amount_returned - self.amount_invested, 2)
@@ -150,6 +177,17 @@ class iROIEstimator:
         print("{0} - Investment Gain: {1}".format(self.project_name, self.investment_gain))
         print("{0} - ROI: {1}".format(self.project_name, self.roi))
         print("{0} - Annualized ROI: {1}".format(self.project_name, self.annualized_roi))
+
+    def save_results_roi_measures(self):
+        roi_measures = pd.DataFrame({c.PROJECT: [self.project_name],
+                      c.MODEL: [c.MODULE],
+                      c.AMOUNT_INVESTED: [self.amount_invested],
+                      c.AMOUNT_RETURNED: [self.amount_returned],
+                      c.ROI: [self.roi],
+                      c.ANNUALIZED_ROI: [self.annualized_roi]})
+
+        self.roi_measures = pd.concat([self.roi_measures, roi_measures])
+        self.roi_measures.to_csv(self.roi_measures_file, header=False, mode = 'a', index=False)
 
 
 angular = iROIEstimator("angular/angular.js")

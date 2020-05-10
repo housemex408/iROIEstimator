@@ -78,8 +78,8 @@ class Effort:
         NT['y_t'] = NT['y']
         NT['y'] = NT['y_orig']
 
-        m_NT.plot(forecast_NT_inv)
-        forecast_NT_inv['yhat'].fillna(forecast_NT_inv['yhat'].tail(24).mean(), inplace=True)
+        # m_NT.plot(forecast_NT_inv)
+        forecast_NT_inv['yhat'].fillna(forecast_NT_inv['yhat'].tail(predicton_months - 12).mean(), inplace=True)
 
         self.forecast = forecast_NT_inv
 
@@ -144,7 +144,6 @@ class Effort:
         return self.results
 
     def calculate_perf_measurements(self):
-        # self.calculate_diff()
         self.r_squared = round(self.model.score(self.X_test, self.y_test), 2)
         self.r_squared_adj = round(utils.calculated_rsquared_adj(self.X, self.X_test, self.r_squared), 2)
         self.mae = round(metrics.mean_absolute_error(self.y_test, self.predictions), 2)

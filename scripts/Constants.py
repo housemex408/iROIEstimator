@@ -112,3 +112,10 @@ MSE = "MSE"
 RMSE = "RMSE"
 PRED_25 = "PRED_25"
 PRED_50 = "PRED_50"
+
+# roi output columns
+AMOUNT_INVESTED = "Amount_Invested"
+AMOUNT_RETURNED = "Amount_Returned"
+INVESTMENT_GAIN = "Investment_Gain"
+ROI = "ROI"
+ANNUALIZED_ROI = "Annualized_ROI"
