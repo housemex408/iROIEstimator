@@ -29,7 +29,7 @@ class iROIEstimator:
     # TASK_LIST = ["BUG"]
     results_header = [c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_MODULE, c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR]
     performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
-    roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.ROI, c.ANNUALIZED_ROI]
+    roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.INVESTMENT_GAIN, c.ROI, c.ANNUALIZED_ROI]
     results = pd.DataFrame(columns = results_header)
     performance_measures = pd.DataFrame(columns = performance_measures_header)
     results.to_csv(results_file, index=False)
@@ -149,16 +149,22 @@ class iROIEstimator:
         return self.investment_gain
 
     def calculate_ROI(self):
-        self.roi = round(((self.investment_gain + self.amount_invested) / self.amount_invested) - 1, 2)
+        self.roi = round(((self.investment_gain + self.amount_invested) / self.amount_invested) - 1, 3)
         return self.roi
 
     def calculate_annualized_ROI(self):
-        self.annualized_roi = round(pow(1 + self.roi, 1 / self.prediction_years) - 1, 2)
+        self.annualized_roi = round(pow(1 + self.roi, 1 / self.prediction_years) - 1, 3)
         return self.annualized_roi
 
     def calculate_results(self):
         effort_cc = 0.0
         effort_ec = 0.0
+        self.amount_invested = 0
+        self.amount_returned = 0
+        self.investment_gain = 0;
+        self.roi = 0
+        self.annualized_roi = 0
+
         for key in self.task_forecasted_effort:
             effort_cc = self.task_forecasted_effort[key][c.MODULE_CC].values.sum()
             effort_ec = self.task_forecasted_effort[key][c.MODULE_EC].values.sum()
@@ -183,6 +189,7 @@ class iROIEstimator:
                       c.MODEL: [c.MODULE],
                       c.AMOUNT_INVESTED: [self.amount_invested],
                       c.AMOUNT_RETURNED: [self.amount_returned],
+                      c.INVESTMENT_GAIN: [self.investment_gain],
                       c.ROI: [self.roi],
                       c.ANNUALIZED_ROI: [self.annualized_roi]})
 
