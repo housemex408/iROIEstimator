@@ -113,11 +113,29 @@ class Effort:
         self.model.fit(self.X_train, self.y_train)
         self.predictions = self.model.predict(self.X_test)
 
-        return self.predictions
+        results = self.calculate_diff()
+
+        return results
 
     def calculate_diff(self):
+        NT = c.NT_CC
+        NO = c.NO_CC
+        MODEL = c.MODULE_CC
+        T_MODULE = c.T_MODULE
+
+        if self.type == c.MODULE_EC:
+          NT = c.NT_EC
+          NO = c.NO_EC
+          MODEL = c.MODULE_EC
+
         data = {
-            c.OBSERVED:self.y_test,
+            c.PROJECT: self.project_name,
+            c.MODEL: MODEL,
+            c.TASK: self.task,
+            c.NT: self.X_test[NT],
+            c.NO: self.X_test[NO],
+            c.T_MODULE: self.X_test[T_MODULE],
+            c.OBSERVED:self.y_test.round(2),
             c.PREDICTED:self.predictions.round(2),
             c.DIFFERENCE:abs(self.y_test - self.predictions).round(2),
             c.PERCENT_ERROR:(abs(self.y_test - self.predictions)/self.y_test).round(2)
@@ -126,7 +144,7 @@ class Effort:
         return self.results
 
     def calculate_perf_measurements(self):
-        self.calculate_diff()
+        # self.calculate_diff()
         self.r_squared = round(self.model.score(self.X_test, self.y_test), 2)
         self.r_squared_adj = round(utils.calculated_rsquared_adj(self.X, self.X_test, self.r_squared), 2)
         self.mae = round(metrics.mean_absolute_error(self.y_test, self.predictions), 2)

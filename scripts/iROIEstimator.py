@@ -19,7 +19,10 @@ from Effort import Effort
 
 
 class iROIEstimator:
-    cwd = "../../exports"
+    # cwd = "../../exports"
+    cwd = "scripts/exports"
+    # TASK_LIST = c.TASK_LIST
+    TASK_LIST = ["BUG"]
     # cwd = "scripts/exports"
 
     def __init__(self, project, prediction_years=3):
@@ -39,7 +42,7 @@ class iROIEstimator:
         self.annualized_roi = 0
 
     def execute(self):
-        for task in c.TASK_LIST:
+        for task in self.TASK_LIST:
             print (os.getcwd())
             tasks = self.file_template.format(cwd=self.cwd, project_name=self.project_name, task = task)
             df = pd.read_csv(tasks)
@@ -85,6 +88,7 @@ class iROIEstimator:
         self.module_cc = Effort(self.project_name, c.MODULE_CC, task, df)
         module_cc_results = self.module_cc.predict_effort()
         print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.MODULE_CC, module_cc_results.size))
+        print(module_cc_results)
         self.module_cc.calculate_perf_measurements()
         module_cc_output = self.module_cc.create_output_df()
         print(module_cc_output.head())
@@ -93,6 +97,7 @@ class iROIEstimator:
         self.module_ec = Effort(self.project_name, c.MODULE_EC, task, df)
         module_ec_results = self.module_ec.predict_effort()
         print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.MODULE_EC, module_ec_results.size))
+        print(module_ec_results)
         self.module_ec.calculate_perf_measurements()
         module_ec_output = self.module_ec.create_output_df()
         print(module_ec_output.head())
@@ -147,5 +152,5 @@ class iROIEstimator:
         print("{0} - Annualized ROI: {1}".format(self.project_name, self.annualized_roi))
 
 
-# angular = iROIEstimator("angular/angular.js")
-# angular.execute()
+angular = iROIEstimator("angular/angular.js")
+angular.execute()
