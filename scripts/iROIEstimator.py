@@ -30,6 +30,12 @@ class iROIEstimator:
     results_header = [c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_MODULE, c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR]
     performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
     roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.ROI, c.ANNUALIZED_ROI]
+    results = pd.DataFrame(columns = results_header)
+    performance_measures = pd.DataFrame(columns = performance_measures_header)
+    results.to_csv(results_file, index=False)
+    performance_measures.to_csv(performance_measures_file, index=False)
+    roi_measures = pd.DataFrame(columns = roi_header)
+    roi_measures.to_csv(roi_measures_file, index=False)
 
     def __init__(self, project, prediction_years=3):
         self.project_name = project.split('/')[1]
@@ -41,12 +47,6 @@ class iROIEstimator:
         self.prediction_years = prediction_years
         self.predicton_months = self.prediction_years * 12
         self.task_forecasted_effort = {};
-        self.results = pd.DataFrame(columns = self.results_header)
-        self.performance_measures = pd.DataFrame(columns = self.performance_measures_header)
-        self.results.to_csv(self.results_file, index=False)
-        self.performance_measures.to_csv(self.performance_measures_file, index=False)
-        self.roi_measures = pd.DataFrame(columns = self.roi_header)
-        self.roi_measures.to_csv(self.roi_measures_file, index=False)
         self.amount_invested = 0
         self.amount_returned = 0
         self.investment_gain = 0
@@ -190,5 +190,8 @@ class iROIEstimator:
         self.roi_measures.to_csv(self.roi_measures_file, header=False, mode = 'a', index=False)
 
 
-angular = iROIEstimator("angular/angular.js")
-angular.execute()
+project_list = ["angular/angular.js","ansible/ansible"]
+
+for p in project_list:
+  estimator = iROIEstimator(p)
+  estimator.execute()
