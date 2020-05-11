@@ -17,7 +17,10 @@ sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
 
+
 class Effort:
+    logger = utils.get_logger()
+
     def __init__(self, project, model, value, task, df):
         self.modelType = model
         self.type = value
@@ -46,12 +49,13 @@ class Effort:
         self.module_forecast_results = None
 
     def forecast_variable(self, variable, predicton_months):
+        self.logger.debug("\n{0} - Forcasting {1} for {2}: \n {3}".format(self.project_name, variable, self.type, self.df[variable]))
+
         data = {
             c.DATE: self.df.index,
             c.NT: self.df[variable]
         }
         NT = pd.DataFrame(data)
-
         NT.columns = ['ds','y']
 
         for i in range(len(NT)):
@@ -126,7 +130,7 @@ class Effort:
     def calculate_diff(self):
         NT = None
         NO = None
-        TYPE = self.type 
+        TYPE = self.type
         T_MODULE = c.T_MODULE
 
         if self.type == c.LINE_CC or self.type == c.MODULE_CC:
@@ -191,7 +195,7 @@ class Effort:
 
         forecast_NT = self.forecast_variable(NT, predicton_months)
         forecast_NO = self.forecast_variable(NO, predicton_months)
-        
+
         data = {
             c.NT: forecast_NT['yhat'],
             c.NO: forecast_NO['yhat'],
@@ -200,7 +204,6 @@ class Effort:
         if self.modelType == c.MODULE:
             forecast_T_Module = self.forecast_variable(c.T_MODULE, predicton_months)
             data[c.T_MODULE] = forecast_T_Module['yhat']
-            
 
         dateIndex = forecast_NT['ds']
         self.module_forecast_results = self.forecast_effort(data, dateIndex, self.type, self.model)
@@ -216,8 +219,8 @@ class Effort:
     def display_forecast(self, prediction_years):
         results = self.calculate_total_effort(prediction_years)
 
-        print("\n{0} - {1} {2} Forecasted Effort: \n".format(self.project_name, self.type, self.task))
-        print(results.head(prediction_years + 1))
+        logger.info("\n{0} - {1} {2} Forecasted Effort: \n".format(self.project_name, self.type, self.task))
+        logger.info(results.head(prediction_years + 1))
 
         # objects = results.index
         # y_pos = np.arange(len(objects))

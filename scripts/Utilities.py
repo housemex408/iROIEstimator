@@ -1,5 +1,7 @@
 import re
 import pandas as pd
+import logging
+import logging.handlers
 
 def calculate_PRED(percentage, dataFrame):
     countLessPercent = dataFrame[dataFrame['Percent Error'] < percentage]['Percent Error']
@@ -37,4 +39,14 @@ def calculated_rsquared_adj(X, X_test, rsquared):
       return rsquared
     rsquared_adj = 1 - (((1-rsquared)*(n-1))/(n-k-1))
     return rsquared_adj
+
+def get_logger():
+  logger = logging.getLogger("iROIEstimator")
+  if not logger.handlers:
+    handler = logging.FileHandler('iROIEstimator.log')
+    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    logger.setLevel(logging.DEBUG)
+  return logger
 
