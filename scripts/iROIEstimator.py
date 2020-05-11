@@ -26,7 +26,7 @@ class iROIEstimator:
     performance_measures_file = "{directory}/performance_measures.csv".format(directory=output)
     roi_measures_file = "{directory}/roi_measures.csv".format(directory=output)
     TASK_LIST = c.TASK_LIST
-    # TASK_LIST = ["BUG"]
+    # TASK_LIST = ["UPGRADE"]
     results_header = [c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_MODULE, c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR]
     performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
     roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.INVESTMENT_GAIN, c.ROI, c.ANNUALIZED_ROI]
@@ -65,6 +65,7 @@ class iROIEstimator:
             df = df.set_index(c.DATE)
             df.index.name = c.DATE
             df.index = df.index.strftime('%Y-%m-%d')
+            # df.fillna(df.mean(), inplace=True)
             if df.isna().values.any():
                 df.fillna(0, inplace=True)
 
@@ -81,7 +82,7 @@ class iROIEstimator:
 
             self.forecast_effort(df, task)
         self.display_forecast(self.prediction_years)
-        self.save_results_performance_measures()
+        # self.save_results_performance_measures()
         self.calculate_results()
         self.save_results_roi_measures()
 
@@ -105,12 +106,14 @@ class iROIEstimator:
         # MODULE_CC
         self.module_cc = Effort(self.project_name, c.MODULE_CC, task, df)
         module_cc_results = self.module_cc.predict_effort()
+        print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.MODULE_CC, module_cc_results.size))
         self.module_cc.calculate_perf_measurements()
         module_cc_output = self.module_cc.create_output_df()
 
         # MODULE_EC
         self.module_ec = Effort(self.project_name, c.MODULE_EC, task, df)
         module_ec_results = self.module_ec.predict_effort()
+        print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.MODULE_EC, module_ec_results.size))
         self.module_ec.calculate_perf_measurements()
         module_ec_output = self.module_ec.create_output_df()
 
@@ -197,7 +200,8 @@ class iROIEstimator:
         self.roi_measures.to_csv(self.roi_measures_file, header=False, mode = 'a', index=False)
 
 
-project_list = ["angular/angular.js","ansible/ansible"]
+# project_list = ["vuejs/vue"]
+project_list = c.PROJECT_LIST
 
 for p in project_list:
   estimator = iROIEstimator(p)

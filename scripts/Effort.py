@@ -87,6 +87,13 @@ class Effort:
 
     def forecast_effort(self, data, dateIndex, variable, rf_regressor):
         X_Future = pd.DataFrame(data)
+
+        X_Future = X_Future.astype('float32')
+
+        X_Future = X_Future.replace([np.inf, -np.inf, np.nan], X_Future.mean())
+
+        print(X_Future.dtypes)
+
         y_pred_rf = rf_regressor.predict(X_Future)
         y_pred_index = dateIndex
 
@@ -109,7 +116,7 @@ class Effort:
             self.Y = self.df[c.MODULE_EC]
 
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.Y, train_size=0.75, test_size=0.25, random_state=0)
-        self.model = RandomForestRegressor(n_estimators=300, random_state=0)
+        self.model = RandomForestRegressor(n_estimators=10, random_state=0, n_jobs=4)
         self.model.fit(self.X_train, self.y_train)
         self.predictions = self.model.predict(self.X_test)
 
