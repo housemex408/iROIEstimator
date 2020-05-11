@@ -187,7 +187,7 @@ class iROIEstimator:
 
     def save_results_roi_measures(self):
         roi_measures = pd.DataFrame({c.PROJECT: [self.project_name],
-                      c.MODEL: [c.MODULE],
+                      c.MODEL: [self.model],
                       c.AMOUNT_INVESTED: [self.amount_invested],
                       c.AMOUNT_RETURNED: [self.amount_returned],
                       c.INVESTMENT_GAIN: [self.investment_gain],
@@ -203,7 +203,7 @@ project_list = c.PROJECT_LIST
 for p in project_list:
   try:
     logger.debug("Project {0}".format(p))
-    estimator = iROIEstimator(p, c.MODULE)
+    estimator = iROIEstimator(p, c.LINE)
     estimator.execute()
   except Exception:
     logger.error("Error:  {0}".format(p), exc_info=True)
