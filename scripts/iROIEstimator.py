@@ -45,10 +45,16 @@ class iROIEstimator:
 
         self.results = pd.DataFrame(columns = self.results_header)
         self.performance_measures = pd.DataFrame(columns = self.performance_measures_header)
-        self. results.to_csv(self.results_file, index=False)
-        self.performance_measures.to_csv(self.performance_measures_file, index=False)
         self.roi_measures = pd.DataFrame(columns = self.roi_header)
-        self.roi_measures.to_csv(self.roi_measures_file, index=False)
+
+        if not os.path.isfile(self.results_file):
+          self.results.to_csv(self.results_file, index=False)
+
+        if not os.path.isfile(self.performance_measures_file):
+          self.performance_measures.to_csv(self.performance_measures_file, index=False)
+
+        if not os.path.isfile(self.roi_measures_file):
+          self.roi_measures.to_csv(self.roi_measures_file, index=False)
 
     def execute(self):
         for task in self.TASK_LIST:
@@ -191,7 +197,7 @@ class iROIEstimator:
         self.roi_measures = pd.concat([self.roi_measures, roi_measures])
         self.roi_measures.to_csv(self.roi_measures_file, header=False, mode = 'a', index=False)
 
-# project_list = ["vuejs/lock"]
+# project_list = ["vuejs/lock", "angular.js/angular.js"]
 project_list = c.PROJECT_LIST
 
 for p in project_list:
