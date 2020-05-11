@@ -18,7 +18,8 @@ import Utilities as utils
 import Constants as c
 
 class Effort:
-    def __init__(self, project, value, task, df):
+    def __init__(self, project, model, value, task, df):
+        self.modelType = model
         self.type = value
         self.task = task
         self.df = df
@@ -90,9 +91,7 @@ class Effort:
 
         X_Future = X_Future.astype('float32')
 
-        X_Future = X_Future.replace([np.inf, -np.inf, np.nan], X_Future.mean())
-
-        print(X_Future.dtypes)
+        X_Future = X_Future.replace([np.inf, -np.inf, np.nan], 0)
 
         y_pred_rf = rf_regressor.predict(X_Future)
         y_pred_index = dateIndex
@@ -116,7 +115,7 @@ class Effort:
             self.Y = self.df[c.MODULE_EC]
 
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.Y, train_size=0.75, test_size=0.25, random_state=0)
-        self.model = RandomForestRegressor(n_estimators=10, random_state=0, n_jobs=4)
+        self.model = RandomForestRegressor(n_estimators=300, random_state=0)
         self.model.fit(self.X_train, self.y_train)
         self.predictions = self.model.predict(self.X_test)
 
@@ -125,28 +124,34 @@ class Effort:
         return results
 
     def calculate_diff(self):
-        NT = c.NT_CC
-        NO = c.NO_CC
-        MODEL = c.MODULE_CC
+        NT = None
+        NO = None
+        TYPE = self.type 
         T_MODULE = c.T_MODULE
 
-        if self.type == c.MODULE_EC:
-          NT = c.NT_EC
-          NO = c.NO_EC
-          MODEL = c.MODULE_EC
+        if self.type == c.LINE_CC or self.type == c.MODULE_CC:
+            NT = c.NT_CC
+            NO = c.NO_CC
+        elif self.type == c.LINE_EC or self.type == c.MODULE_EC:
+            NT = c.NT_EC
+            NO = c.NO_EC
 
         data = {
             c.PROJECT: self.project_name,
-            c.MODEL: MODEL,
+            c.MODEL: TYPE,
             c.TASK: self.task,
             c.NT: self.X_test[NT],
-            c.NO: self.X_test[NO],
-            c.T_MODULE: self.X_test[T_MODULE],
-            c.OBSERVED:self.y_test.round(2),
-            c.PREDICTED:self.predictions.round(2),
-            c.DIFFERENCE:abs(self.y_test - self.predictions).round(2),
-            c.PERCENT_ERROR:(abs(self.y_test - self.predictions)/self.y_test).round(2)
+            c.NO: self.X_test[NO]
         }
+
+        if self.modelType == c.MODULE:
+            data[c.T_MODULE] = self.X_test[T_MODULE]
+
+        data[c.OBSERVED] = self.y_test.round(2)
+        data[c.PREDICTED] = self.predictions.round(2)
+        data[c.DIFFERENCE] = abs(self.y_test - self.predictions).round(2)
+        data[c.PERCENT_ERROR] = (abs(self.y_test - self.predictions)/self.y_test).round(2)
+
         self.results = pd.DataFrame(data)
         return self.results
 
@@ -174,22 +179,28 @@ class Effort:
         return row_df
 
     def forecast_module_effort(self, predicton_months):
-        NT = c.NT_CC
-        NO = c.NO_CC
+        NT = None
+        NO = None
 
-        if self.type == c.MODULE_EC:
+        if self.type == c.LINE_CC or self.type == c.MODULE_CC:
+            NT = c.NT_CC
+            NO = c.NO_CC
+        elif self.type == c.LINE_EC or self.type == c.MODULE_EC:
             NT = c.NT_EC
             NO = c.NO_EC
 
         forecast_NT = self.forecast_variable(NT, predicton_months)
         forecast_NO = self.forecast_variable(NO, predicton_months)
-        forecast_T_Module = self.forecast_variable(c.T_MODULE, predicton_months)
-
+        
         data = {
             c.NT: forecast_NT['yhat'],
             c.NO: forecast_NO['yhat'],
-            c.T_MODULE: forecast_T_Module['yhat']
         }
+
+        if self.modelType == c.MODULE:
+            forecast_T_Module = self.forecast_variable(c.T_MODULE, predicton_months)
+            data[c.T_MODULE] = forecast_T_Module['yhat']
+            
 
         dateIndex = forecast_NT['ds']
         self.module_forecast_results = self.forecast_effort(data, dateIndex, self.type, self.model)

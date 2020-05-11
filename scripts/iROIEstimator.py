@@ -2,16 +2,7 @@ import numpy as np
 import pandas as pd
 import os
 import sys
-from sklearn.model_selection import train_test_split
-from sklearn import metrics
-from tabulate import tabulate
-from sklearn.ensemble import RandomForestRegressor
 from scipy.stats import shapiro
-import matplotlib.pyplot as plt
-import scipy.stats as st
-from scipy.special import inv_boxcox
-from scipy.stats import boxcox
-from fbprophet import Prophet
 sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
@@ -22,24 +13,17 @@ class iROIEstimator:
     # input = "../../exports"
     input = "scripts/exports"
     output = "scripts/notebook/results"
-    results_file = "{directory}/prediction_results.csv".format(directory=output)
-    performance_measures_file = "{directory}/performance_measures.csv".format(directory=output)
-    roi_measures_file = "{directory}/roi_measures.csv".format(directory=output)
     TASK_LIST = c.TASK_LIST
-    # TASK_LIST = ["UPGRADE"]
+    # TASK_LIST = ["BUG"]
     results_header = [c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_MODULE, c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR]
     performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
     roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.INVESTMENT_GAIN, c.ROI, c.ANNUALIZED_ROI]
-    results = pd.DataFrame(columns = results_header)
-    performance_measures = pd.DataFrame(columns = performance_measures_header)
-    results.to_csv(results_file, index=False)
-    performance_measures.to_csv(performance_measures_file, index=False)
-    roi_measures = pd.DataFrame(columns = roi_header)
-    roi_measures.to_csv(roi_measures_file, index=False)
+    
 
-    def __init__(self, project, prediction_years=3):
+    def __init__(self, project, model=c.LINE, prediction_years=3):
         self.project_name = project.split('/')[1]
         self.file_template = "{cwd}/{project_name}/{project_name}_dataset_{task}.csv"
+        self.model = model
         self.line_cc = None
         self.line_ec = None
         self.module_cc = None
@@ -52,6 +36,20 @@ class iROIEstimator:
         self.investment_gain = 0
         self.roi = 0
         self.annualized_roi = 0
+        self.init_output_files(model)
+
+
+    def init_output_files(self, model):
+        self.results_file = "{directory}/prediction_results_{model}.csv".format(directory=self.output, model=model)
+        self.performance_measures_file = "{directory}/performance_measures_{model}.csv".format(directory=self.output, model=model)
+        self.roi_measures_file = "{directory}/roi_measures_{model}.csv".format(directory=self.output, model=model)
+
+        self.results = pd.DataFrame(columns = self.results_header)
+        self.performance_measures = pd.DataFrame(columns = self.performance_measures_header)
+        self. results.to_csv(self.results_file, index=False)
+        self.performance_measures.to_csv(self.performance_measures_file, index=False)
+        self.roi_measures = pd.DataFrame(columns = self.roi_header)
+        self.roi_measures.to_csv(self.roi_measures_file, index=False)
 
     def execute(self):
         for task in self.TASK_LIST:
@@ -82,38 +80,33 @@ class iROIEstimator:
 
             self.forecast_effort(df, task)
         self.display_forecast(self.prediction_years)
-        # self.save_results_performance_measures()
+        self.save_results_performance_measures()
         self.calculate_results()
         self.save_results_roi_measures()
 
+    def get_independent_variables(self):
+        CC = c.LINE_CC
+        EC = c.LINE_EC
+
+        if self.model == c.MODULE:
+            CC = c.MODULE_CC
+            EC = c.MODULE_EC
+        
+        return CC, EC
+
     def predict_effort(self, task, df):
-        # LINE_CC
-        # self.line_cc = Effort(self.project_name, c.LINE_CC, task, df)
-        # line_cc_results = self.line_cc.predict_effort()
-        # print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.LINE_CC, line_cc_results.size))
-        # self.line_cc.calculate_perf_measurements()
-        # line_cc_output = self.line_cc.create_output_df()
-        # print(line_cc_output.head())
+        
+        CC, EC = self.get_independent_variables()
 
-        # LINE_EC
-        # self.line_ec = Effort(self.project_name, c.LINE_EC, task, df)
-        # line_ec_results = self.line_ec.predict_effort()
-        # print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.LINE_EC, line_ec_results.size))
-        # self.line_ec.calculate_perf_measurements()
-        # line_ec_output = self.line_ec.create_output_df()
-        # print(line_ec_output.head())
-
-        # MODULE_CC
-        self.module_cc = Effort(self.project_name, c.MODULE_CC, task, df)
+        self.module_cc = Effort(self.project_name, self.model, CC, task, df)
         module_cc_results = self.module_cc.predict_effort()
-        print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.MODULE_CC, module_cc_results.size))
+        print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, CC, module_cc_results.size))
         self.module_cc.calculate_perf_measurements()
         module_cc_output = self.module_cc.create_output_df()
 
-        # MODULE_EC
-        self.module_ec = Effort(self.project_name, c.MODULE_EC, task, df)
+        self.module_ec = Effort(self.project_name, self.model, EC, task, df)
         module_ec_results = self.module_ec.predict_effort()
-        print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, c.MODULE_EC, module_ec_results.size))
+        print("\n{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, EC, module_ec_results.size))
         self.module_ec.calculate_perf_measurements()
         module_ec_output = self.module_ec.create_output_df()
 
@@ -200,9 +193,9 @@ class iROIEstimator:
         self.roi_measures.to_csv(self.roi_measures_file, header=False, mode = 'a', index=False)
 
 
-# project_list = ["vuejs/vue"]
-project_list = c.PROJECT_LIST
+project_list = ["vuejs/angular.js"]
+# project_list = c.PROJECT_LIST
 
 for p in project_list:
-  estimator = iROIEstimator(p)
+  estimator = iROIEstimator(p, c.LINE)
   estimator.execute()
