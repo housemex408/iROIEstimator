@@ -14,7 +14,6 @@ class iROIEstimator:
     input = "scripts/exports"
     output = "scripts/notebook/results"
     TASK_LIST = c.TASK_LIST
-    # TASK_LIST = ["DOCS"]
     results_header = [c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_MODULE, c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR]
     performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
     roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.INVESTMENT_GAIN, c.ROI, c.ANNUALIZED_ROI]
@@ -68,7 +67,7 @@ class iROIEstimator:
             df = df.set_index(c.DATE)
             df.index.name = c.DATE
             df.index = df.index.strftime('%Y-%m-%d')
-            # df.fillna(df.mean(), inplace=True)
+
             if df.isna().values.any():
                 df.fillna(0, inplace=True)
 
@@ -197,21 +196,7 @@ class iROIEstimator:
         self.roi_measures = pd.concat([self.roi_measures, roi_measures])
         self.roi_measures.to_csv(self.roi_measures_file, header=False, mode = 'a', index=False)
 
-# project_list = ["vuejs/lock", "angular.js/angular.js"]
-# project_list = c.PROJECT_LIST
-project_list =  [
-    "c/core-js"
-    # ,"c/dat"
-    # ,"c/json-server"
-    # ,"c/karma"
-    # ,"c/lodash"
-    # ,"c/medium-editor"
-    # ,"c/moby"
-    # ,"c/requests"
-    # ,"c/superagent"
-    # ,"c/systemjs"
-    # ,"c/webtorrent"
-    ]
+project_list = c.PROJECT_LIST
 
 for p in project_list:
   try:
