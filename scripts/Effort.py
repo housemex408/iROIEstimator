@@ -49,7 +49,7 @@ class Effort:
         self.module_forecast_results = None
 
     def forecast_variable(self, variable, predicton_months):
-        self.logger.debug("\n{0} - Forcasting {1} for {2}: \n {3}".format(self.project_name, variable, self.type, self.df[variable]))
+        self.logger.debug("\n{0} - Forcasting {1} for {2} and task {3}: \n {4}".format(self.project_name, variable, self.type, self.task, self.df[variable]))
 
         data = {
             c.DATE: self.df.index,
@@ -58,9 +58,11 @@ class Effort:
         NT = pd.DataFrame(data)
         NT.columns = ['ds','y']
 
+        are_same = utils.is_all_same(NT['y'])
+
         for i in range(len(NT)):
           y_value = NT['y'][i]
-          if y_value == 0:
+          if are_same or y_value == 0:
             NT['y'][i] = random.randint(1,3)
 
         NT['y_orig'] = NT['y']

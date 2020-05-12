@@ -50,3 +50,11 @@ def get_logger():
     logger.setLevel(logging.DEBUG)
   return logger
 
+def is_all_same(s):
+  mean = s.mean()
+  all_same = True
+  for index, value in s.items():
+    if value != mean:
+      all_same = False
+  return all_same
+

@@ -200,51 +200,23 @@ class iROIEstimator:
 # project_list = ["vuejs/lock", "angular.js/angular.js"]
 # project_list = c.PROJECT_LIST
 project_list =  [
-    "c/AutoMapper"
-    ,"c/browser-sync"
-    ,"c/core-js"
-    ,"c/d3"
-    ,"c/dat"
-    ,"c/devise"
-    ,"c/fluentd"
-    ,"c/fpm"
-    ,"c/generator-jhipster"
-    ,"c/gitlabhq"
-    ,"c/jest"
-    ,"c/jsdom"
-    ,"c/json-server"
-    ,"c/karma"
-    ,"c/keystone"
-    ,"c/lodash"
-    ,"c/mathjs"
-    ,"c/medium-editor"
-    ,"c/mesos"
-    ,"c/moby"
-    ,"c/mongoose"
-    ,"c/natural"
-    ,"c/ng-file-upload"
-    ,"c/nightwatch"
-    ,"c/npm"
-    ,"c/pandoc"
-    ,"c/pm2"
-    ,"c/pomelo"
-    ,"c/requests"
-    ,"c/selenium"
-    ,"c/socket.io"
-    ,"c/stylus"
-    ,"c/superagent"
-    ,"c/swagger-ui"
-    ,"c/systemjs"
-    ,"c/vega"
-    ,"c/video.js"
-    ,"c/webpack"
-    ,"c/webtorrent"
+    "c/core-js"
+    # ,"c/dat"
+    # ,"c/json-server"
+    # ,"c/karma"
+    # ,"c/lodash"
+    # ,"c/medium-editor"
+    # ,"c/moby"
+    # ,"c/requests"
+    # ,"c/superagent"
+    # ,"c/systemjs"
+    # ,"c/webtorrent"
     ]
 
 for p in project_list:
   try:
     logger.debug("Project {0}".format(p))
-    estimator = iROIEstimator(p, c.LINE)
+    estimator = iROIEstimator(p, c.MODULE)
     estimator.execute()
   except Exception:
     logger.error("Error:  {0}".format(p), exc_info=True)
