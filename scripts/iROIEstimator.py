@@ -201,7 +201,7 @@ project_list = c.PROJECT_LIST
 for p in project_list:
   try:
     logger.debug("Project {0}".format(p))
-    estimator = iROIEstimator(p, c.MODULE)
+    estimator = iROIEstimator(p, c.LINE)
     estimator.execute()
   except Exception:
     logger.error("Error:  {0}".format(p), exc_info=True)
