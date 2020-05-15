@@ -197,26 +197,12 @@ class iROIEstimator:
         self.roi_measures = pd.concat([self.roi_measures, roi_measures])
         self.roi_measures.to_csv(self.roi_measures_file, header=False, mode = 'a', index=False)
 
-# project_list = ["vuejs/lock", "angular.js/angular.js"]
-# project_list = c.PROJECT_LIST
-project_list =  [
-    "c/core-js"
-    # ,"c/dat"
-    # ,"c/json-server"
-    # ,"c/karma"
-    # ,"c/lodash"
-    # ,"c/medium-editor"
-    # ,"c/moby"
-    # ,"c/requests"
-    # ,"c/superagent"
-    # ,"c/systemjs"
-    # ,"c/webtorrent"
-    ]
+project_list = c.PROJECT_LIST
 
 for p in project_list:
   try:
     logger.debug("Project {0}".format(p))
-    estimator = iROIEstimator(p, c.MODULE)
+    estimator = iROIEstimator(p, c.LINE)
     estimator.execute()
   except Exception:
     logger.error("Error:  {0}".format(p), exc_info=True)

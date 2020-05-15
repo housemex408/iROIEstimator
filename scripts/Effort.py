@@ -63,7 +63,7 @@ class Effort:
         for i in range(len(NT)):
           y_value = NT['y'][i]
           if are_same or y_value == 0:
-            NT['y'][i] = random.randint(1,3)
+            NT['y'][i] = random.randint(1,4)
 
         NT['y_orig'] = NT['y']
         NT['y'], lam = boxcox(NT['y'])
