@@ -16,7 +16,9 @@ import random
 sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
-
+from sklearn import model_selection
+from sklearn.model_selection import KFold
+from sklearn.model_selection import LeaveOneOut
 
 class Effort:
     logger = utils.get_logger()
@@ -31,6 +33,7 @@ class Effort:
         self.model = None
         self.predictions = None
         self.r_squared = None
+        self.r_squared_X = None
         self.r_squared_adj = None
         self.mae = None
         self.mse = None
@@ -121,7 +124,7 @@ class Effort:
             self.Y = self.df[c.MODULE_EC]
 
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.Y, train_size=0.75, test_size=0.25, random_state=0)
-        self.model = RandomForestRegressor(n_estimators=300, random_state=0)
+        self.model = RandomForestRegressor(n_estimators=300, random_state=0, n_jobs=-1)
         self.model.fit(self.X_train, self.y_train)
         self.predictions = self.model.predict(self.X_test)
 
@@ -162,6 +165,20 @@ class Effort:
         return self.results
 
     def calculate_perf_measurements(self):
+        splits = 10
+
+        if self.t_records <= splits:
+          splits = self.t_records
+
+        kfold = model_selection.KFold(n_splits=splits)
+        # loocv = model_selection.LeaveOneOut()
+        results_kfold = model_selection.cross_val_score(self.model, self.X, self.Y, cv=kfold, n_jobs=-1)
+        # results_kfold = model_selection.cross_val_score(self.model, self.X, self.Y, cv=loocv, n_jobs=-1)
+        self.r_squared_X = round(results_kfold.mean(), 2)
+
+        self.logger.info("{0} - {1} - {2} Scores: {3}".format(self.project_name, self.task, self.type, results_kfold.round(2)))
+        self.logger.info("{0} - {1} - {2} Accuracy: {3}".format(self.project_name, self.task, self.type, self.r_squared_X))
+
         self.r_squared = round(self.model.score(self.X_test, self.y_test), 2)
         self.r_squared_adj = round(utils.calculated_rsquared_adj(self.X, self.X_test, self.r_squared), 2)
         self.mae = round(metrics.mean_absolute_error(self.y_test, self.predictions), 2)
@@ -175,6 +192,7 @@ class Effort:
                       c.MODEL: [self.type],
                       c.TASK: [self.task],
                       c.R_SQUARED: [self.r_squared],
+                      c.R_SQUARED_X: [self.r_squared_X],
                       c.R_SQUARED_ADJ: [self.r_squared_adj],
                       c.MAE: [self.mae],
                       c.MSE: [self.mse],
@@ -223,13 +241,3 @@ class Effort:
 
         logger.info("\n{0} - {1} {2} Forecasted Effort: \n".format(self.project_name, self.type, self.task))
         logger.info(results.head(prediction_years + 1))
-
-        # objects = results.index
-        # y_pos = np.arange(len(objects))
-        # performance = results[self.type]
-
-        # plt.bar(y_pos, performance, align='center', alpha=0.5)
-        # plt.xticks(y_pos, objects)
-        # plt.ylabel(self.type)
-        # plt.title('Effort {0} Years From {1}'.format(predictionYears, startDate.strftime('%Y-%m-%d')))
-        # plt.show(block = False)

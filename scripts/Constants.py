@@ -106,6 +106,7 @@ PERCENT_ERROR = "Percent Error"
 # results output columns
 MODEL = "Model"
 R_SQUARED = "R_Squared"
+R_SQUARED_X = "R_Squared_X"
 R_SQUARED_ADJ = "R_Squared_Adj"
 MAE = "MAE"
 MSE = "MSE"

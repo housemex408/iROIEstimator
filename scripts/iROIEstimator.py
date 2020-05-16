@@ -8,14 +8,16 @@ import Utilities as utils
 import Constants as c
 from Effort import Effort
 logger = utils.get_logger()
+os.environ["NUMEXPR_MAX_THREADS"] = "12"
 
 class iROIEstimator:
     # input = "../../exports"
     input = "scripts/exports"
     output = "scripts/notebook/results"
     TASK_LIST = c.TASK_LIST
+    # TASK_LIST = ["BUG"]
     results_header = [c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_MODULE, c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR]
-    performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
+    performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_X, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
     roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.INVESTMENT_GAIN, c.ROI, c.ANNUALIZED_ROI]
 
     def __init__(self, project, model=c.LINE, prediction_years=3):
@@ -46,14 +48,14 @@ class iROIEstimator:
         self.performance_measures = pd.DataFrame(columns = self.performance_measures_header)
         self.roi_measures = pd.DataFrame(columns = self.roi_header)
 
-        if not os.path.isfile(self.results_file):
-          self.results.to_csv(self.results_file, index=False)
+        # if not os.path.isfile(self.results_file):
+        #   self.results.to_csv(self.results_file, index=False)
 
         if not os.path.isfile(self.performance_measures_file):
           self.performance_measures.to_csv(self.performance_measures_file, index=False)
 
-        if not os.path.isfile(self.roi_measures_file):
-          self.roi_measures.to_csv(self.roi_measures_file, index=False)
+        # if not os.path.isfile(self.roi_measures_file):
+        #   self.roi_measures.to_csv(self.roi_measures_file, index=False)
 
     def execute(self):
         for task in self.TASK_LIST:
@@ -82,11 +84,11 @@ class iROIEstimator:
             self.results = pd.concat([self.results, results])
             self.performance_measures = pd.concat([self.performance_measures, performance_measures])
 
-            self.forecast_effort(df, task)
+            # self.forecast_effort(df, task)
         self.display_forecast(self.prediction_years)
         self.save_results_performance_measures()
-        self.calculate_results()
-        self.save_results_roi_measures()
+        # self.calculate_results()
+        # self.save_results_roi_measures()
 
     def get_independent_variables(self):
         CC = c.LINE_CC
@@ -141,7 +143,7 @@ class iROIEstimator:
             logger.info("\n {0}".format(self.performance_measures))
 
     def save_results_performance_measures(self):
-        self.results.to_csv(self.results_file, header=False, mode = 'a', index=False)
+        # self.results.to_csv(self.results_file, header=False, mode = 'a', index=False)
         self.performance_measures.to_csv(self.performance_measures_file, header=False, mode = 'a', index=False)
 
     def calculate_investment_gain(self):
@@ -197,11 +199,12 @@ class iROIEstimator:
         self.roi_measures.to_csv(self.roi_measures_file, header=False, mode = 'a', index=False)
 
 project_list = c.PROJECT_LIST
+# project_list = ["angular/linux"]
 
 for p in project_list:
   try:
     logger.debug("Project {0}".format(p))
-    estimator = iROIEstimator(p, c.LINE)
+    estimator = iROIEstimator(p, c.MODULE)
     estimator.execute()
   except Exception:
     logger.error("Error:  {0}".format(p), exc_info=True)
