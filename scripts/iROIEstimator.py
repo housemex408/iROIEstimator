@@ -17,7 +17,7 @@ class iROIEstimator:
     TASK_LIST = c.TASK_LIST
     # TASK_LIST = ["BUG"]
     results_header = [c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_MODULE, c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR]
-    performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_X, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
+    performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_X, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_25_X, c.PRED_50, c.PRED_50_X, c.T_RECORDS]
     roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.INVESTMENT_GAIN, c.ROI, c.ANNUALIZED_ROI]
 
     def __init__(self, project, model=c.LINE, prediction_years=3):
@@ -48,8 +48,8 @@ class iROIEstimator:
         self.performance_measures = pd.DataFrame(columns = self.performance_measures_header)
         self.roi_measures = pd.DataFrame(columns = self.roi_header)
 
-        # if not os.path.isfile(self.results_file):
-        #   self.results.to_csv(self.results_file, index=False)
+        if not os.path.isfile(self.results_file):
+          self.results.to_csv(self.results_file, index=False)
 
         if not os.path.isfile(self.performance_measures_file):
           self.performance_measures.to_csv(self.performance_measures_file, index=False)
@@ -143,7 +143,7 @@ class iROIEstimator:
             logger.info("\n {0}".format(self.performance_measures))
 
     def save_results_performance_measures(self):
-        # self.results.to_csv(self.results_file, header=False, mode = 'a', index=False)
+        self.results.to_csv(self.results_file, header=False, mode = 'a', index=False)
         self.performance_measures.to_csv(self.performance_measures_file, header=False, mode = 'a', index=False)
 
     def calculate_investment_gain(self):
@@ -198,8 +198,8 @@ class iROIEstimator:
         self.roi_measures = pd.concat([self.roi_measures, roi_measures])
         self.roi_measures.to_csv(self.roi_measures_file, header=False, mode = 'a', index=False)
 
-project_list = c.PROJECT_LIST
-# project_list = ["angular/linux"]
+# project_list = c.PROJECT_LIST
+project_list = ["angular/linux"]
 
 for p in project_list:
   try:

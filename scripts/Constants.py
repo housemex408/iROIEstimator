@@ -101,7 +101,10 @@ T_EC = "T_EC"
 OBSERVED = "Observed"
 PREDICTED = "Predicted"
 DIFFERENCE = "Difference"
-PERCENT_ERROR = "Percent Error"
+PERCENT_ERROR = "Percent_Error"
+PREDICTED_X = "Predicted_X"
+DIFFERENCE_X = "Difference_X"
+PERCENT_ERROR_X = "Percent_Error_X"
 
 # results output columns
 MODEL = "Model"
@@ -113,6 +116,8 @@ MSE = "MSE"
 RMSE = "RMSE"
 PRED_25 = "PRED_25"
 PRED_50 = "PRED_50"
+PRED_25_X = "PRED_25_X"
+PRED_50_X = "PRED_50_X"
 
 # roi output columns
 AMOUNT_INVESTED = "Amount_Invested"

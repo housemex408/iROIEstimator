@@ -17,6 +17,7 @@ sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
 from sklearn import model_selection
+from sklearn.model_selection import cross_val_predict
 from sklearn.model_selection import KFold
 from sklearn.model_selection import LeaveOneOut
 
@@ -32,6 +33,7 @@ class Effort:
         self.project_name = project
         self.model = None
         self.predictions = None
+        self.predictions_X = None
         self.r_squared = None
         self.r_squared_X = None
         self.r_squared_adj = None
@@ -40,6 +42,8 @@ class Effort:
         self.rmse = None
         self.pred25 = None
         self.pred50 = None
+        self.pred25_X = None
+        self.pred50_X = None
         self.predicted_effort = None
         self.shapiro_wilk_test = None
         self.X_train = None
@@ -49,6 +53,7 @@ class Effort:
         self.X = None
         self.Y = None
         self.results = None
+        self.results_x_validated = None
         self.module_forecast_results = None
 
     def forecast_variable(self, variable, predicton_months):
@@ -124,11 +129,28 @@ class Effort:
             self.Y = self.df[c.MODULE_EC]
 
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.Y, train_size=0.75, test_size=0.25, random_state=0)
-        self.model = RandomForestRegressor(n_estimators=300, random_state=0, n_jobs=-1)
+        self.model = RandomForestRegressor(n_estimators=300, n_jobs=-1)
         self.model.fit(self.X_train, self.y_train)
         self.predictions = self.model.predict(self.X_test)
 
+
+        splits = 10
+
+        if self.t_records <= splits:
+          splits = self.t_records
+
+        kfold = model_selection.KFold(n_splits=splits)
+        results_kfold = model_selection.cross_val_score(self.model, self.X, self.Y, cv=kfold, n_jobs=-1)
+        self.r_squared_X = round(results_kfold.mean(), 2)
+        self.predictions_X = cross_val_predict(self.model, self.X, self.Y, cv=kfold)
+
+        self.logger.info("{0} - {1} - {2} R2 Scores: {3}".format(self.project_name, self.task, self.type, results_kfold.round(2)))
+        self.logger.info("{0} - {1} - {2} R2 Accuracy: {3}".format(self.project_name, self.task, self.type, self.r_squared_X))
+        self.logger.info("{0} - {1} - {2} Prediction Count: {3}".format(self.project_name, self.task, self.type, len(self.Y)))
+        self.logger.info("{0} - {1} - {2} X-Validated Prediction Count: {3}".format(self.project_name, self.task, self.type, len(self.predictions_X)))
+
         results = self.calculate_diff()
+        self.calculate_diff_x_validated()
 
         return results
 
@@ -164,28 +186,48 @@ class Effort:
         self.results = pd.DataFrame(data)
         return self.results
 
+    def calculate_diff_x_validated(self):
+        NT = None
+        NO = None
+        TYPE = self.type
+        T_MODULE = c.T_MODULE
+
+        if self.type == c.LINE_CC or self.type == c.MODULE_CC:
+            NT = c.NT_CC
+            NO = c.NO_CC
+        elif self.type == c.LINE_EC or self.type == c.MODULE_EC:
+            NT = c.NT_EC
+            NO = c.NO_EC
+
+        data = {
+            c.PROJECT: self.project_name,
+            c.MODEL: TYPE,
+            c.TASK: self.task,
+            c.NT: self.X[NT],
+            c.NO: self.X[NO]
+        }
+
+        if self.modelType == c.MODULE:
+            data[c.T_MODULE] = self.X[T_MODULE]
+
+        data[c.OBSERVED] = self.Y.round(2)
+        data[c.PREDICTED_X] = self.predictions_X.round(2)
+        data[c.DIFFERENCE_X] = abs(self.Y - self.predictions_X).round(2)
+        data[c.PERCENT_ERROR_X] = (abs(self.Y - self.predictions_X)/self.Y).round(2)
+
+        self.results_x_validated = pd.DataFrame(data)
+        return self.results_x_validated
+
     def calculate_perf_measurements(self):
-        splits = 10
-
-        if self.t_records <= splits:
-          splits = self.t_records
-
-        kfold = model_selection.KFold(n_splits=splits)
-        # loocv = model_selection.LeaveOneOut()
-        results_kfold = model_selection.cross_val_score(self.model, self.X, self.Y, cv=kfold, n_jobs=-1)
-        # results_kfold = model_selection.cross_val_score(self.model, self.X, self.Y, cv=loocv, n_jobs=-1)
-        self.r_squared_X = round(results_kfold.mean(), 2)
-
-        self.logger.info("{0} - {1} - {2} Scores: {3}".format(self.project_name, self.task, self.type, results_kfold.round(2)))
-        self.logger.info("{0} - {1} - {2} Accuracy: {3}".format(self.project_name, self.task, self.type, self.r_squared_X))
-
         self.r_squared = round(self.model.score(self.X_test, self.y_test), 2)
         self.r_squared_adj = round(utils.calculated_rsquared_adj(self.X, self.X_test, self.r_squared), 2)
         self.mae = round(metrics.mean_absolute_error(self.y_test, self.predictions), 2)
         self.mse = round(metrics.mean_squared_error(self.y_test, self.predictions), 2)
         self.rmse = round(np.sqrt(metrics.mean_squared_error(self.y_test, self.predictions)), 2)
-        self.pred25 = round(utils.calculate_PRED(0.25, self.results), 2)
-        self.pred50 = round(utils.calculate_PRED(0.50, self.results), 2)
+        self.pred25 = round(utils.calculate_PRED(0.25, self.results, c.PERCENT_ERROR), 2)
+        self.pred50 = round(utils.calculate_PRED(0.50, self.results, c.PERCENT_ERROR), 2)
+        self.pred25_X = round(utils.calculate_PRED(0.25, self.results_x_validated, c.PERCENT_ERROR_X), 2)
+        self.pred50_X = round(utils.calculate_PRED(0.50, self.results_x_validated, c.PERCENT_ERROR_X), 2)
 
     def create_output_df(self):
         row_df = pd.DataFrame({c.PROJECT: [self.project_name],
@@ -199,6 +241,8 @@ class Effort:
                       c.RMSE: [self.rmse],
                       c.PRED_25: [self.pred25],
                       c.PRED_50: [self.pred50],
+                      c.PRED_25_X: [self.pred25_X],
+                      c.PRED_50_X: [self.pred50_X],
                       c.T_RECORDS: self.t_records})
         return row_df
 

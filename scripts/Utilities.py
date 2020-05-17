@@ -7,11 +7,9 @@ from scipy.stats import shapiro
 from statsmodels.stats.descriptivestats import sign_test
 from statsmodels.stats import weightstats as stests
 
-def calculate_PRED(percentage, dataFrame):
-    countLessPercent = dataFrame[dataFrame['Percent Error'] < percentage]['Percent Error']
-    # print(countLessPercent.count())
-    # print(dataFrame['Percent Error'].count())
-    pred = countLessPercent.count() / dataFrame['Percent Error'].count()
+def calculate_PRED(percentage, dataFrame, percent_error_key):
+    countLessPercent = dataFrame[dataFrame[percent_error_key] < percentage][percent_error_key]
+    pred = countLessPercent.count() / dataFrame[percent_error_key].count()
     return pred
 
 def format_PRED(percentage, value):
@@ -82,7 +80,7 @@ def one_sample_t_test(data, mean, alpha):
   ttest_result = ttest_1samp(data, mean)
   print("One Sample T-test p-value: ", round(ttest_result.pvalue / 2, 4))
 
-  if ttest_result.pvalue / 2 < alpha:
+  if ttest_result.pvalue / 2 > alpha:
       print("One Sample T-Test: {0} sample mean is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
   else:
       print("One Sample T-Test: {0} sample mean is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
@@ -93,7 +91,7 @@ def one_sample_z_test(data, mean, alpha):
   ztest_result = stests.ztest(data, x2=None, value=mean)[1]
   print("One Sample Z-test p-value: ", round(ztest_result / 2, 4))
 
-  if ztest_result / 2 < alpha:
+  if ztest_result / 2 > alpha:
       print("One Sample Z-Test: {0} sample mean is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
   else:
       print("One Sample Z-Test: {0} sample mean is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
@@ -104,7 +102,7 @@ def one_sample_sign_test(data, mean, alpha):
   sign_test_result  = sign_test(data, mean)[1]
   print("One Sample Sign Test p-value: ", sign_test_result)
 
-  if sign_test_result / 2 < alpha:
+  if sign_test_result / 2 > alpha:
       print("One Sample Sign Test: {0} sample median is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
   else:
       print("One Sample Sign Test: {0} sample median is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
