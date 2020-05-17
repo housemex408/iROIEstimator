@@ -31,7 +31,7 @@ PROJECT_LIST = [
   ,"Homebrew/brew"
   ,"openstack/cinder"
   ,"elastic/elasticsearch"
-  ,"torvalds/linux"
+  # ,"torvalds/linux"
   ,"cloudfoundry/cf-deployment"
   ,"OfficeDev/office-js"
 ]
