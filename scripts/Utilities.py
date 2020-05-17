@@ -2,6 +2,10 @@ import re
 import pandas as pd
 import logging
 import logging.handlers
+from scipy.stats import ttest_1samp
+from scipy.stats import shapiro
+from statsmodels.stats.descriptivestats import sign_test
+from statsmodels.stats import weightstats as stests
 
 def calculate_PRED(percentage, dataFrame):
     countLessPercent = dataFrame[dataFrame['Percent Error'] < percentage]['Percent Error']
@@ -51,10 +55,56 @@ def get_logger():
   return logger
 
 def is_all_same(s):
-  mean = s.mean()
+  s_mean = s.mean()
   all_same = True
   for index, value in s.items():
-    if value != mean:
+    if value != s_mean:
       all_same = False
   return all_same
 
+def gaussian_test(data, alpha):
+  stat, p = shapiro(data)
+  print("Shapiro p-value: ", round(p, 4))
+
+  is_gaussian = True
+
+  if p > alpha:
+      print('Shapiro Test: Sample looks Gaussian (fail to reject H0)')
+  else:
+      is_gaussian = False
+      print('Shapiro Test: Sample does not look Gaussian (reject H0)')
+
+  return is_gaussian
+
+def one_sample_t_test(data, mean, alpha):
+  model_records_mean = round(data.mean(),2)
+
+  ttest_result = ttest_1samp(data, mean)
+  print("One Sample T-test p-value: ", round(ttest_result.pvalue / 2, 4))
+
+  if ttest_result.pvalue / 2 < alpha:
+      print("One Sample T-Test: {0} sample mean is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
+  else:
+      print("One Sample T-Test: {0} sample mean is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
+
+def one_sample_z_test(data, mean, alpha):
+  model_records_mean = round(data.mean(),2)
+
+  ztest_result = stests.ztest(data, x2=None, value=mean)[1]
+  print("One Sample Z-test p-value: ", round(ztest_result / 2, 4))
+
+  if ztest_result / 2 < alpha:
+      print("One Sample Z-Test: {0} sample mean is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
+  else:
+      print("One Sample Z-Test: {0} sample mean is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
+
+def one_sample_sign_test(data, mean, alpha):
+  model_records_mean = round(data.mean(),2)
+
+  sign_test_result  = sign_test(data, mean)[1]
+  print("One Sample Sign Test p-value: ", sign_test_result)
+
+  if sign_test_result / 2 < alpha:
+      print("One Sample Sign Test: {0} sample median is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
+  else:
+      print("One Sample Sign Test: {0} sample median is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
