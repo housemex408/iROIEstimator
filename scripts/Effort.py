@@ -129,7 +129,7 @@ class Effort:
             self.Y = self.df[c.MODULE_EC]
 
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.Y, train_size=0.75, test_size=0.25, random_state=0)
-        self.model = RandomForestRegressor(n_estimators=300, n_jobs=-1)
+        self.model = RandomForestRegressor(n_estimators=300, n_jobs=-1, random_state=0)
         self.model.fit(self.X_train, self.y_train)
         self.predictions = self.model.predict(self.X_test)
 
@@ -139,7 +139,7 @@ class Effort:
         if self.t_records <= splits:
           splits = self.t_records
 
-        model_X = RandomForestRegressor(n_estimators=300, n_jobs=-1)
+        model_X = RandomForestRegressor(n_estimators=300, n_jobs=-1, random_state=0)
         model_X.fit(self.X, self.Y)
 
         kfold = model_selection.KFold(n_splits=splits)
