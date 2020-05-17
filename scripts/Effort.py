@@ -139,15 +139,19 @@ class Effort:
         if self.t_records <= splits:
           splits = self.t_records
 
-        kfold = model_selection.KFold(n_splits=splits)
-        results_kfold = model_selection.cross_val_score(self.model, self.X, self.Y, cv=kfold, n_jobs=-1)
-        self.r_squared_X = round(results_kfold.mean(), 2)
-        self.predictions_X = cross_val_predict(self.model, self.X, self.Y, cv=kfold)
+        model_X = RandomForestRegressor(n_estimators=300, n_jobs=-1)
+        model_X.fit(self.X, self.Y)
 
-        self.logger.info("{0} - {1} - {2} R2 Scores: {3}".format(self.project_name, self.task, self.type, results_kfold.round(2)))
-        self.logger.info("{0} - {1} - {2} R2 Accuracy: {3}".format(self.project_name, self.task, self.type, self.r_squared_X))
-        self.logger.info("{0} - {1} - {2} Prediction Count: {3}".format(self.project_name, self.task, self.type, len(self.Y)))
-        self.logger.info("{0} - {1} - {2} X-Validated Prediction Count: {3}".format(self.project_name, self.task, self.type, len(self.predictions_X)))
+        kfold = model_selection.KFold(n_splits=splits)
+        self.predictions_X = cross_val_predict(model_X, self.X, self.Y, cv=kfold)
+        # results_kfold = model_selection.cross_val_score(model_X, self.X, self.Y, cv=kfold, n_jobs=-1)
+        # self.r_squared_X = round(results_kfold.mean(), 2)
+
+
+        # self.logger.info("{0} - {1} - {2} R2 Scores: {3}".format(self.project_name, self.task, self.type, results_kfold.round(2)))
+        # self.logger.info("{0} - {1} - {2} R2 Accuracy: {3}".format(self.project_name, self.task, self.type, self.r_squared_X))
+        # self.logger.info("{0} - {1} - {2} Prediction Count: {3}".format(self.project_name, self.task, self.type, len(self.Y)))
+        # self.logger.info("{0} - {1} - {2} X-Validated Prediction Count: {3}".format(self.project_name, self.task, self.type, len(self.predictions_X)))
 
         results = self.calculate_diff()
         self.calculate_diff_x_validated()
