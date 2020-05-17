@@ -198,7 +198,7 @@ class iROIEstimator:
         self.roi_measures = pd.concat([self.roi_measures, roi_measures])
         self.roi_measures.to_csv(self.roi_measures_file, header=False, mode = 'a', index=False)
 
-project_list = c.OTHER_PROJECT_LIST
+project_list = c.PROJECT_LIST + c.OTHER_PROJECT_LIST
 # project_list = ["angular/linux"]
 
 for p in project_list:
