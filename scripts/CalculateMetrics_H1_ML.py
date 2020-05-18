@@ -19,6 +19,8 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn import model_selection
 from sklearn.model_selection import cross_val_predict
 from sklearn.model_selection import KFold
+import argparse
+os.environ["NUMEXPR_MAX_THREADS"] = "12"
 
 # BEGIN Functions
 def extractPerfMeasures(model, Y, predictions, results, X):
@@ -56,88 +58,88 @@ def compareResults(y_test, predictions):
 
 
 # BEGIN Main
-directoryPath = "exports"
-outputFile = "notebook/results/calculate_metrics_h1_ML_combined_05_17_2020.csv".format(directory=directoryPath)
+directoryPath = "scripts/exports"
+outputFile = "scripts/notebook/results/calculate_metrics_h1_ML_combined_05_18_2020.csv".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
 o_df = pd.DataFrame(columns=headers)
 
 if not os.path.isfile(outputFile):
   o_df.to_csv(outputFile, index=False)
 
-# for project in c.PROJECT_LIST + c.OTHER_PROJECT_LIST:
-# for project in ["angular/angular"]:
-for project in c.PROJECT_LIST:
-  project = project.split('/')[1]
-
-  # for task in ["BUG"]:
-  for task in c.TASK_LIST:
-
-    tasks = "{directoryPath}/{project_name}/{project_name}_dataset_{task}.csv".format(directoryPath=directoryPath, project_name=project, task = task)
-
-    # BEGIN Core Contributors
-    df = pd.read_csv(tasks)
-    df[c.DATE] = pd.to_datetime(df[c.DATE])
-    df = df.dropna(subset=[c.TASK])
-    df = df.dropna(subset=[c.T_MODULE])
-    # df.fillna(df.mean(), inplace=True)
-    if df.isna().values.any():
-      df.fillna(0, inplace=True)
-
-    df[c.NT] = df[c.NT_CC] + df[c.NT_EC]
-    df[c.NO] = df[c.NO_CC] + df[c.NO_EC]
-    df[c.LINE] = df[c.LINE_CC] + df[c.LINE_EC]
-    df[c.MODULE] = df[c.MODULE_CC] + df[c.MODULE_EC]
-    df[c.T_CONTRIBUTORS] = df[c.T_CC] + df[c.T_EC]
-
-    t_records = len(df)
-
-    # Edge case when < 2 tasks detected
-    if t_records < 2:
-        break
-
-    # Let's create multiple regression
-    print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.LINE))
-
-    X = df[[c.NT, c.NO]]
-    Y = df[c.LINE]
-    splits = 10
-    num_records = len(X)
-
-    if num_records <= splits:
-      splits = num_records
-
-    model = RandomForestRegressor(n_estimators=300, n_jobs=-1, random_state=0)
-    model.fit(X, Y)
-
-    kfold = model_selection.KFold(n_splits=splits)
-    predictions = cross_val_predict(model, X, Y, cv=kfold)
-    results = compareResults(Y, predictions)
-
-    r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, Y, predictions, results, X)
-    row_df_line = createDF(project, c.LINE, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records)
+parser = argparse.ArgumentParser(description='Calculate Metrics')
+parser.add_argument("--p")
+args = parser.parse_args()
+key = args.p[0:]
+project = key.split('/')[1]
 
 
-    # Let's create multiple regression
-    print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.MODULE))
-    X = df[[c.NT, c.NO, c.T_MODULE]]
-    Y = df[c.MODULE]
-    X_train, X_test, y_train, y_test = train_test_split(X, Y, train_size=0.75, test_size=0.25, random_state=0)
+for task in c.TASK_LIST:
 
-    model = RandomForestRegressor(n_estimators=300, n_jobs=-1, random_state=0)
-    model.fit(X, Y)
+  tasks = "{directoryPath}/{project_name}/{project_name}_dataset_{task}.csv".format(directoryPath=directoryPath, project_name=project, task = task)
 
-    kfold = model_selection.KFold(n_splits=splits)
-    predictions = cross_val_predict(model, X, Y, cv=kfold)
-    results = compareResults(Y, predictions)
+  # BEGIN Core Contributors
+  df = pd.read_csv(tasks)
+  df[c.DATE] = pd.to_datetime(df[c.DATE])
+  df = df.dropna(subset=[c.TASK])
+  # df = df.dropna(subset=[c.T_MODULE])
+  # df.fillna(df.mean(), inplace=True)
+  if df.isna().values.any():
+    df.fillna(0, inplace=True)
 
-    r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, Y, predictions, results, X)
-    row_df_module = createDF(project, c.MODULE, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records)
-    output = pd.concat([row_df_line, row_df_module])
+  df[c.NT] = df[c.NT_CC] + df[c.NT_EC] + df[c.NT_UC]
+  df[c.NO] = df[c.NO_CC] + df[c.NO_EC] + df[c.NO_UC]
+  df[c.LINE] = df[c.LINE_CC] + df[c.LINE_EC] + df[c.LINE_UC]
+  df[c.MODULE] = df[c.MODULE_CC] + df[c.MODULE_EC] + df[c.MODULE_UC]
+  df[c.T_CONTRIBUTORS] = df[c.T_CC] + df[c.T_EC] + df[c.T_UC] + 2
 
-    # END Core Contributors
+  t_records = len(df)
 
-    output.sort_values(by=[c.PROJECT, c.MODEL, c.TASK], inplace=True)
-    print(tabulate(output, headers=headers))
-    output.to_csv(outputFile, header=False, mode = 'a', index=False)
+  # Edge case when < 2 tasks detected
+  if t_records < 2:
+      break
+
+  # Let's create multiple regression
+  print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.LINE))
+
+  X = df[[c.NT, c.NO]]
+  Y = df[c.LINE]
+  splits = 10
+  num_records = len(X)
+
+  if num_records <= splits:
+    splits = num_records
+
+  model = RandomForestRegressor(n_estimators=300, n_jobs=-1, random_state=0)
+  model.fit(X, Y)
+
+  kfold = model_selection.KFold(n_splits=splits)
+  predictions = cross_val_predict(model, X, Y, cv=kfold)
+  results = compareResults(Y, predictions)
+
+  r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, Y, predictions, results, X)
+  row_df_line = createDF(project, c.LINE, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records)
+
+
+  # Let's create multiple regression
+  print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.MODULE))
+  X = df[[c.NT, c.NO, c.T_MODULE]]
+  Y = df[c.MODULE]
+
+  model = RandomForestRegressor(n_estimators=300, n_jobs=-1, random_state=0)
+  model.fit(X, Y)
+
+  kfold = model_selection.KFold(n_splits=splits)
+  predictions = cross_val_predict(model, X, Y, cv=kfold)
+  results = compareResults(Y, predictions)
+
+  r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, Y, predictions, results, X)
+  row_df_module = createDF(project, c.MODULE, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records)
+  output = pd.concat([row_df_line, row_df_module])
+
+  # END Core Contributors
+
+  output.sort_values(by=[c.PROJECT, c.MODEL, c.TASK], inplace=True)
+  print(tabulate(output, headers=headers))
+  output.to_csv(outputFile, header=False, mode = 'a', index=False)
 
 # END Main
