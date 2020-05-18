@@ -76,6 +76,8 @@ OTHER_PROJECT_LIST = [
     ,"AutoMapper/AutoMapper"
 ]
 
+ALL_PROJECTS = PROJECT_LIST + OTHER_PROJECT_LIST
+
 T_RECORDS = "T_Records"
 NT = "NT"
 NO = "NO"

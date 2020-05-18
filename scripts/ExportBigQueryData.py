@@ -12,7 +12,7 @@ def create_directory(name):
   except OSError as error:
       print(error)
 
-for project_name in c.OTHER_PROJECT_LIST:
+for project_name in c.ALL_PROJECTS:
 
   dir_name = repo = project_name.split('/')[1]
   outputDirectoryPath = "scripts/exports/{directory}".format(directory=dir_name)
@@ -28,9 +28,10 @@ for project_name in c.OTHER_PROJECT_LIST:
 
     client = bigquery.Client()
     sql = """
-        SELECT vm.Key as Project, vm.Version, vm.Release_Date as Date, cc.Task, cc.T_Module, cc.T_Line,
+        SELECT vm.Key as Project, vm.Version, vm.Release_Date as Date, uc.Task, uc.T_Module, uc.T_Line, 
         cc.N_T as NT_CC, cc.N_O as NO_CC, cc.Module as Module_CC, cc.Line as Line_CC, cc.Contributors as T_CC,
-        ec.N_T as NT_EC, ec.N_O as NO_EC, ec.Module as Module_EC, ec.Line as Line_EC, ec.Contributors as T_EC
+        ec.N_T as NT_EC, ec.N_O as NO_EC, ec.Module as Module_EC, ec.Line as Line_EC, ec.Contributors as T_EC,
+        uc.N_T as NT_UC, uc.N_O as NO_UC, uc.Module as Module_UC, uc.Line as Line_UC, uc.Contributors as T_UC
         FROM `praxis.repo_version_metrics` as vm
         LEFT JOIN
         (
@@ -48,6 +49,14 @@ for project_name in c.OTHER_PROJECT_LIST:
         AND Task = @task_name
         ) AS ec
         ON ec.Project = vm.Key AND ec.Version = vm.Version
+        LEFT JOIN
+        (
+        SELECT * 
+        FROM `praxis.uk_commit_tasks`
+        WHERE Project = @project_name
+        AND Task = @task_type 
+        ) AS uc
+        ON uc.Project = vm.Key AND uc.Version = vm.Version
         WHERE vm.Key = @project_name
 
         ORDER BY vm.Key, vm.Release_Date, vm.T_Line, IFNULL(cc.Task, 'Z') ASC, vm.Version DESC
