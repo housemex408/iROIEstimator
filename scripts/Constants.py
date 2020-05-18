@@ -97,6 +97,13 @@ MODULE_EC = "Module_EC"
 LINE_EC = "Line_EC"
 T_EC = "T_EC"
 
+# unknown contributor
+NT_UC = "NT_UC"
+NO_UC = "NO_UC"
+MODULE_UC = "Module_UC"
+LINE_UC = "Line_UC"
+T_UC = "T_UC"
+
 # data analysis dynamic columns
 OBSERVED = "Observed"
 PREDICTED = "Predicted"
