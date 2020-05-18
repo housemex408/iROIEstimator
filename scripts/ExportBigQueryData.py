@@ -36,7 +36,7 @@ for project_name in c.ALL_PROJECTS:
         LEFT JOIN
         (
         SELECT *
-        FROM `praxis.cc_commit_tasks`
+        FROM `praxis.ccc_commit_tasks`
         WHERE Project = @project_name
         AND Task = @task_name
         ) AS cc
@@ -44,7 +44,7 @@ for project_name in c.ALL_PROJECTS:
         LEFT JOIN
         (
         SELECT *
-        FROM `praxis.ec_commit_tasks`
+        FROM `praxis.ecc_commit_tasks`
         WHERE Project = @project_name
         AND Task = @task_name
         ) AS ec
@@ -54,7 +54,7 @@ for project_name in c.ALL_PROJECTS:
         SELECT * 
         FROM `praxis.uk_commit_tasks`
         WHERE Project = @project_name
-        AND Task = @task_type 
+        AND Task = @task_name 
         ) AS uc
         ON uc.Project = vm.Key AND uc.Version = vm.Version
         WHERE vm.Key = @project_name
