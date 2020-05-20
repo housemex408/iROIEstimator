@@ -9,7 +9,7 @@ import Constants as c
 
 projects = []
 repos = c.ALL_PROJECTS
-# repos = ["angular/angular"]
+# repos = ["angular/linux"]
 
 for repo in repos:
     projects.append("python ./scripts/CalculateMetrics_H1.py --p={repo}".format(repo=repo))

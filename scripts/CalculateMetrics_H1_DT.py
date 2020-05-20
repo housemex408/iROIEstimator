@@ -15,10 +15,11 @@ from tabulate import tabulate
 sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
-import argparse
+from sklearn.tree import DecisionTreeRegressor
 from sklearn import model_selection
 from sklearn.model_selection import cross_val_predict
 from sklearn.model_selection import KFold
+import argparse
 os.environ["NUMEXPR_MAX_THREADS"] = "12"
 
 # BEGIN Functions
@@ -60,7 +61,7 @@ def compareResults(y_test, predictions):
 
 # BEGIN Main
 directoryPath = "scripts/exports"
-outputFile = "scripts/notebook/results/calculate_metrics_h1_combined_05_19_2020_semver.csv".format(directory=directoryPath)
+outputFile = "scripts/notebook/results/calculate_metrics_h1_DT_combined_05_19_2020_semver.csv".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS, c.D_RECORDS, c.P_NA]
 o_df = pd.DataFrame(columns=headers)
 
@@ -72,7 +73,7 @@ parser.add_argument("--p")
 args = parser.parse_args()
 key = args.p[0:]
 project = key.split('/')[1]
-# project = 'linux'
+
 
 for task in c.TASK_LIST:
 
@@ -80,6 +81,7 @@ for task in c.TASK_LIST:
 
   # BEGIN Core Contributors
   df = pd.read_csv(tasks)
+
   i_records = len(df)
 
   df.dropna(
@@ -92,11 +94,6 @@ for task in c.TASK_LIST:
 
   if df.isna().values.any():
     df.fillna(0, inplace=True)
-
-  # df = utils.remove_outlier(df, c.LINE_CC)
-  # df = utils.remove_outlier(df, c.MODULE_CC)
-  # df = utils.remove_outlier(df, c.LINE_EC)
-  # df = utils.remove_outlier(df, c.MODULE_EC)
 
   df[c.NT] = df[c.NT_CC] + df[c.NT_EC] + df[c.NT_UC]
   df[c.NO] = df[c.NO_CC] + df[c.NO_EC] + df[c.NO_UC]
@@ -111,18 +108,17 @@ for task in c.TASK_LIST:
       continue
 
   # Let's create multiple regression
-  X = df[[c.NT, c.NO]]
-  Y = df[c.LINE]
+  print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.LINE))
 
+  X = df[[c.NT, c.NO, c.T_LINE]]
+  Y = df[c.LINE]
   splits = 10
   num_records = len(X)
 
   if num_records <= splits:
     splits = num_records
 
-  print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.LINE))
-
-  model = LinearRegression()
+  model = DecisionTreeRegressor(random_state=0)
   model.fit(X, Y)
 
   kfold = model_selection.KFold(n_splits=splits)
@@ -132,13 +128,13 @@ for task in c.TASK_LIST:
   r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, Y, predictions, results, X)
   row_df_line = createDF(project, c.LINE, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records, i_records - t_records, p_na)
 
+
   # Let's create multiple regression
+  print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.MODULE))
   X = df[[c.NT, c.NO, c.T_MODULE]]
   Y = df[c.MODULE]
 
-  print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.MODULE))
-
-  model = LinearRegression()
+  model = DecisionTreeRegressor(random_state=0)
   model.fit(X, Y)
 
   kfold = model_selection.KFold(n_splits=splits)
