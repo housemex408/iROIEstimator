@@ -28,7 +28,7 @@ for project_name in c.ALL_PROJECTS:
 
     client = bigquery.Client()
     sql = """
-        SELECT vm.Key as Project, vm.Version, vm.Release_Date as Date, uc.Task, uc.T_Module, uc.T_Line, 
+        SELECT vm.Key as Project, vm.Version, vm.Release_Date as Date, "{0}", vm.T_Module, vm.T_Line, 
         cc.N_T as NT_CC, cc.N_O as NO_CC, cc.Module as Module_CC, cc.Line as Line_CC, cc.Contributors as T_CC,
         ec.N_T as NT_EC, ec.N_O as NO_EC, ec.Module as Module_EC, ec.Line as Line_EC, ec.Contributors as T_EC,
         uc.N_T as NT_UC, uc.N_O as NO_UC, uc.Module as Module_UC, uc.Line as Line_UC, uc.Contributors as T_UC
@@ -60,7 +60,7 @@ for project_name in c.ALL_PROJECTS:
         WHERE vm.Key = @project_name
 
         ORDER BY vm.Key, vm.Release_Date, vm.T_Line, IFNULL(cc.Task, 'Z') ASC, vm.Version DESC
-    """
+    """.format(task_name)
     query_config = bigquery.QueryJobConfig(
         query_parameters=[
             bigquery.ScalarQueryParameter("project_name", "STRING", project_name),
