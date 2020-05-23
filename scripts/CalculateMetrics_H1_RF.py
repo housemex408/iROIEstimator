@@ -59,7 +59,7 @@ def compareResults(y_test, predictions):
 
 # BEGIN Main
 directoryPath = "scripts/exports"
-outputFile = "scripts/notebook/results/calculate_metrics_h1_ML_combined_05_18_2020.csv".format(directory=directoryPath)
+outputFile = "scripts/notebook/results/calculate_metrics_h1_ML_combined_05_19_2020.csv".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
 o_df = pd.DataFrame(columns=headers)
 
@@ -79,8 +79,8 @@ for task in c.TASK_LIST:
 
   # BEGIN Core Contributors
   df = pd.read_csv(tasks)
-  df[c.DATE] = pd.to_datetime(df[c.DATE])
   df = df.dropna(subset=[c.TASK])
+  df = utils.isRegularVersion(df)
   # df = df.dropna(subset=[c.T_MODULE])
   # df.fillna(df.mean(), inplace=True)
   if df.isna().values.any():
@@ -96,7 +96,7 @@ for task in c.TASK_LIST:
 
   # Edge case when < 2 tasks detected
   if t_records < 2:
-      break
+      continue
 
   # Let's create multiple regression
   print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.LINE))

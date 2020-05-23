@@ -6,6 +6,11 @@ from scipy.stats import ttest_1samp
 from scipy.stats import shapiro
 from statsmodels.stats.descriptivestats import sign_test
 from statsmodels.stats import weightstats as stests
+import os
+import sys
+sys.path.append(os.path.abspath(__file__))
+import Utilities as utils
+import Constants as c
 
 def calculate_PRED(percentage, dataFrame, percent_error_key):
     countLessPercent = dataFrame[dataFrame[percent_error_key] < percentage][percent_error_key]
@@ -18,11 +23,10 @@ def format_PRED(percentage, value):
 def format_perf_metric(label, value):
     return "{0}: {1}".format(label, round(value, 2))
 
-def isRegularVersion(value):
-    result = re.findall(r"^[v]{0,1}\d{1,2}\.\d{1,2}\.\d{1,2}[\.\d{1,2}]{0,2}", value)
-    if(result.__len__ == 0):
-        return False
-    return result[0] == value
+def isRegularVersion(df):
+    version_regex = r"^[v]{0,1}\d{1,2}\.\d{1,2}[\.\d{1,2}]{0,2}[\.\d{1,2}]{0,2}$"
+    result = df[df[c.VERSION].str.match(version_regex)== True]
+    return result
 
 # https://stackoverflow.com/questions/23199796/detect-and-exclude-outliers-in-pandas-data-frame
 def remove_outlier(df_in, col_name):
@@ -59,6 +63,12 @@ def is_all_same(s):
     if value != s_mean:
       all_same = False
   return all_same
+
+def percentage_nan(df):
+  nans = df.size - df.count().sum()
+  all = df.count().sum() + nans
+  p_na = round(1 - (all - nans) / all, 3)
+  return p_na
 
 def gaussian_test(data, alpha):
   stat, p = shapiro(data)

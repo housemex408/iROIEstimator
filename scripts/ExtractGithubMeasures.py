@@ -29,7 +29,7 @@ create_directory(tempDirectory)
 
 # get all versions
 versions = open(versionsFile, "w")
-header = 'Key,Version,Release Date\n'
+header = 'Key,Version,Release_Date\n'
 versions.write(header)
 versions.close()
 getTags = "git for-each-ref --format '%(refname:lstrip=2) %(creatordate:short)' refs/tags  --sort=creatordate | awk 'BEGIN {{OFS=\",\";}} {{print \"{key}\", $1, $2}}' >> {versionsFile}".format(key = key, versionsFile = versionsFile)
@@ -49,7 +49,7 @@ versionCommitsMsg.close()
 
 tags = open(versionsFile, 'r')
 data_analysis = open(versionMetricsFile, "w")
-header = 'Key,Version,NC,NO,E_Module,E_Line,T_Module,T_Line,Release Date'
+header = 'Key,Version,NC,NO,E_Module,E_Line,T_Module,T_Line,Release_Date'
 data_analysis.write(header)
 
 class Tag(object):
