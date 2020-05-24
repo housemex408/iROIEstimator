@@ -61,7 +61,7 @@ def compareResults(y_test, predictions):
 
 # BEGIN Main
 directoryPath = "scripts/exports"
-outputFile = "scripts/notebook/results/calculate_metrics_h1_DT_combined_05_19_2020_semver.csv".format(directory=directoryPath)
+outputFile = "scripts/notebook/results/calculate_metrics_h1_DT_combined_05_24_2020".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS, c.D_RECORDS, c.P_NA]
 o_df = pd.DataFrame(columns=headers)
 
@@ -113,7 +113,7 @@ for task in c.TASK_LIST:
   # Let's create multiple regression
   print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.LINE))
 
-  X = df[[c.NT, c.NO, c.T_LINE, c.T_CONTRIBUTORS]]
+  X = df[[c.NT, c.NO, c.T_LINE, c.T_MODULE, c.T_CONTRIBUTORS]]
   Y = df[c.LINE]
   splits = 10
   num_records = len(X)
@@ -134,7 +134,7 @@ for task in c.TASK_LIST:
 
   # Let's create multiple regression
   print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.MODULE))
-  X = df[[c.NT, c.NO, c.T_LINE, c.T_CONTRIBUTORS]]
+  X = df[[c.NT, c.NO, c.T_LINE, c.T_MODULE, c.T_CONTRIBUTORS]]
   Y = df[c.MODULE]
 
   model = DecisionTreeRegressor(random_state=0)
