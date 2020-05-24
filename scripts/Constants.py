@@ -136,3 +136,10 @@ AMOUNT_RETURNED = "Amount_Returned"
 INVESTMENT_GAIN = "Investment_Gain"
 ROI = "ROI"
 ANNUALIZED_ROI = "Annualized_ROI"
+
+# PR fields
+CONTRIBUTIONS = "Contributions"
+CONTRIBUTORS = "Contributors"
+COMMENTS = "Comments"
+COMMENTERS = "Commenters"
+T_COMMITS = "T_Commits"
