@@ -82,11 +82,11 @@ for task in c.TASK_LIST:
   df = pd.read_csv(tasks)
   i_records = len(df)
 
-  df.dropna(
-    subset=[c.NT_CC, c.NT_EC, c.NT_UC, c.NO_CC, c.NO_EC, c.NO_UC, c.LINE_CC, c.LINE_EC, c.LINE_UC, c.MODULE_CC, c.MODULE_EC, c.MODULE_UC]
-    , thresh=12)
+  # df.dropna(
+  #   subset=[c.NT_CC, c.NT_EC, c.NT_UC, c.NO_CC, c.NO_EC, c.NO_UC, c.LINE_CC, c.LINE_EC, c.LINE_UC, c.MODULE_CC, c.MODULE_EC, c.MODULE_UC]
+  #   , thresh=12)
 
-  df = utils.isRegularVersion(df)
+  # df = utils.isRegularVersion(df)
 
   p_na = utils.percentage_nan(df)
 
@@ -104,6 +104,9 @@ for task in c.TASK_LIST:
   df[c.MODULE] = df[c.MODULE_CC] + df[c.MODULE_EC] + df[c.MODULE_UC]
   df[c.T_CONTRIBUTORS] = df[c.T_CC] + df[c.T_EC] + df[c.T_UC] + 2
 
+  df[c.T_MODULE] = utils.standardize(df, c.T_MODULE)
+  df[c.T_LINE] = utils.standardize(df, c.LINE)
+
   t_records = len(df)
 
   # Edge case when < 2 tasks detected
@@ -111,7 +114,7 @@ for task in c.TASK_LIST:
       continue
 
   # Let's create multiple regression
-  X = df[[c.NT, c.NO]]
+  X = df[[c.NT, c.NO, c.T_LINE, c.T_MODULE, c.T_CONTRIBUTORS]]
   Y = df[c.LINE]
 
   splits = 10
@@ -133,7 +136,7 @@ for task in c.TASK_LIST:
   row_df_line = createDF(project, c.LINE, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records, i_records - t_records, p_na)
 
   # Let's create multiple regression
-  X = df[[c.NT, c.NO, c.T_MODULE]]
+  X = df[[c.NT, c.NO, c.T_LINE, c.T_MODULE, c.T_CONTRIBUTORS]]
   Y = df[c.MODULE]
 
   print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.MODULE))

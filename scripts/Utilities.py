@@ -12,6 +12,12 @@ sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
 
+def normalize(df, field):
+    return (df[field] - df[field].min()) / (df[field].max() - df[field].min())
+
+def standardize(df, field):
+    return (df[field] - df[field].mean()) / df[field].std()
+
 def calculate_PRED(percentage, dataFrame, percent_error_key):
     countLessPercent = dataFrame[dataFrame[percent_error_key] < percentage][percent_error_key]
     pred = countLessPercent.count() / dataFrame[percent_error_key].count()
