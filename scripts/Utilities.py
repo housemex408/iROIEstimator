@@ -1,4 +1,5 @@
 import re
+import numpy as np
 import pandas as pd
 import logging
 import logging.handlers
@@ -11,12 +12,18 @@ import sys
 sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
+from sklearn import preprocessing
 
 def normalize(df, field):
     return (df[field] - df[field].min()) / (df[field].max() - df[field].min())
 
 def standardize(df, field):
-    return (df[field] - df[field].mean()) / df[field].std()
+    data = np.reshape(df[field], (1, df[field].size))
+    min_max_scaler = preprocessing.MinMaxScaler()
+    x_scaled = min_max_scaler.fit_transform(data)
+    n_test = pd.DataFrame(x_scaled, columns=[field])
+    return
+    # return (df[field] - df[field].mean()) / df[field].std()
 
 def calculate_PRED(percentage, dataFrame, percent_error_key):
     countLessPercent = dataFrame[dataFrame[percent_error_key] < percentage][percent_error_key]
