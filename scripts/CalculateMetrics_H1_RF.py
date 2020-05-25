@@ -52,6 +52,7 @@ def createDF(project_name, model, task, r_squared, r_squared_adj, mae, mse, rmse
 def compareResults(y_test, predictions):
   data = {c.OBSERVED:y_test, c.PREDICTED:predictions.round(2), c.DIFFERENCE:abs(y_test - predictions).round(2), c.PERCENT_ERROR:(abs(y_test - predictions)/y_test).round(2)}
   results = pd.DataFrame(data)
+  results[c.PERCENT_ERROR].fillna(0, inplace=True)
   return results
 
 # END Functions
@@ -59,7 +60,7 @@ def compareResults(y_test, predictions):
 
 # BEGIN Main
 directoryPath = "scripts/exports"
-outputFile = "scripts/notebook/results/calculate_metrics_h1_RF_combined_05_24_2020.csv".format(directory=directoryPath)
+outputFile = "scripts/notebook/results/calculate_metrics_h1_RF_combined_05_25_2020.csv".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
 o_df = pd.DataFrame(columns=headers)
 
@@ -95,8 +96,8 @@ for task in c.TASK_LIST:
   df[c.MODULE] = df[c.MODULE_CC] + df[c.MODULE_EC] + df[c.MODULE_UC]
   df[c.T_CONTRIBUTORS] = df[c.T_CC] + df[c.T_EC] + df[c.T_UC] + 2
 
-  df[c.T_MODULE] = utils.standardize(df, c.T_MODULE)
-  df[c.T_LINE] = utils.standardize(df, c.LINE)
+  # df[c.T_MODULE] = utils.standardize(df, c.T_MODULE)
+  # df[c.T_LINE] = utils.standardize(df, c.LINE)
 
   t_records = len(df)
 
@@ -107,7 +108,7 @@ for task in c.TASK_LIST:
   # Let's create multiple regression
   print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.LINE))
 
-  X = df[[c.NT, c.NO, c.T_LINE, c.T_MODULE, c.T_CONTRIBUTORS]]
+  X = df[[c.NT, c.NO, c.T_CONTRIBUTORS]]
   Y = df[c.LINE]
   splits = 10
   num_records = len(X)
@@ -128,7 +129,7 @@ for task in c.TASK_LIST:
 
   # Let's create multiple regression
   print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.MODULE))
-  X = df[[c.NT, c.NO, c.T_LINE, c.T_MODULE, c.T_CONTRIBUTORS]]
+  X = df[[c.NT, c.NO, c.T_CONTRIBUTORS]]
   Y = df[c.MODULE]
 
   model = RandomForestRegressor(n_estimators=300, n_jobs=-1, random_state=0)

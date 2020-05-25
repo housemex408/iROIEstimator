@@ -6,6 +6,7 @@ import sys
 sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
+os.environ["NUMEXPR_MAX_THREADS"] = "12"
 
 projects = []
 repos = c.ALL_PROJECTS
@@ -14,7 +15,7 @@ repos = c.ALL_PROJECTS
 for repo in repos:
     projects.append("python ./scripts/CalculateMetrics_H1_DT.py --p={repo}".format(repo=repo))
 
-max_workers = 8
+max_workers = 12
 processes = (Popen(cmd, shell=True) for cmd in projects)
 running_processes = list(islice(processes, max_workers))  # start new processes
 while running_processes:

@@ -16,10 +16,13 @@ sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.preprocessing import RobustScaler
+from sklearn.compose import TransformedTargetRegressor
 from sklearn import model_selection
 from sklearn.model_selection import cross_val_predict
 from sklearn.model_selection import KFold
 import argparse
+from Scaler import Scaler
 os.environ["NUMEXPR_MAX_THREADS"] = "12"
 
 # BEGIN Functions
@@ -54,6 +57,7 @@ def createDF(project_name, model, task, r_squared, r_squared_adj, mae, mse, rmse
 def compareResults(y_test, predictions):
   data = {c.OBSERVED:y_test, c.PREDICTED:predictions.round(2), c.DIFFERENCE:abs(y_test - predictions).round(2), c.PERCENT_ERROR:(abs(y_test - predictions)/y_test).round(2)}
   results = pd.DataFrame(data)
+  results[c.PERCENT_ERROR].fillna(0, inplace=True)
   return results
 
 # END Functions
@@ -61,7 +65,7 @@ def compareResults(y_test, predictions):
 
 # BEGIN Main
 directoryPath = "scripts/exports"
-outputFile = "scripts/notebook/results/calculate_metrics_h1_DT_combined_05_24_2020".format(directory=directoryPath)
+outputFile = "scripts/notebook/results/calculate_metrics_h1_DT_combined_05_26_2020.csv".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS, c.D_RECORDS, c.P_NA]
 o_df = pd.DataFrame(columns=headers)
 
@@ -101,8 +105,16 @@ for task in c.TASK_LIST:
   df[c.MODULE] = df[c.MODULE_CC] + df[c.MODULE_EC] + df[c.MODULE_UC]
   df[c.T_CONTRIBUTORS] = df[c.T_CC] + df[c.T_EC] + df[c.T_UC] + 2
 
-  df[c.T_MODULE] = utils.standardize(df, c.T_MODULE)
-  df[c.T_LINE] = utils.standardize(df, c.LINE)
+  NT_Scaler = Scaler(df[c.NT])
+  NO_Scaler = Scaler(df[c.NO])
+  T_C_Scaler = Scaler(df[c.T_CONTRIBUTORS])
+
+  data = {
+      c.NT: NT_Scaler.transform(),
+      c.NO: NO_Scaler.transform(),
+      c.T_CONTRIBUTORS: T_C_Scaler.transform()
+  }
+  df_scaled = pd.DataFrame(data)
 
   t_records = len(df)
 
@@ -113,7 +125,7 @@ for task in c.TASK_LIST:
   # Let's create multiple regression
   print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.LINE))
 
-  X = df[[c.NT, c.NO, c.T_LINE, c.T_MODULE, c.T_CONTRIBUTORS]]
+  X = df_scaled[[c.NT, c.NO, c.T_CONTRIBUTORS]]
   Y = df[c.LINE]
   splits = 10
   num_records = len(X)
@@ -121,7 +133,8 @@ for task in c.TASK_LIST:
   if num_records <= splits:
     splits = num_records
 
-  model = DecisionTreeRegressor(random_state=0)
+  regress = DecisionTreeRegressor(random_state=0)
+  model = TransformedTargetRegressor(regressor=regress,transformer=RobustScaler())
   model.fit(X, Y)
 
   kfold = model_selection.KFold(n_splits=splits)
@@ -134,10 +147,11 @@ for task in c.TASK_LIST:
 
   # Let's create multiple regression
   print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.MODULE))
-  X = df[[c.NT, c.NO, c.T_LINE, c.T_MODULE, c.T_CONTRIBUTORS]]
+  X = df_scaled[[c.NT, c.NO, c.T_CONTRIBUTORS]]
   Y = df[c.MODULE]
 
-  model = DecisionTreeRegressor(random_state=0)
+  regress = DecisionTreeRegressor(random_state=0)
+  model = TransformedTargetRegressor(regressor=regress,transformer=RobustScaler())
   model.fit(X, Y)
 
   kfold = model_selection.KFold(n_splits=splits)
