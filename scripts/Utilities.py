@@ -14,16 +14,30 @@ import Utilities as utils
 import Constants as c
 from sklearn import preprocessing
 
+def hot_encode(df, field):
+    encoded_columns = pd.get_dummies(df[field])
+    # print(encoded_columns)
+    df = pd.concat([df,encoded_columns], axis=1)
+    df.drop([field],axis=1, inplace=True)
+    return df
+
+def log_transform(df, field):
+    return np.log1p(df[field])
+    # return (df[field]+1).transform(np.log)
+
+def reverse_log_transform(df):
+    return np.expm1(df)
+
 def normalize(df, field):
     return (df[field] - df[field].min()) / (df[field].max() - df[field].min())
 
 def standardize(df, field):
-    data = np.reshape(df[field], (1, df[field].size))
-    min_max_scaler = preprocessing.MinMaxScaler()
-    x_scaled = min_max_scaler.fit_transform(data)
-    n_test = pd.DataFrame(x_scaled, columns=[field])
+    # data = np.reshape(df[field], (1, df[field].size))
+    # min_max_scaler = preprocessing.MinMaxScaler()
+    # x_scaled = min_max_scaler.fit_transform(data)
+    # n_test = pd.DataFrame(x_scaled, columns=[field])
     return
-    # return (df[field] - df[field].mean()) / df[field].std()
+    return (df[field] - df[field].mean()) / df[field].std()
 
 def calculate_PRED(percentage, dataFrame, percent_error_key):
     countLessPercent = dataFrame[dataFrame[percent_error_key] < percentage][percent_error_key]
