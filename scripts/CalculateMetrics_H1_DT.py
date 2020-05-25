@@ -23,7 +23,7 @@ from sklearn.model_selection import cross_val_predict
 from sklearn.model_selection import KFold
 import argparse
 from Scaler import Scaler
-os.environ["NUMEXPR_MAX_THREADS"] = "12"
+# os.environ["NUMEXPR_MAX_THREADS"] = "12"
 
 # BEGIN Functions
 def extractPerfMeasures(model, Y, predictions, results, X):
@@ -54,8 +54,12 @@ def createDF(project_name, model, task, r_squared, r_squared_adj, mae, mse, rmse
   return row_df
 
 
-def compareResults(y_test, predictions):
-  data = {c.OBSERVED:y_test, c.PREDICTED:predictions.round(2), c.DIFFERENCE:abs(y_test - predictions).round(2), c.PERCENT_ERROR:(abs(y_test - predictions)/y_test).round(2)}
+def compareResults(Y, predictions):
+  data = {}
+  data[c.OBSERVED] = Y.round(2)
+  data[c.PREDICTED] = predictions.round(2)
+  data[c.DIFFERENCE] = abs(Y - predictions).round(2)
+  data[c.PERCENT_ERROR] = (abs(Y - predictions)/Y).round(2)
   results = pd.DataFrame(data)
   results[c.PERCENT_ERROR].fillna(0, inplace=True)
   return results
@@ -87,10 +91,6 @@ for task in c.TASK_LIST:
   df = pd.read_csv(tasks)
 
   i_records = len(df)
-
-  # df.dropna(
-  #   subset=[c.NT_CC, c.NT_EC, c.NT_UC, c.NO_CC, c.NO_EC, c.NO_UC, c.LINE_CC, c.LINE_EC, c.LINE_UC, c.MODULE_CC, c.MODULE_EC, c.MODULE_UC]
-  #   , thresh=12)
 
   # df = utils.isRegularVersion(df)
 
@@ -136,7 +136,6 @@ for task in c.TASK_LIST:
   regress = DecisionTreeRegressor(random_state=0)
   model = TransformedTargetRegressor(regressor=regress,transformer=RobustScaler())
   model.fit(X, Y)
-
   kfold = model_selection.KFold(n_splits=splits)
   predictions = cross_val_predict(model, X, Y, cv=kfold)
   results = compareResults(Y, predictions)
@@ -153,7 +152,6 @@ for task in c.TASK_LIST:
   regress = DecisionTreeRegressor(random_state=0)
   model = TransformedTargetRegressor(regressor=regress,transformer=RobustScaler())
   model.fit(X, Y)
-
   kfold = model_selection.KFold(n_splits=splits)
   predictions = cross_val_predict(model, X, Y, cv=kfold)
   results = compareResults(Y, predictions)
