@@ -13,7 +13,7 @@ repos = c.ALL_PROJECTS
 # repos = ["angular/angular"]
 
 for repo in repos:
-    projects.append("python ./scripts/CalculateMetrics_H1_DT.py --p={repo}".format(repo=repo))
+    projects.append("python ./scripts/CalculateMetrics_H2.py --p={repo}".format(repo=repo))
 
 max_workers = 12
 processes = (Popen(cmd, shell=True) for cmd in projects)

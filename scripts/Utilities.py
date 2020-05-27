@@ -99,7 +99,7 @@ def percentage_nan(df):
 
 def gaussian_test(data, alpha):
   stat, p = shapiro(data)
-  print("Shapiro p-value: ", round(p, 4))
+  print("Shapiro p-value: ", p)
 
   is_gaussian = True
 
@@ -115,7 +115,7 @@ def one_sample_t_test(data, mean, alpha):
   model_records_mean = round(data.mean(),2)
 
   ttest_result = ttest_1samp(data, mean)
-  print("One Sample T-test p-value: ", round(ttest_result.pvalue, 4))
+  print("One Sample T-test p-value: ", ttest_result.pvalue)
 
   if ttest_result.pvalue > alpha:
       print("One Sample T-Test: {0} sample mean is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
@@ -126,7 +126,7 @@ def one_sample_z_test(data, mean, alpha):
   model_records_mean = round(data.mean(),2)
 
   tstat, pvalue = stests.ztest(data, x2=None, value=mean, alternative='smaller')
-  print("One Sample Z-test p-value: ", round(pvalue, 4))
+  print("One Sample Z-test p-value: ", pvalue)
 
   if pvalue > alpha:
       print("One Sample Z-Test: {0} sample mean is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
@@ -138,7 +138,7 @@ def one_sample_sign_test(data, mean, alpha):
 
   # pvalue  = sign_test(data, mean)[1]
   z_statistic, pvalue = wilcoxon(data - mean, alternative='less')
-  print("One Sample Sign Test p-value: ", round(pvalue, 4))
+  print("One Sample Sign Test p-value: ", pvalue)
 
   if pvalue > alpha:
       print("One Sample Sign Test: {0} sample median is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))

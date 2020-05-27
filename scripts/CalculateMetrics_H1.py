@@ -1,25 +1,59 @@
-from IPython import get_ipython
 import numpy as np
 import pandas as pd
-import scipy.stats as st
-import matplotlib.pyplot as plt
 import os
 import sys
-import statsmodels as sm
-import statsmodels.api as smapi
-import statsmodels.regression.linear_model as lm
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from tabulate import tabulate
 sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
-import argparse
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import ExtraTreesRegressor
+from sklearn.preprocessing import RobustScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.compose import TransformedTargetRegressor
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.preprocessing import FunctionTransformer
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.pipeline import Pipeline
 from sklearn import model_selection
+from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import cross_val_predict
 from sklearn.model_selection import KFold
+from sklearn.model_selection import GridSearchCV
+from sklearn.kernel_ridge import KernelRidge
+from sklearn.neural_network import MLPRegressor
+from sklearn.isotonic import IsotonicRegression
+from sklearn.preprocessing import QuantileTransformer
+from sklearn.svm import SVR
+import argparse
 os.environ["NUMEXPR_MAX_THREADS"] = "12"
+
+regressors = {
+  "DecisionTreeRegressor": DecisionTreeRegressor(random_state=0),
+  "RandomForestRegressor": RandomForestRegressor(random_state=0),
+  "AdaBoostRegressor": AdaBoostRegressor(random_state=0),
+  "GradientBoostingRegressor": GradientBoostingRegressor(random_state=0),
+  "ExtraTreesRegressor": ExtraTreesRegressor(random_state=0),
+  "KNeighborsRegressor": KNeighborsRegressor(),
+  "IsotonicRegression": IsotonicRegression(),
+  "KernelRidge": KernelRidge(),
+  "MLPRegressor": MLPRegressor(random_state=0),
+  "SVR": SVR(),
+  "LinearRegression": LinearRegression(),
+}
+
+transformers = {
+  "RobustScaler": RobustScaler(),
+  "StandardScaler": StandardScaler(),
+  "MinMaxScaler": MinMaxScaler(),
+  "QuantileTransformer": QuantileTransformer()
+}
+
+regressor = regressors["RandomForestRegressor"]
+transformer = transformers["QuantileTransformer"]
 
 # BEGIN Functions
 def extractPerfMeasures(model, Y, predictions, results, X):
@@ -50,17 +84,53 @@ def createDF(project_name, model, task, r_squared, r_squared_adj, mae, mse, rmse
   return row_df
 
 
-def compareResults(y_test, predictions):
-  data = {c.OBSERVED:y_test, c.PREDICTED:predictions.round(2), c.DIFFERENCE:abs(y_test - predictions).round(2), c.PERCENT_ERROR:(abs(y_test - predictions)/y_test).round(2)}
+def compareResults(Y, predictions):
+  data = {}
+  data[c.OBSERVED] = Y.round(2)
+  data[c.PREDICTED] = predictions.round(2)
+  data[c.DIFFERENCE] = abs(Y - predictions).round(2)
+  data[c.PERCENT_ERROR] = (abs(Y - predictions)/Y).round(2)
   results = pd.DataFrame(data)
+  results[c.PERCENT_ERROR].fillna(0, inplace=True)
+  results[c.PERCENT_ERROR].replace(np.inf, 0, inplace=True)
   return results
 
+def calculate_effort(X, Y, project, task, model_type, transformer, regressor):
+
+  dummy_df = X.copy()
+  dummy_df["Y"] = Y
+  p_na = utils.percentage_nan(X)
+
+  X.fillna(0, inplace=True)
+  Y.fillna(0, inplace=True)
+
+  # Let's create multiple regression
+  print("\n{0} - {1} - {2} model performance: \n".format(project, task, model_type))
+
+  splits = 10
+  num_records = len(X)
+
+  if num_records <= splits:
+    splits = num_records
+
+  pipeline = Pipeline(steps=[('scaler', transformer), ('predictor', regressor)])
+  model = TransformedTargetRegressor(regressor=pipeline, transformer=transformer)
+  model.fit(X, Y)
+
+  kfold = model_selection.KFold(n_splits=splits)
+  predictions = cross_val_predict(model, X, Y, cv=kfold)
+  results = compareResults(Y, predictions)
+
+  r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, Y, predictions, results, X)
+  row = createDF(project, model_type, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records, i_records - t_records, p_na)
+
+  return row
 # END Functions
 
 
 # BEGIN Main
 directoryPath = "scripts/exports"
-outputFile = "scripts/notebook/results/calculate_metrics_h1_combined_05_23_2020.csv".format(directory=directoryPath)
+outputFile = "scripts/notebook/results/calculate_metrics_h1_DT_05_27_2020.csv".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS, c.D_RECORDS, c.P_NA]
 o_df = pd.DataFrame(columns=headers)
 
@@ -72,7 +142,9 @@ parser.add_argument("--p")
 args = parser.parse_args()
 key = args.p[0:]
 project = key.split('/')[1]
-# project = 'linux'
+# project = "angular"
+
+# for task in ["BUG"]:
 
 for task in c.TASK_LIST:
 
@@ -80,32 +152,21 @@ for task in c.TASK_LIST:
 
   # BEGIN Core Contributors
   df = pd.read_csv(tasks)
-  i_records = len(df)
 
-  # df.dropna(
-  #   subset=[c.NT_CC, c.NT_EC, c.NT_UC, c.NO_CC, c.NO_EC, c.NO_UC, c.LINE_CC, c.LINE_EC, c.LINE_UC, c.MODULE_CC, c.MODULE_EC, c.MODULE_UC]
-  #   , thresh=12)
+  i_records = len(df)
 
   # df = utils.isRegularVersion(df)
 
-  p_na = utils.percentage_nan(df)
+  # df[c.NT] = df[[c.NT_CC, c.NT_EC, c.NT_UC]].sum(axis=1)
+  # df[c.NO] = df[[c.NO_CC, c.NO_EC, c.NO_UC]].sum(axis=1)
+  # df[c.LINE] = df[[c.LINE_CC, c.LINE_EC, c.LINE_UC]].sum(axis=1)
+  # df[c.MODULE] = df[[c.MODULE_CC, c.MODULE_EC, c.MODULE_UC]].sum(axis=1)
+  # df[c.T_CONTRIBUTORS] = df[[c.T_CC, c.T_EC, c.T_UC]].sum(axis=1)
+  # df["T_LINE_DIFF"] = df[c.T_LINE].diff(-1)
+  # df["T_MODULE_DIFF"] = df[c.T_MODULE].diff(-1)
+  # df.dropna(subset=[c.MODULE, c.LINE, c.NT, c.NO, c.T_CONTRIBUTORS], inplace=True)
 
-  if df.isna().values.any():
-    df.fillna(0, inplace=True)
-
-  # df = utils.remove_outlier(df, c.LINE_CC)
-  # df = utils.remove_outlier(df, c.MODULE_CC)
-  # df = utils.remove_outlier(df, c.LINE_EC)
-  # df = utils.remove_outlier(df, c.MODULE_EC)
-
-  df[c.NT] = df[c.NT_CC] + df[c.NT_EC] + df[c.NT_UC]
-  df[c.NO] = df[c.NO_CC] + df[c.NO_EC] + df[c.NO_UC]
-  df[c.LINE] = df[c.LINE_CC] + df[c.LINE_EC] + df[c.LINE_UC]
-  df[c.MODULE] = df[c.MODULE_CC] + df[c.MODULE_EC] + df[c.MODULE_UC]
-  df[c.T_CONTRIBUTORS] = df[c.T_CC] + df[c.T_EC] + df[c.T_UC] + 2
-
-  df[c.T_MODULE] = utils.standardize(df, c.T_MODULE)
-  df[c.T_LINE] = utils.standardize(df, c.LINE)
+  # df[c.T_CONTRIBUTORS] = df[c.T_CONTRIBUTORS] + 2
 
   t_records = len(df)
 
@@ -113,47 +174,19 @@ for task in c.TASK_LIST:
   if t_records < 2:
       continue
 
-  # Let's create multiple regression
-  X = df[[c.NT, c.NO, c.T_LINE, c.T_MODULE, c.T_CONTRIBUTORS]]
-  Y = df[c.LINE]
+  # Calculate LINE
+  line_cc_output = calculate_effort(df[[c.NT_CC, c.NO_CC, c.T_CC]], df[c.LINE_CC], project, task, c.LINE, transformer, regressor)
+  line_ec_output = calculate_effort(df[[c.NT_EC, c.NO_EC, c.T_EC]], df[c.LINE_EC], project, task, c.LINE, transformer, regressor)
+  line_uc_output = calculate_effort(df[[c.NT_UC, c.NO_UC, c.T_UC]], df[c.LINE_UC], project, task, c.LINE, transformer, regressor)
 
-  splits = 10
-  num_records = len(X)
+  # Calculate MODULE
+  module_cc_output = calculate_effort(df[[c.NT_CC, c.NO_CC, c.T_CC]], df[c.MODULE_CC], project, task, c.MODULE, transformer, regressor)
+  module_ec_output = calculate_effort(df[[c.NT_EC, c.NO_EC, c.T_EC]], df[c.MODULE_EC], project, task, c.MODULE, transformer, regressor)
+  module_uc_output = calculate_effort(df[[c.NT_UC, c.NO_UC, c.T_UC]], df[c.MODULE_UC], project, task, c.MODULE, transformer, regressor)
 
-  if num_records <= splits:
-    splits = num_records
+  output = pd.concat([line_cc_output, line_ec_output, line_uc_output, module_cc_output, module_ec_output, module_uc_output])
 
-  print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.LINE))
-
-  model = LinearRegression()
-  model.fit(X, Y)
-
-  kfold = model_selection.KFold(n_splits=splits)
-  predictions = cross_val_predict(model, X, Y, cv=kfold)
-  results = compareResults(Y, predictions)
-
-  r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, Y, predictions, results, X)
-  row_df_line = createDF(project, c.LINE, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records, i_records - t_records, p_na)
-
-  # Let's create multiple regression
-  X = df[[c.NT, c.NO, c.T_LINE, c.T_MODULE, c.T_CONTRIBUTORS]]
-  Y = df[c.MODULE]
-
-  print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.MODULE))
-
-  model = LinearRegression()
-  model.fit(X, Y)
-
-  kfold = model_selection.KFold(n_splits=splits)
-  predictions = cross_val_predict(model, X, Y, cv=kfold)
-  results = compareResults(Y, predictions)
-
-  r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, Y, predictions, results, X)
-  row_df_module = createDF(project, c.MODULE, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records, i_records - t_records, p_na)
-  output = pd.concat([row_df_line, row_df_module])
-
-  # END Core Contributors
-
+  # Write to file
   output.sort_values(by=[c.PROJECT, c.MODEL, c.TASK], inplace=True)
   print(tabulate(output, headers=headers))
   output.to_csv(outputFile, header=False, mode = 'a', index=False)
