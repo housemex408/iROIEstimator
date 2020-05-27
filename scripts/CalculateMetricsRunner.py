@@ -6,11 +6,11 @@ import sys
 sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
-# os.environ["NUMEXPR_MAX_THREADS"] = "12"
+os.environ["NUMEXPR_MAX_THREADS"] = "12"
 
 projects = []
-# repos = c.ALL_PROJECTS
-repos = ["angular/angular"]
+repos = c.ALL_PROJECTS
+# repos = ["angular/angular"]
 
 for repo in repos:
     projects.append("python ./scripts/CalculateMetrics_H1_DT.py --p={repo}".format(repo=repo))

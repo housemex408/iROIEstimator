@@ -1,12 +1,17 @@
 import subprocess
 import os
 import argparse
+import sys as sys
+sys.path.append(os.path.abspath(__file__))
+import Utilities as utils
+import Constants as c
 
 parser = argparse.ArgumentParser(description='Github Repo ETL')
 parser.add_argument("--p")
 args = parser.parse_args()
-key = args.p[19:]
+key = args.p[1:]
 repo = key.split('/')[1]
+# repo = "angular"
 
 # get list of tags
 workingDirectory = "../{repo}".format(repo = repo)
@@ -28,14 +33,19 @@ create_directory(outputDirectory)
 create_directory(tempDirectory)
 
 # get all versions
-versions = open(versionsFile, "w")
-header = 'Key,Version,Release_Date\n'
-versions.write(header)
-versions.close()
-getTags = "git for-each-ref --format '%(refname:lstrip=2) %(creatordate:short)' refs/tags  --sort=creatordate | awk 'BEGIN {{OFS=\",\";}} {{print \"{key}\", $1, $2}}' >> {versionsFile}".format(key = key, versionsFile = versionsFile)
-process = subprocess.run([getTags], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=workingDirectory)
-msg = process.stderr.strip()
-print(msg)
+# versions = open(versionsFile, "w")
+# header = 'Key,Version,Date\n'
+# versions.write(header)
+# versions.close()
+# getTags = "git for-each-ref --format '%(refname:lstrip=2) %(creatordate:short)' refs/tags  --sort=creatordate | awk 'BEGIN {{OFS=\",\";}} {{print \"{key}\", $1, $2}}' >> {versionsFile}".format(key = key, versionsFile = versionsFile)
+# process = subprocess.run([getTags], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=workingDirectory)
+# msg = process.stderr.strip()
+# print(msg)
+
+tags = open(versionsFile, 'r')
+data_analysis = open(versionMetricsFile, "w")
+header = 'Key,Version,NT,NO,E_Module,E_Line,T_Module,T_Line,Date'
+data_analysis.write(header)
 
 versionCommits = open(versionCommitsFile, "w")
 header = 'Key,Version,SHA,E_Module,E_Line\n'
@@ -46,11 +56,6 @@ versionCommitsMsg = open(versionCommitsMsgFile, "w")
 header = 'Key,Version,SHA,Message\n'
 versionCommitsMsg.write(header)
 versionCommitsMsg.close()
-
-tags = open(versionsFile, 'r')
-data_analysis = open(versionMetricsFile, "w")
-header = 'Key,Version,NC,NO,E_Module,E_Line,T_Module,T_Line,Release_Date'
-data_analysis.write(header)
 
 class Tag(object):
     def __init__(self, row):
@@ -94,13 +99,13 @@ while True:
     process = subprocess.run([getVersionCommitMsgs], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=workingDirectory)
 
     # Get corrective tasks
-    getNC = 'grep -Ec "fix|bug|defect" {outputFile}'.format(outputFile=changeLog)
+    getNT = 'grep -Ec "fix|bug|defect" {outputFile}'.format(outputFile=changeLog)
 
     #print(getCorrectiveTasks)
 
-    process = subprocess.run([getNC], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-    NC = process.stdout.strip()
-    msg = 'NC: {NC}'.format(NC=NC)
+    process = subprocess.run([getNT], universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    NT = process.stdout.strip()
+    msg = 'NT: {NT}'.format(NT=NT)
     print(msg)
 
     # Get other tasks
@@ -154,8 +159,8 @@ while True:
     print(msg)
 
     # Create a line item
-    template = '\n{key},{toVersion},{NC},{NO},{E_Module},{E_Line},{T_Module},{T_Line},{Release_Date}'
-    line = template.format(key=key,toVersion=toVersion, NC=NC, NO=NO, E_Module=E_Module, E_Line=E_Line, T_Module=T_Module, T_Line=T_Line, Release_Date=Release_Date)
+    template = '\n{key},{toVersion},{NT},{NO},{E_Module},{E_Line},{T_Module},{T_Line},{Release_Date}'
+    line = template.format(key=key,toVersion=toVersion, NT=NT, NO=NO, E_Module=E_Module, E_Line=E_Line, T_Module=T_Module, T_Line=T_Line, Release_Date=Release_Date)
     data_analysis.write(line)
     print(line)
 

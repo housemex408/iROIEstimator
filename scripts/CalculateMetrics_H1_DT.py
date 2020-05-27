@@ -1,29 +1,59 @@
-from IPython import get_ipython
 import numpy as np
 import pandas as pd
-import scipy.stats as st
-import matplotlib.pyplot as plt
 import os
 import sys
-import statsmodels as sm
-import statsmodels.api as smapi
-import statsmodels.regression.linear_model as lm
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from tabulate import tabulate
 sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import ExtraTreesRegressor
 from sklearn.preprocessing import RobustScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.compose import TransformedTargetRegressor
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.preprocessing import FunctionTransformer
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.pipeline import Pipeline
 from sklearn import model_selection
+from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import cross_val_predict
 from sklearn.model_selection import KFold
+from sklearn.model_selection import GridSearchCV
+from sklearn.kernel_ridge import KernelRidge
+from sklearn.neural_network import MLPRegressor
+from sklearn.isotonic import IsotonicRegression
+from sklearn.preprocessing import QuantileTransformer
+from sklearn.svm import SVR
 import argparse
-from Scaler import Scaler
-# os.environ["NUMEXPR_MAX_THREADS"] = "12"
+os.environ["NUMEXPR_MAX_THREADS"] = "12"
+
+regressors = {
+  "DecisionTreeRegressor": DecisionTreeRegressor(random_state=0),
+  "RandomForestRegressor": RandomForestRegressor(random_state=0),
+  "AdaBoostRegressor": AdaBoostRegressor(random_state=0),
+  "GradientBoostingRegressor": GradientBoostingRegressor(random_state=0),
+  "ExtraTreesRegressor": ExtraTreesRegressor(random_state=0),
+  "KNeighborsRegressor": KNeighborsRegressor(),
+  "IsotonicRegression": IsotonicRegression(),
+  "KernelRidge": KernelRidge(),
+  "MLPRegressor": MLPRegressor(random_state=0),
+  "SVR": SVR(),
+  "LinearRegression": LinearRegression(),
+}
+
+transformers = {
+  "RobustScaler": RobustScaler(),
+  "StandardScaler": StandardScaler(),
+  "MinMaxScaler": MinMaxScaler(),
+  "QuantileTransformer": QuantileTransformer()
+}
+
+regressor = regressors["LinearRegression"]
+transformer = transformers["QuantileTransformer"]
 
 # BEGIN Functions
 def extractPerfMeasures(model, Y, predictions, results, X):
@@ -62,6 +92,7 @@ def compareResults(Y, predictions):
   data[c.PERCENT_ERROR] = (abs(Y - predictions)/Y).round(2)
   results = pd.DataFrame(data)
   results[c.PERCENT_ERROR].fillna(0, inplace=True)
+  results[c.PERCENT_ERROR].replace(np.inf, 0, inplace=True)
   return results
 
 # END Functions
@@ -69,9 +100,10 @@ def compareResults(Y, predictions):
 
 # BEGIN Main
 directoryPath = "scripts/exports"
-outputFile = "scripts/notebook/results/calculate_metrics_h1_DT_combined_05_26_2020.csv".format(directory=directoryPath)
+outputFile = "scripts/notebook/results/calculate_metrics_h1_LR_combined_05_27_2020.csv".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS, c.D_RECORDS, c.P_NA]
 o_df = pd.DataFrame(columns=headers)
+
 
 if not os.path.isfile(outputFile):
   o_df.to_csv(outputFile, index=False)
@@ -81,7 +113,9 @@ parser.add_argument("--p")
 args = parser.parse_args()
 key = args.p[0:]
 project = key.split('/')[1]
+# project = "angular"
 
+# for task in ["BUG"]:
 
 for task in c.TASK_LIST:
 
@@ -96,25 +130,19 @@ for task in c.TASK_LIST:
 
   p_na = utils.percentage_nan(df)
 
+  df[c.NT] = df[[c.NT_CC, c.NT_EC, c.NT_UC]].sum(axis=1)
+  df[c.NO] = df[[c.NO_CC, c.NO_EC, c.NO_UC]].sum(axis=1)
+  df[c.LINE] = df[[c.LINE_CC, c.LINE_EC, c.LINE_UC]].sum(axis=1)
+  df[c.MODULE] = df[[c.MODULE_CC, c.MODULE_EC, c.MODULE_UC]].sum(axis=1)
+  df[c.T_CONTRIBUTORS] = df[[c.T_CC, c.T_EC, c.T_UC]].sum(axis=1)
+  df["T_LINE_DIFF"] = df[c.T_LINE].diff(-1)
+  df["T_MODULE_DIFF"] = df[c.T_MODULE].diff(-1)
+  df.dropna(subset=[c.MODULE, c.LINE, c.NT, c.NO, c.T_CONTRIBUTORS], inplace=True)
+
   if df.isna().values.any():
     df.fillna(0, inplace=True)
 
-  df[c.NT] = df[c.NT_CC] + df[c.NT_EC] + df[c.NT_UC]
-  df[c.NO] = df[c.NO_CC] + df[c.NO_EC] + df[c.NO_UC]
-  df[c.LINE] = df[c.LINE_CC] + df[c.LINE_EC] + df[c.LINE_UC]
-  df[c.MODULE] = df[c.MODULE_CC] + df[c.MODULE_EC] + df[c.MODULE_UC]
-  df[c.T_CONTRIBUTORS] = df[c.T_CC] + df[c.T_EC] + df[c.T_UC] + 2
-
-  NT_Scaler = Scaler(df[c.NT])
-  NO_Scaler = Scaler(df[c.NO])
-  T_C_Scaler = Scaler(df[c.T_CONTRIBUTORS])
-
-  data = {
-      c.NT: NT_Scaler.transform(),
-      c.NO: NO_Scaler.transform(),
-      c.T_CONTRIBUTORS: T_C_Scaler.transform()
-  }
-  df_scaled = pd.DataFrame(data)
+  df[c.T_CONTRIBUTORS] = df[c.T_CONTRIBUTORS] + 2
 
   t_records = len(df)
 
@@ -125,7 +153,7 @@ for task in c.TASK_LIST:
   # Let's create multiple regression
   print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.LINE))
 
-  X = df_scaled[[c.NT, c.NO, c.T_CONTRIBUTORS]]
+  X = df[[c.NT, c.NO, c.T_CONTRIBUTORS, "T_LINE_DIFF", "T_MODULE_DIFF"]]
   Y = df[c.LINE]
   splits = 10
   num_records = len(X)
@@ -133,9 +161,11 @@ for task in c.TASK_LIST:
   if num_records <= splits:
     splits = num_records
 
-  regress = DecisionTreeRegressor(random_state=0)
-  model = TransformedTargetRegressor(regressor=regress,transformer=RobustScaler())
+  pipeline = Pipeline(steps=[('scaler', transformer), ('predictor', regressor)])
+  # pipeline = Pipeline(steps=[('scaler', RobustScaler()), ('predictor', DecisionTreeRegressor(random_state=0))])
+  model = TransformedTargetRegressor(regressor=pipeline, transformer=transformer)
   model.fit(X, Y)
+
   kfold = model_selection.KFold(n_splits=splits)
   predictions = cross_val_predict(model, X, Y, cv=kfold)
   results = compareResults(Y, predictions)
@@ -143,15 +173,33 @@ for task in c.TASK_LIST:
   r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, Y, predictions, results, X)
   row_df_line = createDF(project, c.LINE, task, r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50, t_records, i_records - t_records, p_na)
 
-
   # Let's create multiple regression
   print("\n{0} - {1} - {2} model performance: \n".format(project, task, c.MODULE))
-  X = df_scaled[[c.NT, c.NO, c.T_CONTRIBUTORS]]
+  X = df[[c.NT, c.NO, c.T_CONTRIBUTORS, "T_LINE_DIFF", "T_MODULE_DIFF"]]
   Y = df[c.MODULE]
 
-  regress = DecisionTreeRegressor(random_state=0)
-  model = TransformedTargetRegressor(regressor=regress,transformer=RobustScaler())
+  # pipeline = Pipeline(steps=[('scaler', RobustScaler()), ('predictor', DecisionTreeRegressor(random_state=0))])
+  pipeline = Pipeline(steps=[('scaler', transformer), ('predictor', regressor)])
+  model = TransformedTargetRegressor(regressor=pipeline, transformer=transformer)
   model.fit(X, Y)
+  # pipeline = Pipeline(steps=[('scaler', RobustScaler()), ('predictor', DecisionTreeRegressor(random_state=0))])
+
+  # param_range = [1, 2, 3, 4, 5]
+
+  # # Set grid search params
+  # grid_params = [{
+  #     'predictor__min_samples_leaf': param_range,
+  #     'predictor__max_depth': param_range,
+  #     'predictor__min_samples_split': param_range[1:]}]
+
+  # model = TransformedTargetRegressor(
+  #   regressor=GridSearchCV(estimator=pipeline, param_grid=grid_params, cv=5, n_jobs=-1),
+  #   transformer=RobustScaler()
+  # )
+
+  # model = TransformedTargetRegressor(regressor=pipeline, transformer=RobustScaler())
+  # model.fit(X, Y)
+
   kfold = model_selection.KFold(n_splits=splits)
   predictions = cross_val_predict(model, X, Y, cv=kfold)
   results = compareResults(Y, predictions)

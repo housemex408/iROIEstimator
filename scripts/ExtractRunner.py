@@ -4,7 +4,9 @@ from subprocess import Popen
 from itertools import islice
 
 # repos = open("./scripts/popular_repos.csv", 'r')
-repos = open("./scripts/less_popular_repos.csv", 'r')
+# repos = open("./scripts/less_popular_repos.csv", 'r')
+repos = ["linux/linux","angular/angular", "angular.js/angular.js"]
+# repos = ["linux/linux"]
 projects = []
 
 for repo in repos:
