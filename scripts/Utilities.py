@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import logging
 import logging.handlers
-from scipy.stats import ttest_1samp
+from scipy.stats import ttest_1samp, wilcoxon
 from scipy.stats import shapiro
 from statsmodels.stats.descriptivestats import sign_test
 from statsmodels.stats import weightstats as stests
@@ -115,9 +115,9 @@ def one_sample_t_test(data, mean, alpha):
   model_records_mean = round(data.mean(),2)
 
   ttest_result = ttest_1samp(data, mean)
-  print("One Sample T-test p-value: ", round(ttest_result.pvalue / 2, 4))
+  print("One Sample T-test p-value: ", round(ttest_result.pvalue, 4))
 
-  if ttest_result.pvalue / 2 > alpha:
+  if ttest_result.pvalue > alpha:
       print("One Sample T-Test: {0} sample mean is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
   else:
       print("One Sample T-Test: {0} sample mean is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
@@ -125,21 +125,22 @@ def one_sample_t_test(data, mean, alpha):
 def one_sample_z_test(data, mean, alpha):
   model_records_mean = round(data.mean(),2)
 
-  ztest_result = stests.ztest(data, x2=None, value=mean)[1]
-  print("One Sample Z-test p-value: ", round(ztest_result / 2, 4))
+  tstat, pvalue = stests.ztest(data, x2=None, value=mean, alternative='smaller')
+  print("One Sample Z-test p-value: ", round(pvalue, 4))
 
-  if ztest_result / 2 > alpha:
+  if pvalue > alpha:
       print("One Sample Z-Test: {0} sample mean is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
   else:
       print("One Sample Z-Test: {0} sample mean is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
 
 def one_sample_sign_test(data, mean, alpha):
-  model_records_mean = round(data.mean(),2)
+  model_records_mean = round(data.mean(), 2)
 
-  sign_test_result  = sign_test(data, mean)[1]
-  print("One Sample Sign Test p-value: ", sign_test_result)
+  # pvalue  = sign_test(data, mean)[1]
+  z_statistic, pvalue = wilcoxon(data - mean, alternative='less')
+  print("One Sample Sign Test p-value: ", round(pvalue, 4))
 
-  if sign_test_result / 2 > alpha:
+  if pvalue > alpha:
       print("One Sample Sign Test: {0} sample median is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
   else:
       print("One Sample Sign Test: {0} sample median is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
