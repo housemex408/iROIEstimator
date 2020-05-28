@@ -108,7 +108,7 @@
 106,cloudfoundry/cf-deployment,v4.5.0,2018-09-20,REFACTOR,184,17343,,,,,,,,,,,,,,,
 107,cloudfoundry/cf-deployment,v5.0.0,2018-09-27,REFACTOR,181,15120,,,,,,,,,,,,,,,
 108,cloudfoundry/cf-deployment,v5.1.0,2018-10-05,REFACTOR,202,15581,,,,,,,,,,,,,,,
-109,cloudfoundry/cf-deployment,v5.2.0,2018-10-18,REFACTOR,212,18492,2.0,117.0,22.0,650.0,2.0,,,,,,,,,,
+109,cloudfoundry/cf-deployment,v5.2.0,2018-10-18,REFACTOR,212,18492,2.0,117.0,22.0,650.0,1.0,,,,,,,,,,
 110,cloudfoundry/cf-deployment,v5.3.0,2018-10-22,REFACTOR,213,18594,,,,,,,,,,,,,,,
 111,cloudfoundry/cf-deployment,v5.4.0,2018-10-25,REFACTOR,215,18663,,,,,,,,,,,,,,,
 112,cloudfoundry/cf-deployment,v5.5.0,2018-10-30,REFACTOR,215,18666,,,,,,,,,,,,,,,

@@ -255,7 +255,7 @@
 253,webtorrent/webtorrent,v0.98.17,2017-04-13,UPGRADE,57,8988,,,,,,,,,,,,,,,
 254,webtorrent/webtorrent,v0.98.18,2017-04-14,UPGRADE,57,8985,,,,,,,,,,,,,,,
 255,webtorrent/webtorrent,v0.98.19,2017-06-25,UPGRADE,58,15966,,,,,,,,,,,,,,,
-256,webtorrent/webtorrent,v0.98.20,2017-10-17,UPGRADE,58,9094,,,,,,59.0,904.0,,0.0,59.0,,,,,
+256,webtorrent/webtorrent,v0.98.20,2017-10-17,UPGRADE,58,9094,,,,,,59.0,904.0,,0.0,1.0,,,,,
 257,webtorrent/webtorrent,v0.98.21,2018-01-26,UPGRADE,58,9116,,,,,,,,,,,,,,,
 258,webtorrent/webtorrent,v0.98.22,2018-02-17,UPGRADE,58,9114,,,,,,,,,,,,,,,
 259,webtorrent/webtorrent,v0.98.23,2018-02-20,UPGRADE,58,9121,,,,,,,,,,,,,,,

@@ -52,7 +52,7 @@ transformers = {
   "QuantileTransformer": QuantileTransformer()
 }
 
-regressor = regressors["RandomForestRegressor"]
+regressor = regressors["DecisionTreeRegressor"]
 transformer = transformers["QuantileTransformer"]
 
 # BEGIN Functions
@@ -130,7 +130,7 @@ def calculate_effort(X, Y, project, task, model_type, transformer, regressor):
 
 # BEGIN Main
 directoryPath = "scripts/exports"
-outputFile = "scripts/notebook/results/h2_metrics_h1_DT_05_27_2020.csv".format(directory=directoryPath)
+outputFile = "scripts/notebook/results/h2_metrics_h1_DT_05_28_2020.csv".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS, c.D_RECORDS, c.P_NA]
 o_df = pd.DataFrame(columns=headers)
 
@@ -165,6 +165,7 @@ for task in c.TASK_LIST:
   # df["T_LINE_DIFF"] = df[c.T_LINE].diff(-1)
   # df["T_MODULE_DIFF"] = df[c.T_MODULE].diff(-1)
   # df.dropna(subset=[c.MODULE, c.LINE, c.NT, c.NO, c.T_CONTRIBUTORS], inplace=True)
+  df[c.T_LINE + "_P"] = df[c.T_LINE].shift()
 
   # df[c.T_CONTRIBUTORS] = df[c.T_CONTRIBUTORS] + 2
 
@@ -175,14 +176,20 @@ for task in c.TASK_LIST:
       continue
 
   # Calculate LINE
-  line_cc_output = calculate_effort(df[[c.NT_CC, c.NO_CC, c.T_CC]], df[c.LINE_CC], project, task, c.LINE_CC, transformer, regressor)
-  line_ec_output = calculate_effort(df[[c.NT_EC, c.NO_EC, c.T_EC]], df[c.LINE_EC], project, task, c.LINE_EC, transformer, regressor)
-  line_uc_output = calculate_effort(df[[c.NT_UC, c.NO_UC, c.T_UC]], df[c.LINE_UC], project, task, c.LINE_UC, transformer, regressor)
+  # line_cc_output = calculate_effort(df[[c.NT_CC, c.NO_CC, c.T_CC]], df[c.LINE_CC], project, task, c.LINE_CC, transformer, regressor)
+  # line_ec_output = calculate_effort(df[[c.NT_EC, c.NO_EC, c.T_EC]], df[c.LINE_EC], project, task, c.LINE_EC, transformer, regressor)
+  # line_uc_output = calculate_effort(df[[c.NT_UC, c.NO_UC, c.T_UC]], df[c.LINE_UC], project, task, c.LINE_UC, transformer, regressor)
+  line_cc_output = calculate_effort(df[[c.NT_CC, c.NO_CC, c.T_CC, c.T_LINE + "_P"]], df[c.LINE_CC], project, task, c.LINE_CC, transformer, regressor)
+  line_ec_output = calculate_effort(df[[c.NT_EC, c.NO_EC, c.T_EC, c.T_LINE + "_P"]], df[c.LINE_EC], project, task, c.LINE_EC, transformer, regressor)
+  line_uc_output = calculate_effort(df[[c.NT_UC, c.NO_UC, c.T_UC, c.T_LINE + "_P"]], df[c.LINE_UC], project, task, c.LINE_UC, transformer, regressor)
 
   # Calculate MODULE
-  module_cc_output = calculate_effort(df[[c.NT_CC, c.NO_CC, c.T_CC]], df[c.MODULE_CC], project, task, c.MODULE_CC, transformer, regressor)
-  module_ec_output = calculate_effort(df[[c.NT_EC, c.NO_EC, c.T_EC]], df[c.MODULE_EC], project, task, c.MODULE_EC, transformer, regressor)
-  module_uc_output = calculate_effort(df[[c.NT_UC, c.NO_UC, c.T_UC]], df[c.MODULE_UC], project, task, c.MODULE_UC, transformer, regressor)
+  # module_cc_output = calculate_effort(df[[c.NT_CC, c.NO_CC, c.T_CC]], df[c.MODULE_CC], project, task, c.MODULE_CC, transformer, regressor)
+  # module_ec_output = calculate_effort(df[[c.NT_EC, c.NO_EC, c.T_EC]], df[c.MODULE_EC], project, task, c.MODULE_EC, transformer, regressor)
+  # module_uc_output = calculate_effort(df[[c.NT_UC, c.NO_UC, c.T_UC]], df[c.MODULE_UC], project, task, c.MODULE_UC, transformer, regressor)
+  module_cc_output = calculate_effort(df[[c.NT_CC, c.NO_CC, c.T_CC, c.T_LINE + "_P"]], df[c.MODULE_CC], project, task, c.MODULE_CC, transformer, regressor)
+  module_ec_output = calculate_effort(df[[c.NT_EC, c.NO_EC, c.T_EC, c.T_LINE + "_P"]], df[c.MODULE_EC], project, task, c.MODULE_EC, transformer, regressor)
+  module_uc_output = calculate_effort(df[[c.NT_UC, c.NO_UC, c.T_UC, c.T_LINE + "_P"]], df[c.MODULE_UC], project, task, c.MODULE_UC, transformer, regressor)
 
   output = pd.concat([line_cc_output, line_ec_output, line_uc_output, module_cc_output, module_ec_output, module_uc_output])
 

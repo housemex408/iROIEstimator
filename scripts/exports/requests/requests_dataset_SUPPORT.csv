@@ -13,7 +13,7 @@
 11,kennethreitz/requests,v0.5.0,2011-06-21,SUPPORT,50,4452,,,,,,,,,,,3.0,52.0,7.0,153.0,-1.0
 12,kennethreitz/requests,v0.5.1,2011-07-23,SUPPORT,53,6856,,,,,,,,,,,1.0,39.0,1.0,6.0,-1.0
 13,kennethreitz/requests,v0.6.0,2011-08-17,SUPPORT,67,7673,,,,,,,,,,,3.0,102.0,4.0,80.0,-1.0
-14,kennethreitz/requests,v0.6.1,2011-08-20,SUPPORT,68,7739,,,,,,2.0,33.0,2.0,15.0,2.0,,,,,
+14,kennethreitz/requests,v0.6.1,2011-08-20,SUPPORT,68,7739,,,,,,2.0,33.0,2.0,15.0,1.0,,,,,
 15,kennethreitz/requests,v0.6.2,2011-10-09,SUPPORT,68,7765,,,,,,,,,,,,,,,
 16,kennethreitz/requests,v0.6.3,2011-10-13,SUPPORT,69,7946,,,,,,,,,,,,,,,
 17,kennethreitz/requests,v0.6.4,2011-10-13,SUPPORT,59,8072,,,,,,,,,,,2.0,69.0,2.0,33.0,-1.0
@@ -50,7 +50,7 @@
 48,kennethreitz/requests,v0.10.7,2012-03-07,SUPPORT,80,12607,,,,,,,,,,,,,,,
 49,kennethreitz/requests,v0.10.8,2012-03-09,SUPPORT,79,12721,,,,,,,,,,,,,,,
 50,kennethreitz/requests,v0.11.1,2012-03-30,SUPPORT,81,12825,,,,,,,,,,,1.0,36.0,3.0,26.0,-1.0
-51,kennethreitz/requests,v0.12.0,2012-05-02,SUPPORT,84,13461,,,,,,2.0,112.0,4.0,265.0,2.0,,,,,
+51,kennethreitz/requests,v0.12.0,2012-05-02,SUPPORT,84,13461,,,,,,2.0,112.0,4.0,265.0,1.0,,,,,
 52,kennethreitz/requests,v0.12.1,2012-05-08,SUPPORT,84,13645,,,,,,,,,,,,,,,
 53,kennethreitz/requests,v0.13.0,2012-05-29,SUPPORT,80,12650,,,,,,,,,,,2.0,50.0,2.0,62.0,-1.0
 54,kennethreitz/requests,v0.13.1,2012-06-07,SUPPORT,80,12687,,,,,,,,,,,,,,,
@@ -82,7 +82,7 @@
 80,kennethreitz/requests,v2.2.0,2014-01-09,SUPPORT,121,28592,,,,,,,,,,,,,,,
 81,kennethreitz/requests,v2.2.1,2014-01-23,SUPPORT,121,28747,,,,,,,,,,,,,,,
 82,kennethreitz/requests,v2.3.0,2014-05-16,SUPPORT,128,29801,,,,,,,,,,,2.0,57.0,3.0,56.0,-1.0
-83,kennethreitz/requests,v2.4.0,2014-08-29,SUPPORT,128,30442,1.0,125.0,6.0,144.0,1.0,5.0,129.0,5.0,11.0,5.0,1.0,60.0,1.0,2.0,-1.0
+83,kennethreitz/requests,v2.4.0,2014-08-29,SUPPORT,128,30442,1.0,125.0,6.0,144.0,1.0,5.0,129.0,5.0,11.0,2.0,1.0,60.0,1.0,2.0,-1.0
 84,kennethreitz/requests,v2.4.1,2014-09-09,SUPPORT,128,30477,,,,,,,,,,,,,,,
 85,kennethreitz/requests,v2.4.2,2014-10-05,SUPPORT,128,30579,,,,,,,,,,,,,,,
 86,kennethreitz/requests,v2.4.3,2014-10-06,SUPPORT,128,30611,,,,,,,,,,,,,,,
@@ -100,7 +100,7 @@
 98,kennethreitz/requests,v2.9.1,2015-12-21,SUPPORT,135,33595,,,,,,,,,,,,,,,
 99,kennethreitz/requests,v2.9.2,2016-04-29,SUPPORT,137,34000,,,,,,,,,,,,,,,
 100,kennethreitz/requests,v2.10.0,2016-04-29,SUPPORT,139,34435,2.0,10.0,1.0,43.0,2.0,,,,,,,,,,
-101,kennethreitz/requests,v2.11.0,2016-08-08,SUPPORT,141,35597,2.0,70.0,2.0,17.0,2.0,4.0,594.0,5.0,63.0,4.0,,,,,
+101,kennethreitz/requests,v2.11.0,2016-08-08,SUPPORT,141,35597,2.0,70.0,2.0,17.0,1.0,4.0,594.0,5.0,63.0,3.0,,,,,
 102,kennethreitz/requests,v2.11.1,2016-08-17,SUPPORT,141,35726,,,,,,,,,,,1.0,7.0,1.0,2.0,-1.0
 103,kennethreitz/requests,v2.12.0,2016-11-15,SUPPORT,149,46351,,,,,,,,,,,,,,,
 104,kennethreitz/requests,v2.12.1,2016-11-16,SUPPORT,149,46365,,,,,,,,,,,,,,,

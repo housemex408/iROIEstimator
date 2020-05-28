@@ -3,7 +3,7 @@
 1,SeleniumHQ/selenium,rc-1.0-beta-2,2009-01-12,FEATURE,1162,215901,,,,,,,,,,,5.0,2260.0,34.0,1786.0,-1.0
 2,SeleniumHQ/selenium,rc-1.0,2009-03-06,FEATURE,1163,216249,,,,,,,,,,,,,,,
 3,SeleniumHQ/selenium,core-1.0.1,2009-06-06,FEATURE,475,104309,,,,,,,,,,,2.0,1848.0,4.0,77.0,-1.0
-4,SeleniumHQ/selenium,selenium-2.0-alpha-1,2009-12-11,FEATURE,3122,655390,3.0,3741.0,123.0,4905.0,3.0,2.0,3748.0,13.0,1357.0,2.0,5.0,2457.0,34.0,1786.0,-1.0
+4,SeleniumHQ/selenium,selenium-2.0-alpha-1,2009-12-11,FEATURE,3122,655390,3.0,3741.0,123.0,4905.0,1.0,2.0,3748.0,13.0,1357.0,2.0,5.0,2457.0,34.0,1786.0,-1.0
 5,SeleniumHQ/selenium,selenium-2.0-alpha-2,2010-02-03,FEATURE,3764,873419,,,,,,,,,,,,,,,
 6,SeleniumHQ/selenium,selenium-2.0-alpha-3,2010-04-18,FEATURE,3910,896593,,,,,,,,,,,2.0,534.0,12.0,115.0,-1.0
 7,SeleniumHQ/selenium,selenium-2.0-alpha-4,2010-04-22,FEATURE,3932,893849,,,,,,,,,,,,,,,
@@ -62,7 +62,7 @@
 60,SeleniumHQ/selenium,selenium-2.39.0,2013-12-16,FEATURE,10251,1577575,,,,,,,,,,,,,,,
 61,SeleniumHQ/selenium,selenium-2.40.0,2014-02-19,FEATURE,9590,1530121,,,,,,,,,,,,,,,
 62,SeleniumHQ/selenium,selenium-2.41.0,2014-03-27,FEATURE,9542,1517941,,,,,,,,,,,,,,,
-63,SeleniumHQ/selenium,selenium-2.42.0,2014-05-22,FEATURE,9480,1535811,2.0,128.0,8.0,765.0,2.0,,,,,,,,,,
+63,SeleniumHQ/selenium,selenium-2.42.0,2014-05-22,FEATURE,9480,1535811,2.0,128.0,8.0,765.0,1.0,,,,,,,,,,
 64,SeleniumHQ/selenium,selenium-2.42.1,2014-05-29,FEATURE,9509,1536149,,,,,,,,,,,,,,,
 65,SeleniumHQ/selenium,selenium-2.42.2,2014-06-02,FEATURE,9509,1536148,,,,,,,,,,,,,,,
 66,SeleniumHQ/selenium,selenium-2.43.0,2014-09-09,FEATURE,9307,1490183,,,,,,,,,,,,,,,

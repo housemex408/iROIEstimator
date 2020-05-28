@@ -13,6 +13,39 @@ sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
 from sklearn import preprocessing
+from business_duration import businessDuration
+import holidays as pyholidays
+from datetime import time
+from itertools import repeat
+
+#Business open hour must be in standard python time format-Hour,Min,Sec
+biz_open_time=time(8,0,0)
+
+#Business close hour must be in standard python time format-Hour,Min,Sec
+biz_close_time=time(17,0,0)
+
+#US public holidays
+US_holiday_list = pyholidays.US(state='CA')
+
+#Business duration can be 'day', 'hour', 'min', 'sec'
+unit_hour='hour'
+
+#Weekend list. 5-Sat, 6-Sun
+weekend_list = [5,6]
+
+def calculate_hours_diff(df):
+    return list(map(
+        businessDuration, df[c.DATE_P], df[c.DATE], repeat(biz_open_time), repeat(biz_close_time), repeat(weekend_list), repeat(US_holiday_list), repeat(unit_hour)
+    ))
+
+def calculate_contribs(row, contribs):
+    contributors = row[c.MODULE] / contribs
+    min_contribs = min(contributors, row[c.T_CONTRIBUTORS])
+    
+    if min_contribs == 0:
+        return 1
+
+    return round(min_contribs, 2)
 
 def hot_encode(df, field):
     encoded_columns = pd.get_dummies(df[field])

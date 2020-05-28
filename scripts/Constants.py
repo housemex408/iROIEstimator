@@ -2,6 +2,7 @@
 PROJECT = "Project"
 VERSION = "Version"
 DATE = "Date"
+DATE_P = "Date_P"
 T_MODULE = "T_Module"
 T_LINE = "T_Line"
 T_CC = "T_CC"
@@ -143,3 +144,10 @@ CONTRIBUTORS = "Contributors"
 COMMENTS = "Comments"
 COMMENTERS = "Commenters"
 T_COMMITS = "T_Commits"
+
+# Cost fields
+AVG_MODULE_CONTRIBS = "AVG_MODULE_CONTRIBS"
+HOURS_DIFF = "HOURS_DIFF"
+CONTRIB_DIFF = "CONTRIB_DIFF"
+BILLED_HOURS = "BILLED_HOURS"
+COST = "COST"

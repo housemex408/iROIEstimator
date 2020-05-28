@@ -31,7 +31,7 @@
 29,AutoMapper/AutoMapper,v5.2.0,2016-11-23,UPGRADE,909,159762,,,,,,,,,,,,,,,
 30,AutoMapper/AutoMapper,v1.1.2,2017-03-07,UPGRADE,440,140749,,,,,,,,,,,,,,,
 31,AutoMapper/AutoMapper,v1.1.1,2017-03-07,UPGRADE,440,140750,,,,,,,,,,,,,,,
-32,AutoMapper/AutoMapper,v6.0.0,2017-03-16,UPGRADE,1045,164538,9.0,2026.0,39.0,53105.0,9.0,,,,,,1.0,595.0,2.0,30.0,-1.0
+32,AutoMapper/AutoMapper,v6.0.0,2017-03-16,UPGRADE,1045,164538,9.0,2026.0,39.0,53105.0,1.0,,,,,,1.0,595.0,2.0,30.0,-1.0
 33,AutoMapper/AutoMapper,v6.0.1,2017-03-17,UPGRADE,1045,164537,,,,,,,,,,,,,,,
 34,AutoMapper/AutoMapper,v6.0.2,2017-03-22,UPGRADE,1045,164532,,,,,,,,,,,,,,,
 35,AutoMapper/AutoMapper,v6.1.0,2017-06-13,UPGRADE,663,60306,,,,,,,,,,,,,,,
@@ -43,6 +43,6 @@
 41,AutoMapper/AutoMapper,v7.0.0,2018-06-05,UPGRADE,587,56192,,,,,,,,,,,,,,,
 42,AutoMapper/AutoMapper,v7.0.1,2018-06-18,UPGRADE,591,56716,1.0,41.0,2.0,11.0,1.0,,,,,,,,,,
 43,AutoMapper/AutoMapper,v8.0.0,2018-11-17,UPGRADE,598,58970,,,,,,,,,,,,,,,
-44,AutoMapper/AutoMapper,v8.1.0,2019-04-25,UPGRADE,630,63557,,,,,,59.0,3731.0,59.0,118.0,59.0,,,,,
+44,AutoMapper/AutoMapper,v8.1.0,2019-04-25,UPGRADE,630,63557,,,,,,59.0,3731.0,59.0,118.0,1.0,,,,,
 45,AutoMapper/AutoMapper,v8.1.1,2019-06-03,UPGRADE,631,63952,,,,,,,,,,,,,,,
 46,AutoMapper/AutoMapper,v9.0.0,2019-08-09,UPGRADE,629,62949,,,,,,,,,,,,,,,

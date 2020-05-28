@@ -83,14 +83,14 @@
 81,cloudfoundry/cf-deployment,v1.38.0,2018-05-31,UPGRADE,204,13219,,,,,,,,,,,,,,,
 82,cloudfoundry/cf-deployment,v1.39.0,2018-06-05,UPGRADE,205,13416,,,,,,,,,,,,,,,
 83,cloudfoundry/cf-deployment,v1.40.0,2018-06-08,UPGRADE,206,13449,,,,,,,,,,,,,,,
-84,cloudfoundry/cf-deployment,v2.0.0,2018-06-19,UPGRADE,185,13018,,,,,,59.0,1087.0,,0.0,59.0,,,,,
+84,cloudfoundry/cf-deployment,v2.0.0,2018-06-19,UPGRADE,185,13018,,,,,,59.0,1087.0,,0.0,1.0,,,,,
 85,cloudfoundry/cf-deployment,v2.1.0,2018-06-19,UPGRADE,186,15939,,,,,,,,,,,,,,,
 86,cloudfoundry/cf-deployment,v2.2.0,2018-06-22,UPGRADE,188,16047,,,,,,,,,,,,,,,
 87,cloudfoundry/cf-deployment,v2.3.0,2018-06-26,UPGRADE,188,16047,,,,,,,,,,,,,,,
 88,cloudfoundry/cf-deployment,v2.4.0,2018-07-03,UPGRADE,193,16067,,,,,,,,,,,,,,,
 89,cloudfoundry/cf-deployment,v2.5.0,2018-07-05,UPGRADE,193,16067,,,,,,,,,,,,,,,
 90,cloudfoundry/cf-deployment,v2.6.0,2018-07-09,UPGRADE,193,16086,,,,,,,,,,,,,,,
-91,cloudfoundry/cf-deployment,v2.7.0,2018-07-13,UPGRADE,195,16198,,,,,,59.0,585.0,,0.0,59.0,2.0,8.0,3.0,94.0,-1.0
+91,cloudfoundry/cf-deployment,v2.7.0,2018-07-13,UPGRADE,195,16198,,,,,,59.0,585.0,,0.0,1.0,2.0,8.0,3.0,94.0,-1.0
 92,cloudfoundry/cf-deployment,v2.8.0,2018-07-17,UPGRADE,195,16203,,,,,,,,,,,,,,,
 93,cloudfoundry/cf-deployment,v2.9.0,2018-07-19,UPGRADE,195,16207,,,,,,,,,,,,,,,
 94,cloudfoundry/cf-deployment,v3.0.0,2018-07-26,UPGRADE,188,15974,,,,,,,,,,,,,,,

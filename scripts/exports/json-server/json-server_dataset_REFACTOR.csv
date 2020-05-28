@@ -101,7 +101,7 @@
 99,typicode/json-server,v0.9.3,2016-12-07,REFACTOR,43,3384,,,,,,,,,,,,,,,
 100,typicode/json-server,v0.9.4,2016-12-08,REFACTOR,43,3413,,,,,,,,,,,,,,,
 101,typicode/json-server,v0.9.5,2017-02-11,REFACTOR,43,3465,,,,,,,,,,,,,,,
-102,typicode/json-server,v0.9.6,2017-03-09,REFACTOR,47,3613,2.0,14.0,5.0,136.0,2.0,,,,,,1.0,3.0,5.0,37.0,-1.0
+102,typicode/json-server,v0.9.6,2017-03-09,REFACTOR,47,3613,2.0,14.0,5.0,136.0,1.0,,,,,,1.0,3.0,5.0,37.0,-1.0
 103,typicode/json-server,v0.10.0,2017-04-26,REFACTOR,48,3599,,,,,,,,,,,,,,,
 104,typicode/json-server,v0.10.1,2017-05-15,REFACTOR,48,3627,1.0,5.0,1.0,16.0,1.0,,,,,,,,,,
 105,typicode/json-server,v0.10.2,2017-06-28,REFACTOR,50,7836,,,,,,,,,,,,,,,
@@ -114,7 +114,7 @@
 112,typicode/json-server,v0.12.2,2018-04-26,REFACTOR,54,10269,,,,,,,,,,,,,,,
 113,typicode/json-server,v0.13.0,2018-05-30,REFACTOR,55,18226,,,,,,,,,,,,,,,
 114,typicode/json-server,v0.14.0,2018-06-09,REFACTOR,54,21059,,,,,,,,,,,,,,,
-115,typicode/json-server,v0.14.1,2018-12-26,REFACTOR,55,16842,2.0,50.0,4.0,19.0,2.0,,,,,,,,,,
+115,typicode/json-server,v0.14.1,2018-12-26,REFACTOR,55,16842,2.0,50.0,4.0,19.0,1.0,,,,,,,,,,
 116,typicode/json-server,v0.14.2,2018-12-26,REFACTOR,55,16846,,,,,,,,,,,,,,,
 117,typicode/json-server,v0.15.0,2019-05-21,REFACTOR,55,17176,,,,,,,,,,,,,,,
 118,typicode/json-server,v0.15.1,2019-09-02,REFACTOR,56,16711,,,,,,,,,,,,,,,

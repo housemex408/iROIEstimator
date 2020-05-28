@@ -5,7 +5,7 @@
 3,jordansissel/fpm,v0.2.0,2011-01-22,REFACTOR,21,1140,,,,,,,,,,,,,,,
 4,jordansissel/fpm,v0.2.1,2011-01-22,REFACTOR,21,1142,,,,,,,,,,,,,,,
 5,jordansissel/fpm,v0.2.7,2011-03-17,REFACTOR,23,1211,,,,,,,,,,,,,,,
-6,jordansissel/fpm,v0.3.1,2011-06-20,REFACTOR,47,2959,3.0,129.0,14.0,224.0,3.0,,,,,,,,,,
+6,jordansissel/fpm,v0.3.1,2011-06-20,REFACTOR,47,2959,3.0,129.0,14.0,224.0,1.0,,,,,,,,,,
 7,jordansissel/fpm,v0.3.2,2011-06-20,REFACTOR,47,2960,,,,,,,,,,,,,,,
 8,jordansissel/fpm,v0.3.3,2011-06-24,REFACTOR,47,2962,,,,,,,,,,,,,,,
 9,jordansissel/fpm,v0.3.6,2011-07-08,REFACTOR,47,3039,,,,,,,,,,,,,,,
@@ -14,7 +14,7 @@
 12,jordansissel/fpm,v0.3.10,2011-10-11,REFACTOR,60,3469,,,,,,,,,,,,,,,
 13,jordansissel/fpm,v0.3.11,2011-11-03,REFACTOR,60,3488,,,,,,,,,,,,,,,
 14,jordansissel/fpm,v0.3.12,2012-02-22,REFACTOR,64,3288,,,,,,,,,,,,,,,
-15,jordansissel/fpm,v0.4.0,2012-03-19,REFACTOR,61,4082,2.0,153.0,14.0,886.0,2.0,,,,,,2.0,68.0,27.0,768.0,-1.0
+15,jordansissel/fpm,v0.4.0,2012-03-19,REFACTOR,61,4082,2.0,153.0,14.0,886.0,1.0,,,,,,2.0,68.0,27.0,768.0,-1.0
 16,jordansissel/fpm,v0.4.1,2012-03-19,REFACTOR,62,4117,,,,,,,,,,,,,,,
 17,jordansissel/fpm,v0.4.2,2012-03-20,REFACTOR,62,4163,,,,,,,,,,,,,,,
 18,jordansissel/fpm,v0.4.3,2012-03-21,REFACTOR,62,4168,,,,,,,,,,,,,,,

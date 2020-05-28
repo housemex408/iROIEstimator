@@ -129,7 +129,7 @@
 127,nightwatchjs/nightwatch,v0.9.17,2017-12-05,FEATURE,291,27085,,,,,,,,,,,,,,,
 128,nightwatchjs/nightwatch,v0.9.18,2017-12-05,FEATURE,302,28436,1.0,36.0,,0.0,1.0,,,,,,,,,,
 129,nightwatchjs/nightwatch,v0.9.20,2018-03-05,FEATURE,291,27089,,,,,,,,,,,,,,,
-130,nightwatchjs/nightwatch,v1.0.0,2018-04-24,FEATURE,360,39959,2.0,78.0,,0.0,2.0,,,,,,1.0,24.0,,0.0,-1.0
+130,nightwatchjs/nightwatch,v1.0.0,2018-04-24,FEATURE,360,39959,2.0,78.0,,0.0,1.0,,,,,,1.0,24.0,,0.0,-1.0
 131,nightwatchjs/nightwatch,v1.0.3,2018-04-24,FEATURE,360,39959,,,,,,,,,,,,,,,
 132,nightwatchjs/nightwatch,v1.0.2,2018-04-24,FEATURE,360,39959,,,,,,,,,,,,,,,
 133,nightwatchjs/nightwatch,v1.0.1,2018-04-24,FEATURE,360,39959,,,,,,,,,,,,,,,
@@ -143,7 +143,7 @@
 141,nightwatchjs/nightwatch,v1.0.11,2018-09-07,FEATURE,370,40643,,,,,,,,,,,,,,,
 142,nightwatchjs/nightwatch,v1.0.12,2018-11-12,FEATURE,377,41228,,,,,,,,,,,,,,,
 143,nightwatchjs/nightwatch,v1.0.13,2018-11-16,FEATURE,377,41307,,,,,,,,,,,,,,,
-144,nightwatchjs/nightwatch,v1.0.14,2018-11-18,FEATURE,381,41563,,,,,,59.0,67.0,,0.0,59.0,1.0,6.0,1.0,17.0,-1.0
+144,nightwatchjs/nightwatch,v1.0.14,2018-11-18,FEATURE,381,41563,,,,,,59.0,67.0,,0.0,1.0,1.0,6.0,1.0,17.0,-1.0
 145,nightwatchjs/nightwatch,v1.0.15,2018-12-11,FEATURE,381,41713,,,,,,,,,,,,,,,
 146,nightwatchjs/nightwatch,v1.0.16,2018-12-16,FEATURE,381,41713,,,,,,,,,,,,,,,
 147,nightwatchjs/nightwatch,v1.0.17,2018-12-23,FEATURE,382,41780,,,,,,,,,,,,,,,

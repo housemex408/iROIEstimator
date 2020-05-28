@@ -112,8 +112,8 @@
 110,swagger-api/swagger-ui,v3.5.0,2017-11-23,REFACTOR,253,22461,,,,,,,,,,,,,,,
 111,swagger-api/swagger-ui,v3.6.0,2017-12-02,REFACTOR,257,23196,,,,,,,,,,,,,,,
 112,swagger-api/swagger-ui,v3.6.1,2017-12-09,REFACTOR,271,24154,,,,,,,,,,,,,,,
-113,swagger-api/swagger-ui,v3.7.0,2017-12-16,REFACTOR,273,24289,2.0,69.0,4.0,36.0,2.0,,,,,,,,,,
-114,swagger-api/swagger-ui,v3.8.0,2017-12-23,REFACTOR,272,24339,1.0,19.0,,0.0,1.0,118.0,193.0,,0.0,118.0,,,,,
+113,swagger-api/swagger-ui,v3.7.0,2017-12-16,REFACTOR,273,24289,2.0,69.0,4.0,36.0,1.0,,,,,,,,,,
+114,swagger-api/swagger-ui,v3.8.0,2017-12-23,REFACTOR,272,24339,1.0,19.0,,0.0,1.0,118.0,193.0,,0.0,1.0,,,,,
 115,swagger-api/swagger-ui,v3.8.1,2017-12-30,REFACTOR,272,24482,,,,,,,,,,,2.0,2.0,20.0,231.0,-1.0
 116,swagger-api/swagger-ui,v3.9.0,2018-01-06,REFACTOR,272,24737,,,,,,,,,,,,,,,
 117,swagger-api/swagger-ui,v3.9.1,2018-01-13,REFACTOR,273,24786,,,,,,,,,,,,,,,

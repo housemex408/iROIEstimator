@@ -77,7 +77,7 @@
 75,kennethreitz/requests,2.0,2013-07-31,RELEASE,115,24886,,,,,,,,,,,,,,,
 76,kennethreitz/requests,v2.0,2013-09-24,RELEASE,116,25937,,,,,,,,,,,2.0,55.0,1.0,3.0,-1.0
 77,kennethreitz/requests,v2.0.0,2013-09-24,RELEASE,116,25948,,,,,,,,,,,,,,,
-78,kennethreitz/requests,v2.0.1,2013-10-24,RELEASE,117,27851,3.0,68.0,3.0,9.0,3.0,,,,,,,,,,
+78,kennethreitz/requests,v2.0.1,2013-10-24,RELEASE,117,27851,3.0,68.0,3.0,9.0,1.0,,,,,,,,,,
 79,kennethreitz/requests,v2.1.0,2013-12-05,RELEASE,121,28345,,,,,,,,,,,,,,,
 80,kennethreitz/requests,v2.2.0,2014-01-09,RELEASE,121,28592,,,,,,,,,,,,,,,
 81,kennethreitz/requests,v2.2.1,2014-01-23,RELEASE,121,28747,,,,,,,,,,,,,,,
@@ -90,7 +90,7 @@
 88,kennethreitz/requests,v2.5.1,2014-12-23,RELEASE,128,31025,1.0,21.0,1.0,13.0,1.0,1.0,21.0,1.0,13.0,1.0,,,,,
 89,kennethreitz/requests,v2.5.2,2015-02-23,RELEASE,128,31488,,,,,,,,,,,,,,,
 90,kennethreitz/requests,v2.5.3,2015-02-24,RELEASE,128,31411,1.0,2.0,2.0,12.0,1.0,1.0,2.0,2.0,12.0,1.0,,,,,
-91,kennethreitz/requests,v2.6.0,2015-03-14,RELEASE,128,31600,3.0,31.0,2.0,32.0,3.0,2.0,31.0,2.0,32.0,2.0,,,,,
+91,kennethreitz/requests,v2.6.0,2015-03-14,RELEASE,128,31600,3.0,31.0,2.0,32.0,2.0,2.0,31.0,2.0,32.0,1.0,,,,,
 92,kennethreitz/requests,v2.6.1,2015-04-22,RELEASE,130,31760,1.0,59.0,,0.0,1.0,1.0,59.0,,0.0,1.0,,,,,
 93,kennethreitz/requests,v2.6.2,2015-04-23,RELEASE,130,31784,1.0,1.0,2.0,12.0,1.0,1.0,1.0,2.0,12.0,1.0,,,,,
 94,kennethreitz/requests,v2.7.0,2015-05-03,RELEASE,132,32011,1.0,14.0,1.0,7.0,1.0,,,,,,,,,,
