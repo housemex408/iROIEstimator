@@ -4,7 +4,7 @@ import pandas as pd
 import logging
 import logging.handlers
 from scipy.stats import ttest_1samp, wilcoxon, mannwhitneyu
-from scipy.stats import shapiro
+from scipy.stats import shapiro, kruskal
 from statsmodels.stats.descriptivestats import sign_test
 from statsmodels.stats import weightstats as stests
 import os
@@ -134,42 +134,59 @@ def one_sample_z_test(data, mean, alpha):
       print("One Sample Z-Test: {0} sample mean is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
 
 def one_sample_sign_test(data, mean, alpha):
-  model_records_mean = round(data.mean(), 2)
+    model_records_mean = round(data.mean(), 2)
 
-  pvalue  = sign_test(data, mean)[1]
-  # z_statistic, pvalue = wilcoxon(data - mean, alternative='less')
-  print("One Sample Sign Test p-value: ", pvalue)
+    pvalue  = sign_test(data, mean)[1]
+    # z_statistic, pvalue = wilcoxon(data - mean, alternative='less')
+    print("One Sample Sign Test p-value: ", pvalue)
 
-  if pvalue > alpha:
-      print("One Sample Sign Test: {0} sample median is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
-  else:
-      print("One Sample Sign Test: {0} sample median is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
+    if pvalue > alpha:
+        print("One Sample Sign Test: {0} sample median is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
+    else:
+        print("One Sample Sign Test: {0} sample median is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
 
-def one_sample_sign_test(s1, s2, alpha):
-  model_records_mean = round(data.mean(), 2)
+def one_sample_sign_test(data, mean, alpha):
+    model_records_mean = round(data.mean(), 2)
 
-  pvalue  = sign_test(data, mean)[1]
-  # z_statistic, pvalue = wilcoxon(data - mean, alternative='less')
-  print("One Sample Sign Test p-value: ", pvalue)
+    pvalue  = sign_test(data, mean)[1]
+    # z_statistic, pvalue = wilcoxon(data - mean, alternative='less')
+    print("One Sample Sign Test p-value: ", pvalue)
 
-  if pvalue > alpha:
-      print("One Sample Sign Test: {0} sample median is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
-  else:
-      print("One Sample Sign Test: {0} sample median is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
+    if pvalue > alpha:
+        print("One Sample Sign Test: {0} sample median is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
+    else:
+        print("One Sample Sign Test: {0} sample median is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
 
 def two_sample_rank_test(s1, s2, model1, model2, alpha):
-  s1_median = round(s1.median(), 2)
-  s2_median = round(s2.median(), 2)
+    # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html
+    # https://sixsigmastudyguide.com/mann-whitney-non-parametric-hypothesis-test/
+    statistic, pvalue  = mannwhitneyu(s1, s2, alternative='two-sided')
+    # z_statistic, pvalue = wilcoxon(data - mean, alternative='less')
+    print("Two Sample Rank Test p-value: ", pvalue)
 
-  # https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mannwhitneyu.html
-  # https://sixsigmastudyguide.com/mann-whitney-non-parametric-hypothesis-test/
-  statistic, pvalue  = mannwhitneyu(s1, s2, alternative='two-sided')
-  # z_statistic, pvalue = wilcoxon(data - mean, alternative='less')
-  print("Two Sample Rank Test p-value: ", pvalue)
+    if pvalue > alpha:
+        print("Two Sample Rank Test: {0} median is likely to be the same {1} (fail to reject H0)".format(model1, model2))
+    else:
+        print("Two Sample Rank Test: {0} median is not likely to be the same as {1} (reject H0)".format(model1, model2))
 
-  if pvalue > alpha:
-      print("Two Sample Rank Test: {0} median is likely to be the same {1} (fail to reject H0)".format(model1, model2))
-  else:
-      print("Two Sample Rank Test: {0} median is not likely to be the same as {1} (reject H0)".format(model1, model2))
+def multi_sample_rank_test(s1, s2, s3, s4, s5, s6, s7, s8, s9, alpha):
+    s1_median = round(s1.median(), 2)
+    s2_median = round(s2.median(), 2)
+    s3_median = round(s3.median(), 2)
+    s4_median = round(s4.median(), 2)
+    s5_median = round(s5.median(), 2)
+    s6_median = round(s6.median(), 2)
+    s7_median = round(s7.median(), 2)
+    s8_median = round(s8.median(), 2)
+    s9_median = round(s9.median(), 2)
+
+    statistic, pvalue  = kruskal(s1, s2, s3, s4, s5, s6, s7, s8, s9)
+    # z_statistic, pvalue = wilcoxon(data - mean, alternative='less')
+    print("\nNon-parametric ANOVA p-value: ", pvalue)
+
+    if pvalue > alpha:
+        print("Non-parametric ANOVA: Distribution of all samples are likely to be the same (fail to reject H0)")
+    else:
+        print("Non-parametric ANOVA: At least one sample has a distribution different from the others (reject H0)")
 
 
