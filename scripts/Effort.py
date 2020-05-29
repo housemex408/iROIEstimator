@@ -116,38 +116,34 @@ class Effort:
         return results
 
     def predict_effort(self):
+        self.df[c.T_LINE_P] = self.df[c.T_LINE].shift()
+
+        if self.df.isna().values.any():
+          self.df.fillna(0, inplace=True)
+
         if self.type == c.LINE_CC:
-            self.X = self.df[[c.NT_CC, c.NO_CC]]
+            self.X = self.df[[c.NT_CC, c.NO_CC, c.T_CC, c.T_LINE_P]]
             self.Y = self.df[c.LINE_CC]
         elif self.type == c.LINE_EC:
-            self.X = self.df[[c.NT_EC, c.NO_EC]]
+            self.X = self.df[[c.NT_EC, c.NO_EC, c.T_EC, c.T_LINE_P]]
             self.Y = self.df[c.LINE_EC]
         elif self.type == c.MODULE_CC:
-            self.X = self.df[[c.NT_CC, c.NO_CC, c.T_MODULE]]
+            self.X = self.df[[c.NT_CC, c.NO_CC, c.T_CC, c.T_LINE_P]]
             self.Y = self.df[c.MODULE_CC]
         elif self.type == c.MODULE_EC:
-            self.X = self.df[[c.NT_EC, c.NO_EC, c.T_MODULE]]
+            self.X = self.df[[c.NT_EC, c.NO_EC, c.T_EC, c.T_LINE_P]]
             self.Y = self.df[c.MODULE_EC]
 
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.Y, train_size=0.75, test_size=0.25, random_state=0)
+        splits = 10
+
+        if self.t_records <= splits:
+          splits = self.t_records
+
         self.model = DecisionTreeRegressor(random_state=0)
-        self.model.fit(self.X_train, self.y_train)
-        self.predictions = self.model.predict(self.X_test)
+        self.model.fit(self.X, self.Y)
 
-
-        # splits = 10
-
-        # if self.t_records <= splits:
-        #   splits = self.t_records
-
-        # model_X = DecisionTreeRegressor(random_state=0)
-        # model_X.fit(self.X, self.Y)
-
-        # kfold = model_selection.KFold(n_splits=splits)
-        # self.predictions_X = cross_val_predict(model_X, self.X, self.Y, cv=kfold)
-        # results_kfold = model_selection.cross_val_score(model_X, self.X, self.Y, cv=kfold, n_jobs=-1)
-        # self.r_squared_X = round(results_kfold.mean(), 2)
-
+        kfold = model_selection.KFold(n_splits=splits)
+        self.predictions = cross_val_predict(self.model, self.X, self.Y, cv=kfold)
 
         # self.logger.info("{0} - {1} - {2} R2 Scores: {3}".format(self.project_name, self.task, self.type, results_kfold.round(2)))
         # self.logger.info("{0} - {1} - {2} R2 Accuracy: {3}".format(self.project_name, self.task, self.type, self.r_squared_X))
@@ -155,124 +151,94 @@ class Effort:
         # self.logger.info("{0} - {1} - {2} X-Validated Prediction Count: {3}".format(self.project_name, self.task, self.type, len(self.predictions_X)))
 
         results = self.calculate_diff()
-        # self.calculate_diff_x_validated()
 
         return results
 
     def calculate_diff(self):
         NT = None
         NO = None
+        T_CONTRIBUTORS = None
         TYPE = self.type
-        T_MODULE = c.T_MODULE
 
         if self.type == c.LINE_CC or self.type == c.MODULE_CC:
             NT = c.NT_CC
             NO = c.NO_CC
+            T_CONTRIBUTORS = c.T_CC
         elif self.type == c.LINE_EC or self.type == c.MODULE_EC:
             NT = c.NT_EC
             NO = c.NO_EC
-
-        data = {
-            c.PROJECT: self.project_name,
-            c.MODEL: TYPE,
-            c.TASK: self.task,
-            c.NT: self.X_test[NT],
-            c.NO: self.X_test[NO]
-        }
-
-        if self.modelType == c.MODULE:
-            data[c.T_MODULE] = self.X_test[T_MODULE]
-
-        data[c.OBSERVED] = self.y_test.round(2)
-        data[c.PREDICTED] = self.predictions.round(2)
-        data[c.DIFFERENCE] = abs(self.y_test - self.predictions).round(2)
-        data[c.PERCENT_ERROR] = (abs(self.y_test - self.predictions)/self.y_test).round(2)
-
-        self.results = pd.DataFrame(data)
-        return self.results
-
-    def calculate_diff_x_validated(self):
-        NT = None
-        NO = None
-        TYPE = self.type
-        T_MODULE = c.T_MODULE
-
-        if self.type == c.LINE_CC or self.type == c.MODULE_CC:
-            NT = c.NT_CC
-            NO = c.NO_CC
-        elif self.type == c.LINE_EC or self.type == c.MODULE_EC:
-            NT = c.NT_EC
-            NO = c.NO_EC
+            T_CONTRIBUTORS = c.T_EC
 
         data = {
             c.PROJECT: self.project_name,
             c.MODEL: TYPE,
             c.TASK: self.task,
             c.NT: self.X[NT],
-            c.NO: self.X[NO]
+            c.NO: self.X[NO],
+            c.T_CONTRIBUTORS: self.X[T_CONTRIBUTORS],
+            c.T_LINE_P: self.X[c.T_LINE_P]
         }
 
-        if self.modelType == c.MODULE:
-            data[c.T_MODULE] = self.X[T_MODULE]
-
         data[c.OBSERVED] = self.Y.round(2)
-        data[c.PREDICTED_X] = self.predictions_X.round(2)
-        data[c.DIFFERENCE_X] = abs(self.Y - self.predictions_X).round(2)
-        data[c.PERCENT_ERROR_X] = (abs(self.Y - self.predictions_X)/self.Y).round(2)
+        data[c.PREDICTED] = self.predictions.round(2)
+        data[c.DIFFERENCE] = abs(self.Y - self.predictions).round(2)
+        data[c.PERCENT_ERROR] = (abs(self.Y - self.predictions)/self.Y).round(2)
 
-        self.results_x_validated = pd.DataFrame(data)
-        return self.results_x_validated
+        self.results = pd.DataFrame(data)
+        self.results[c.PERCENT_ERROR].fillna(0, inplace=True)
+        self.results[c.PERCENT_ERROR].replace(np.inf, 0, inplace=True)
+
+        return self.results
 
     def calculate_perf_measurements(self):
-        self.r_squared = round(self.model.score(self.X_test, self.y_test), 2)
-        self.r_squared_adj = round(utils.calculated_rsquared_adj(self.X, self.X_test, self.r_squared), 2)
-        self.mae = round(metrics.mean_absolute_error(self.y_test, self.predictions), 2)
-        self.mse = round(metrics.mean_squared_error(self.y_test, self.predictions), 2)
-        self.rmse = round(np.sqrt(metrics.mean_squared_error(self.y_test, self.predictions)), 2)
+        self.r_squared = round(self.model.score(self.X, self.Y), 2)
+        self.r_squared_adj = round(utils.calculated_rsquared_adj(self.X, self.X, self.r_squared), 2)
+        self.mae = round(metrics.mean_absolute_error(self.Y, self.predictions), 2)
+        self.mse = round(metrics.mean_squared_error(self.Y, self.predictions), 2)
+        self.rmse = round(np.sqrt(metrics.mean_squared_error(self.Y, self.predictions)), 2)
         self.pred25 = round(utils.calculate_PRED(0.25, self.results, c.PERCENT_ERROR), 2)
         self.pred50 = round(utils.calculate_PRED(0.50, self.results, c.PERCENT_ERROR), 2)
-        # self.pred25_X = round(utils.calculate_PRED(0.25, self.results_x_validated, c.PERCENT_ERROR_X), 2)
-        # self.pred50_X = round(utils.calculate_PRED(0.50, self.results_x_validated, c.PERCENT_ERROR_X), 2)
 
     def create_output_df(self):
         row_df = pd.DataFrame({c.PROJECT: [self.project_name],
                       c.MODEL: [self.type],
                       c.TASK: [self.task],
                       c.R_SQUARED: [self.r_squared],
-                      c.R_SQUARED_X: [self.r_squared_X],
                       c.R_SQUARED_ADJ: [self.r_squared_adj],
                       c.MAE: [self.mae],
                       c.MSE: [self.mse],
                       c.RMSE: [self.rmse],
                       c.PRED_25: [self.pred25],
                       c.PRED_50: [self.pred50],
-                      c.PRED_25_X: [self.pred25_X],
-                      c.PRED_50_X: [self.pred50_X],
                       c.T_RECORDS: self.t_records})
         return row_df
 
     def forecast_module_effort(self, predicton_months):
         NT = None
         NO = None
+        T_CONTRIBUTORS = None
 
         if self.type == c.LINE_CC or self.type == c.MODULE_CC:
             NT = c.NT_CC
             NO = c.NO_CC
+            T_CONTRIBUTORS = c.T_CC
         elif self.type == c.LINE_EC or self.type == c.MODULE_EC:
             NT = c.NT_EC
             NO = c.NO_EC
+            T_CONTRIBUTORS = c.T_EC
 
         forecast_NT = self.forecast_variable(NT, predicton_months)
         forecast_NO = self.forecast_variable(NO, predicton_months)
+        forecast_T_Contributors = self.forecast_variable(T_CONTRIBUTORS, predicton_months)
+        forecast_T_Line_P = self.forecast_variable(c.T_LINE_P, predicton_months)
+
 
         data = {
             c.NT: forecast_NT['yhat'],
             c.NO: forecast_NO['yhat'],
+            c.T_CONTRIBUTORS: forecast_T_Contributors['yhat'],
+            c.T_LINE_P: forecast_T_Line_P['yhat']
         }
-
-        if self.modelType == c.MODULE:
-            forecast_T_Module = self.forecast_variable(c.T_MODULE, predicton_months)
-            data[c.T_MODULE] = forecast_T_Module['yhat']
 
         dateIndex = forecast_NT['ds']
         self.module_forecast_results = self.forecast_effort(data, dateIndex, self.type, self.model)
