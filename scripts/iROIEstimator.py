@@ -238,7 +238,7 @@ def execute_iROIEstimator(p, model):
 
 
 with concurrent.futures.ProcessPoolExecutor(max_workers=12) as executor:
-    {executor.submit(execute_iROIEstimator, project, c.MODULE): project for project in project_list}
+    {executor.submit(execute_iROIEstimator, project, c.LINE): project for project in project_list}
 
 # for p in project_list:
 #   try:
