@@ -7,6 +7,7 @@ sys.path.append(os.path.abspath(__file__))
 import Utilities as utils
 import Constants as c
 from Effort import Effort
+import concurrent.futures
 logger = utils.get_logger()
 os.environ["NUMEXPR_MAX_THREADS"] = "12"
 
@@ -14,8 +15,8 @@ class iROIEstimator:
     # input = "../../exports"
     input = "scripts/exports"
     output = "scripts/notebook/results"
-    # TASK_LIST = c.TASK_LIST
-    TASK_LIST = ["BUG"]
+    TASK_LIST = c.TASK_LIST
+    # TASK_LIST = ["BUG"]
 
     results_header = [
       c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_CONTRIBUTORS,
@@ -203,15 +204,28 @@ class iROIEstimator:
         self.roi_measures = pd.concat([self.roi_measures, roi_measures])
         self.roi_measures.to_csv(self.roi_measures_file, header=False, mode = 'a', index=False)
 
-# project_list = c.PROJECT_LIST + c.OTHER_PROJECT_LIST
-project_list = ["angular/angular"]
+project_list = c.ALL_PROJECTS
+# project_list = ["angular/angular", "angular/angular.js"]
 
-for p in project_list:
+def execute_iROIEstimator(p):
   try:
     logger.debug("Project {0}".format(p))
     estimator = iROIEstimator(p, c.MODULE)
     estimator.execute()
   except Exception:
     logger.error("Error:  {0}".format(p), exc_info=True)
-    continue
+
+
+with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+    # Start the load operations and mark each future with its URL
+    {executor.submit(execute_iROIEstimator, project): project for project in project_list}
+
+# for p in project_list:
+#   try:
+#     logger.debug("Project {0}".format(p))
+#     estimator = iROIEstimator(p, c.MODULE)
+#     estimator.execute()
+#   except Exception:
+#     logger.error("Error:  {0}".format(p), exc_info=True)
+#     continue
 

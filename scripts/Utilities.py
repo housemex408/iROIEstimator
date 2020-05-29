@@ -39,6 +39,9 @@ def calculate_hours_diff(df):
     ))
 
 def calculate_contribs(row, effort, model, contribs):
+    if effort == 0:
+      effort = 1
+
     contributors = row[model] / effort
     min_contribs = min(contributors, row[contribs])
 
