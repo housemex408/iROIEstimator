@@ -48,23 +48,23 @@ class iROIEstimator:
         self.performance_measures = pd.DataFrame(columns = self.performance_measures_header)
         self.roi_measures = pd.DataFrame(columns = self.roi_header)
 
-        # if not os.path.isfile(self.results_file):
-        #   self.results.to_csv(self.results_file, index=False)
+        if not os.path.isfile(self.results_file):
+          self.results.to_csv(self.results_file, index=False)
 
         if not os.path.isfile(self.performance_measures_file):
           self.performance_measures.to_csv(self.performance_measures_file, index=False)
 
-        # if not os.path.isfile(self.roi_measures_file):
-        #   self.roi_measures.to_csv(self.roi_measures_file, index=False)
+        if not os.path.isfile(self.roi_measures_file):
+          self.roi_measures.to_csv(self.roi_measures_file, index=False)
 
     def execute(self):
         for task in self.TASK_LIST:
             tasks = self.file_template.format(cwd=self.input, project_name=self.project_name, task = task)
             df = pd.read_csv(tasks)
 
-            df = df.dropna(subset=[c.T_MODULE])
+            # df = df.dropna(subset=[c.T_MODULE])
             df = df.dropna(subset=[c.DATE])
-            df = df.dropna(subset=[c.TASK])
+            # df = df.dropna(subset=[c.TASK])
             df[c.DATE] = pd.to_datetime(df[c.DATE])
             df = df.set_index(c.DATE)
             df.index.name = c.DATE
@@ -84,11 +84,11 @@ class iROIEstimator:
             self.results = pd.concat([self.results, results])
             self.performance_measures = pd.concat([self.performance_measures, performance_measures])
 
-            # self.forecast_effort(df, task)
+            self.forecast_effort(df, task)
         self.display_forecast(self.prediction_years)
         self.save_results_performance_measures()
-        # self.calculate_results()
-        # self.save_results_roi_measures()
+        self.calculate_results()
+        self.save_results_roi_measures()
 
     def get_independent_variables(self):
         CC = c.LINE_CC
@@ -143,7 +143,7 @@ class iROIEstimator:
             logger.info("\n {0}".format(self.performance_measures))
 
     def save_results_performance_measures(self):
-        # self.results.to_csv(self.results_file, header=False, mode = 'a', index=False)
+        self.results.to_csv(self.results_file, header=False, mode = 'a', index=False)
         self.performance_measures.to_csv(self.performance_measures_file, header=False, mode = 'a', index=False)
 
     def calculate_investment_gain(self):
@@ -198,8 +198,8 @@ class iROIEstimator:
         self.roi_measures = pd.concat([self.roi_measures, roi_measures])
         self.roi_measures.to_csv(self.roi_measures_file, header=False, mode = 'a', index=False)
 
-project_list = c.PROJECT_LIST + c.OTHER_PROJECT_LIST
-# project_list = ["angular/linux"]
+# project_list = c.PROJECT_LIST + c.OTHER_PROJECT_LIST
+project_list = ["angular/angular"]
 
 for p in project_list:
   try:

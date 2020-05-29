@@ -20,6 +20,7 @@ from sklearn import model_selection
 from sklearn.model_selection import cross_val_predict
 from sklearn.model_selection import KFold
 from sklearn.model_selection import LeaveOneOut
+from sklearn.tree import DecisionTreeRegressor
 
 class Effort:
     logger = utils.get_logger()
@@ -129,21 +130,21 @@ class Effort:
             self.Y = self.df[c.MODULE_EC]
 
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.Y, train_size=0.75, test_size=0.25, random_state=0)
-        self.model = RandomForestRegressor(n_estimators=300, n_jobs=-1, random_state=0)
+        self.model = DecisionTreeRegressor(random_state=0)
         self.model.fit(self.X_train, self.y_train)
         self.predictions = self.model.predict(self.X_test)
 
 
-        splits = 10
+        # splits = 10
 
-        if self.t_records <= splits:
-          splits = self.t_records
+        # if self.t_records <= splits:
+        #   splits = self.t_records
 
-        model_X = RandomForestRegressor(n_estimators=300, n_jobs=-1, random_state=0)
-        model_X.fit(self.X, self.Y)
+        # model_X = DecisionTreeRegressor(random_state=0)
+        # model_X.fit(self.X, self.Y)
 
-        kfold = model_selection.KFold(n_splits=splits)
-        self.predictions_X = cross_val_predict(model_X, self.X, self.Y, cv=kfold)
+        # kfold = model_selection.KFold(n_splits=splits)
+        # self.predictions_X = cross_val_predict(model_X, self.X, self.Y, cv=kfold)
         # results_kfold = model_selection.cross_val_score(model_X, self.X, self.Y, cv=kfold, n_jobs=-1)
         # self.r_squared_X = round(results_kfold.mean(), 2)
 
@@ -154,7 +155,7 @@ class Effort:
         # self.logger.info("{0} - {1} - {2} X-Validated Prediction Count: {3}".format(self.project_name, self.task, self.type, len(self.predictions_X)))
 
         results = self.calculate_diff()
-        self.calculate_diff_x_validated()
+        # self.calculate_diff_x_validated()
 
         return results
 
@@ -230,8 +231,8 @@ class Effort:
         self.rmse = round(np.sqrt(metrics.mean_squared_error(self.y_test, self.predictions)), 2)
         self.pred25 = round(utils.calculate_PRED(0.25, self.results, c.PERCENT_ERROR), 2)
         self.pred50 = round(utils.calculate_PRED(0.50, self.results, c.PERCENT_ERROR), 2)
-        self.pred25_X = round(utils.calculate_PRED(0.25, self.results_x_validated, c.PERCENT_ERROR_X), 2)
-        self.pred50_X = round(utils.calculate_PRED(0.50, self.results_x_validated, c.PERCENT_ERROR_X), 2)
+        # self.pred25_X = round(utils.calculate_PRED(0.25, self.results_x_validated, c.PERCENT_ERROR_X), 2)
+        # self.pred50_X = round(utils.calculate_PRED(0.50, self.results_x_validated, c.PERCENT_ERROR_X), 2)
 
     def create_output_df(self):
         row_df = pd.DataFrame({c.PROJECT: [self.project_name],
