@@ -8,6 +8,7 @@ import Utilities as utils
 import Constants as c
 from Effort import Effort
 import concurrent.futures
+import fcntl
 logger = utils.get_logger()
 os.environ["NUMEXPR_MAX_THREADS"] = "12"
 
@@ -55,13 +56,22 @@ class iROIEstimator:
         self.roi_measures = pd.DataFrame(columns = self.roi_header)
 
         if not os.path.isfile(self.results_file):
-          self.results.to_csv(self.results_file, index=False)
+          with open(self.results_file, "w") as f:
+            fcntl.flock(f, fcntl.LOCK_EX)
+            self.results.to_csv(f, index=False)
+            fcntl.flock(f, fcntl.LOCK_UN)
 
         if not os.path.isfile(self.performance_measures_file):
-          self.performance_measures.to_csv(self.performance_measures_file, index=False)
+          with open(self.performance_measures_file, "w") as f:
+            fcntl.flock(f, fcntl.LOCK_EX)
+            self.performance_measures.to_csv(f, index=False)
+            fcntl.flock(f, fcntl.LOCK_UN)
 
         if not os.path.isfile(self.roi_measures_file):
-          self.roi_measures.to_csv(self.roi_measures_file, index=False)
+          with open(self.roi_measures_file, "w") as f:
+            fcntl.flock(f, fcntl.LOCK_EX)
+            self.roi_measures.to_csv(f, index=False)
+            fcntl.flock(f, fcntl.LOCK_UN)
 
     def execute(self):
         # for task in ["BUG"]:
@@ -149,8 +159,15 @@ class iROIEstimator:
             logger.info("\n {0}".format(self.performance_measures))
 
     def save_results_performance_measures(self):
-        self.results.to_csv(self.results_file, header=False, mode = 'a', index=False)
-        self.performance_measures.to_csv(self.performance_measures_file, header=False, mode = 'a', index=False)
+        with open(self.results_file, "w") as f:
+          fcntl.flock(f, fcntl.LOCK_EX)
+          self.results.to_csv(f, header=False, mode = 'a', index=False)
+          fcntl.flock(f, fcntl.LOCK_UN)
+
+        with open(self.performance_measures_file, "w") as f:
+          fcntl.flock(f, fcntl.LOCK_EX)
+          self.performance_measures.to_csv(f, header=False, mode = 'a', index=False)
+          fcntl.flock(f, fcntl.LOCK_UN)
 
     def calculate_investment_gain(self):
         self.investment_gain = round(self.amount_returned - self.amount_invested, 2)
@@ -202,30 +219,34 @@ class iROIEstimator:
                       c.ANNUALIZED_ROI: [self.annualized_roi]})
 
         self.roi_measures = pd.concat([self.roi_measures, roi_measures])
-        self.roi_measures.to_csv(self.roi_measures_file, header=False, mode = 'a', index=False)
+
+        with open(self.roi_measures_file, "w") as f:
+          fcntl.flock(f, fcntl.LOCK_EX)
+          self.roi_measures.to_csv(f, header=False, mode = 'a', index=False)
+          fcntl.flock(f, fcntl.LOCK_UN)
 
 project_list = c.ALL_PROJECTS
 # project_list = ["angular/angular", "angular/angular.js"]
 
-def execute_iROIEstimator(p):
-  try:
-    logger.debug("Project {0}".format(p))
-    estimator = iROIEstimator(p, c.MODULE)
-    estimator.execute()
-  except Exception:
-    logger.error("Error:  {0}".format(p), exc_info=True)
-
-
-with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-    # Start the load operations and mark each future with its URL
-    {executor.submit(execute_iROIEstimator, project): project for project in project_list}
-
-# for p in project_list:
+# def execute_iROIEstimator(p):
 #   try:
 #     logger.debug("Project {0}".format(p))
 #     estimator = iROIEstimator(p, c.MODULE)
 #     estimator.execute()
 #   except Exception:
 #     logger.error("Error:  {0}".format(p), exc_info=True)
-#     continue
+
+
+# with concurrent.futures.ProcessPoolExecutor(max_workers=2) as executor:
+#     # Start the load operations and mark each future with its URL
+#     {executor.submit(execute_iROIEstimator, project): project for project in project_list}
+
+for p in project_list:
+  try:
+    logger.debug("Project {0}".format(p))
+    estimator = iROIEstimator(p, c.MODULE)
+    estimator.execute()
+  except Exception:
+    logger.error("Error:  {0}".format(p), exc_info=True)
+    continue
 

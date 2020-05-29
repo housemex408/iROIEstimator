@@ -114,12 +114,11 @@ class Effort:
         NT = pd.DataFrame(data)
         NT.columns = ['ds','y']
 
-        # are_same = utils.is_all_same(NT['y'])
+        are_same = utils.is_all_same(NT['y'])
 
-        # for i in range(len(NT)):
-        #   y_value = NT['y'][i]
-        #   if are_same or y_value == 0:
-        #     NT['y'][i] = random.randint(1,4)
+        if are_same:
+          for i in range(len(NT)):
+            NT['y'][i] = random.randint(1,4)
 
         NT['y_orig'] = NT['y']
         NT['y'], lam = boxcox(NT['y'] + 1)
