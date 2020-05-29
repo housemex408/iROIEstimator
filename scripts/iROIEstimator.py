@@ -56,21 +56,21 @@ class iROIEstimator:
         self.roi_measures = pd.DataFrame(columns = self.roi_header)
 
         if not os.path.isfile(self.results_file):
-          with open(self.results_file, "w") as f:
+          with open(self.results_file, "a") as f:
             fcntl.flock(f, fcntl.LOCK_EX)
-            self.results.to_csv(f, index=False)
+            self.results.to_csv(f, mode = 'a', index=False)
             fcntl.flock(f, fcntl.LOCK_UN)
 
         if not os.path.isfile(self.performance_measures_file):
-          with open(self.performance_measures_file, "w") as f:
+          with open(self.performance_measures_file, "a") as f:
             fcntl.flock(f, fcntl.LOCK_EX)
-            self.performance_measures.to_csv(f, index=False)
+            self.performance_measures.to_csv(f, mode = 'a', index=False)
             fcntl.flock(f, fcntl.LOCK_UN)
 
         if not os.path.isfile(self.roi_measures_file):
-          with open(self.roi_measures_file, "w") as f:
+          with open(self.roi_measures_file, "a") as f:
             fcntl.flock(f, fcntl.LOCK_EX)
-            self.roi_measures.to_csv(f, index=False)
+            self.roi_measures.to_csv(f, mode = 'a', index=False)
             fcntl.flock(f, fcntl.LOCK_UN)
 
     def execute(self):
@@ -159,12 +159,12 @@ class iROIEstimator:
             logger.info("\n {0}".format(self.performance_measures))
 
     def save_results_performance_measures(self):
-        with open(self.results_file, "w") as f:
+        with open(self.results_file, "a") as f:
           fcntl.flock(f, fcntl.LOCK_EX)
           self.results.to_csv(f, header=False, mode = 'a', index=False)
           fcntl.flock(f, fcntl.LOCK_UN)
 
-        with open(self.performance_measures_file, "w") as f:
+        with open(self.performance_measures_file, "a") as f:
           fcntl.flock(f, fcntl.LOCK_EX)
           self.performance_measures.to_csv(f, header=False, mode = 'a', index=False)
           fcntl.flock(f, fcntl.LOCK_UN)
@@ -220,7 +220,7 @@ class iROIEstimator:
 
         self.roi_measures = pd.concat([self.roi_measures, roi_measures])
 
-        with open(self.roi_measures_file, "w") as f:
+        with open(self.roi_measures_file, "a") as f:
           fcntl.flock(f, fcntl.LOCK_EX)
           self.roi_measures.to_csv(f, header=False, mode = 'a', index=False)
           fcntl.flock(f, fcntl.LOCK_UN)
@@ -228,25 +228,24 @@ class iROIEstimator:
 project_list = c.ALL_PROJECTS
 # project_list = ["angular/angular", "angular/angular.js"]
 
-# def execute_iROIEstimator(p):
+def execute_iROIEstimator(p, model):
+  try:
+    logger.debug("Project {0}".format(p))
+    estimator = iROIEstimator(p, model)
+    estimator.execute()
+  except Exception:
+    logger.error("Error:  {0}".format(p), exc_info=True)
+
+
+with concurrent.futures.ProcessPoolExecutor(max_workers=12) as executor:
+    {executor.submit(execute_iROIEstimator, project, c.MODULE): project for project in project_list}
+
+# for p in project_list:
 #   try:
 #     logger.debug("Project {0}".format(p))
 #     estimator = iROIEstimator(p, c.MODULE)
 #     estimator.execute()
 #   except Exception:
 #     logger.error("Error:  {0}".format(p), exc_info=True)
-
-
-# with concurrent.futures.ProcessPoolExecutor(max_workers=2) as executor:
-#     # Start the load operations and mark each future with its URL
-#     {executor.submit(execute_iROIEstimator, project): project for project in project_list}
-
-for p in project_list:
-  try:
-    logger.debug("Project {0}".format(p))
-    estimator = iROIEstimator(p, c.MODULE)
-    estimator.execute()
-  except Exception:
-    logger.error("Error:  {0}".format(p), exc_info=True)
-    continue
+#     continue
 
