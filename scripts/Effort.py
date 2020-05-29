@@ -34,48 +34,95 @@ class Effort:
         self.project_name = project
         self.model = None
         self.predictions = None
-        self.predictions_X = None
         self.r_squared = None
-        self.r_squared_X = None
         self.r_squared_adj = None
         self.mae = None
         self.mse = None
         self.rmse = None
         self.pred25 = None
         self.pred50 = None
-        self.pred25_X = None
-        self.pred50_X = None
-        self.predicted_effort = None
-        self.shapiro_wilk_test = None
-        self.X_train = None
-        self.X_test = None
-        self.y_train = None
-        self.y_test = None
         self.X = None
         self.Y = None
         self.results = None
-        self.results_x_validated = None
         self.module_forecast_results = None
+        self.average_effort_release = None
+        self.calculate_costs()
+
+    def get_cost_columns(self):
+      EFFORT = self.type
+      T_CONTRIBS = None
+      BILLED = None
+      COST = None
+      HOURS_DIFF = None
+      AVG_EFFORT_CONTRIBS = None
+      CONTRIB_DIFF = None
+
+      if self.type == c.LINE_CC or self.type == c.MODULE_CC:
+        T_CONTRIBS = c.T_CC
+        BILLED = c.BILLED_HOURS_CC
+        COST = c.COST_CC
+        HOURS_DIFF = c.HOURS_DIFF_CC
+        AVG_EFFORT_CONTRIBS = c.AVG_MODULE_CONTRIBS_CC
+        CONTRIB_DIFF = c.CONTRIB_DIFF_CC
+      else:
+        T_CONTRIBS = c.T_EC
+        BILLED = c.BILLED_HOURS_EC
+        COST = c.COST_EC
+        HOURS_DIFF = c.HOURS_DIFF_EC
+        AVG_EFFORT_CONTRIBS = c.AVG_MODULE_CONTRIBS_EC
+        CONTRIB_DIFF = c.CONTRIB_DIFF_EC
+
+      return EFFORT, T_CONTRIBS, BILLED, COST, HOURS_DIFF, AVG_EFFORT_CONTRIBS, CONTRIB_DIFF
+
+    def calculate_costs(self):
+      EFFORT, T_CONTRIBS, BILLED, COST, HOURS_DIFF, AVG_EFFORT_CONTRIBS, CONTRIB_DIFF = self.get_cost_columns()
+
+      self.df[c.DATE_P] = self.df[c.DATE].shift()
+      self.df[c.DATE_P].fillna(self.df[c.DATE].min(), inplace=True)
+
+      # Cost section
+      self.df[HOURS_DIFF] = utils.calculate_hours_diff(self.df)
+
+      if self.df[[c.DATE, c.DATE_P]].isna().values.any():
+          self.df[[c.DATE, c.DATE_P]].fillna(0, inplace=True)
+
+      self.df[T_CONTRIBS] = self.df[T_CONTRIBS].replace(0, 1)
+
+      average_effort = self.df[EFFORT].tail(30).mean()
+      average_effort_contribs = self.df[T_CONTRIBS].mean()
+      self.average_effort_release = average_effort / average_effort_contribs
+
+      self.df[AVG_EFFORT_CONTRIBS] = self.df.apply(
+        utils.calculate_contribs,
+        effort=self.average_effort_release,
+        model=EFFORT,
+        contribs=T_CONTRIBS,
+        axis=1
+      )
+
+      self.df[CONTRIB_DIFF] = round(self.df[T_CONTRIBS] - self.df[AVG_EFFORT_CONTRIBS], 2)
+      self.df[BILLED] = round(self.df[HOURS_DIFF] * self.df[AVG_EFFORT_CONTRIBS], 2)
+      self.df[COST] = round(self.df[BILLED] * 100, 2)
 
     def forecast_variable(self, variable, predicton_months):
         self.logger.debug("\n{0} - Forcasting {1} for {2} and task {3}: \n {4}".format(self.project_name, variable, self.type, self.task, self.df[variable]))
 
         data = {
-            c.DATE: self.df.index,
+            c.DATE: self.df[c.DATE],
             c.NT: self.df[variable]
         }
         NT = pd.DataFrame(data)
         NT.columns = ['ds','y']
 
-        are_same = utils.is_all_same(NT['y'])
+        # are_same = utils.is_all_same(NT['y'])
 
-        for i in range(len(NT)):
-          y_value = NT['y'][i]
-          if are_same or y_value == 0:
-            NT['y'][i] = random.randint(1,4)
+        # for i in range(len(NT)):
+        #   y_value = NT['y'][i]
+        #   if are_same or y_value == 0:
+        #     NT['y'][i] = random.randint(1,4)
 
         NT['y_orig'] = NT['y']
-        NT['y'], lam = boxcox(NT['y'])
+        NT['y'], lam = boxcox(NT['y'] + 1)
 
         m_NT = Prophet(interval_width=0.90)
         m_NT.fit(NT)
@@ -169,14 +216,22 @@ class Effort:
             NO = c.NO_EC
             T_CONTRIBUTORS = c.T_EC
 
+        EFFORT, T_CONTRIBS, BILLED, COST, HOURS_DIFF, AVG_EFFORT_CONTRIBS, CONTRIB_DIFF = self.get_cost_columns()
+
         data = {
+            c.DATE: self.df[c.DATE],
             c.PROJECT: self.project_name,
             c.MODEL: TYPE,
             c.TASK: self.task,
             c.NT: self.X[NT],
             c.NO: self.X[NO],
             c.T_CONTRIBUTORS: self.X[T_CONTRIBUTORS],
-            c.T_LINE_P: self.X[c.T_LINE_P]
+            c.T_LINE_P: self.X[c.T_LINE_P],
+            c.AVG_MODULE_CONTRIBS: self.df[AVG_EFFORT_CONTRIBS],
+            c.HOURS_DIFF: self.df[HOURS_DIFF],
+            c.CONTRIB_DIFF: self.df[CONTRIB_DIFF],
+            c.BILLED_HOURS: self.df[BILLED],
+            c.COST: self.df[COST]
         }
 
         data[c.OBSERVED] = self.Y.round(2)

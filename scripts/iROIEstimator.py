@@ -14,10 +14,14 @@ class iROIEstimator:
     # input = "../../exports"
     input = "scripts/exports"
     output = "scripts/notebook/results"
-    TASK_LIST = c.TASK_LIST
-    # TASK_LIST = ["BUG"]
+    # TASK_LIST = c.TASK_LIST
+    TASK_LIST = ["BUG"]
 
-    results_header = [c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_CONTRIBUTORS, c.T_LINE_P, c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR]
+    results_header = [
+      c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_CONTRIBUTORS,
+      c.AVG_MODULE_CONTRIBS, c.HOURS_DIFF, c.CONTRIB_DIFF, c.BILLED_HOURS, c.COST,
+      c.T_LINE_P, c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR
+    ]
     performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
     roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.INVESTMENT_GAIN, c.ROI, c.ANNUALIZED_ROI]
 
@@ -59,8 +63,8 @@ class iROIEstimator:
           self.roi_measures.to_csv(self.roi_measures_file, index=False)
 
     def execute(self):
-        for task in ["BUG"]:
-        # for task in self.TASK_LIST:
+        # for task in ["BUG"]:
+        for task in self.TASK_LIST:
             tasks = self.file_template.format(cwd=self.input, project_name=self.project_name, task = task)
             df = pd.read_csv(tasks)
 
@@ -68,9 +72,9 @@ class iROIEstimator:
             df = df.dropna(subset=[c.DATE])
             # df = df.dropna(subset=[c.TASK])
             df[c.DATE] = pd.to_datetime(df[c.DATE])
-            df = df.set_index(c.DATE)
-            df.index.name = c.DATE
-            df.index = df.index.strftime('%Y-%m-%d')
+            # df = df.set_index(c.DATE)
+            # df.index.name = c.DATE
+            # df.index = df.index.strftime('%Y-%m-%d')
 
             if df.isna().values.any():
                 df.fillna(0, inplace=True)
@@ -138,7 +142,6 @@ class iROIEstimator:
             logger.info(self.task_forecasted_effort[key][c.MODULE_CC].T)
             logger.info(self.task_forecasted_effort[key][c.MODULE_EC].T)
 
-            self.results[c.DATE] = self.results.index
             self.results.sort_values(by=[c.DATE, c.PROJECT, c.MODEL, c.TASK], ascending = True, inplace=True)
             self.performance_measures.sort_values(by=[c.PROJECT, c.MODEL, c.TASK], inplace=True)
             logger.info("\n {0}".format(self.results))

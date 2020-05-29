@@ -38,10 +38,10 @@ def calculate_hours_diff(df):
         businessDuration, df[c.DATE_P], df[c.DATE], repeat(biz_open_time), repeat(biz_close_time), repeat(weekend_list), repeat(US_holiday_list), repeat(unit_hour)
     ))
 
-def calculate_contribs(row, contribs):
-    contributors = row[c.MODULE] / contribs
-    min_contribs = min(contributors, row[c.T_CONTRIBUTORS])
-    
+def calculate_contribs(row, effort, model, contribs):
+    contributors = row[model] / effort
+    min_contribs = min(contributors, row[contribs])
+
     if min_contribs == 0:
         return 1
 
@@ -69,7 +69,6 @@ def standardize(df, field):
     # min_max_scaler = preprocessing.MinMaxScaler()
     # x_scaled = min_max_scaler.fit_transform(data)
     # n_test = pd.DataFrame(x_scaled, columns=[field])
-    return
     return (df[field] - df[field].mean()) / df[field].std()
 
 def calculate_PRED(percentage, dataFrame, percent_error_key):
