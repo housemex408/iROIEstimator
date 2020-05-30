@@ -1,7 +1,7 @@
 {
   "python.linting.pylintEnabled": true,
   "python.linting.enabled": true,
-  "python.pythonPath": "/Users/alvaradojo/opt/anaconda3/envs/PRAXIS/bin/python",
+  "python.pythonPath": "/Users/housemex408/.conda/envs/PRAXIS/bin/python",
   "python.testing.unittestArgs": [
     "-v",
     "-s",
