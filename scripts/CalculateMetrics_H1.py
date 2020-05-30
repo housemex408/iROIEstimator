@@ -52,7 +52,7 @@ transformers = {
   "QuantileTransformer": QuantileTransformer()
 }
 
-regressor = regressors["RandomForestRegressor"]
+regressor = regressors["DecisionTreeRegressor"]
 transformer = transformers["QuantileTransformer"]
 
 # BEGIN Functions
@@ -130,7 +130,7 @@ def calculate_effort(X, Y, project, task, model_type, transformer, regressor):
 
 # BEGIN Main
 directoryPath = "scripts/exports"
-outputFile = "scripts/notebook/results/calculate_metrics_h1_DT_05_27_2020.csv".format(directory=directoryPath)
+outputFile = "scripts/notebook/results/calculate_metrics_h1_DT_05_29_2020.csv".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS, c.D_RECORDS, c.P_NA]
 o_df = pd.DataFrame(columns=headers)
 
@@ -177,14 +177,15 @@ for task in c.TASK_LIST:
   # Calculate LINE
   line_cc_output = calculate_effort(df[[c.NT_CC, c.NO_CC, c.T_CC]], df[c.LINE_CC], project, task, c.LINE, transformer, regressor)
   line_ec_output = calculate_effort(df[[c.NT_EC, c.NO_EC, c.T_EC]], df[c.LINE_EC], project, task, c.LINE, transformer, regressor)
-  line_uc_output = calculate_effort(df[[c.NT_UC, c.NO_UC, c.T_UC]], df[c.LINE_UC], project, task, c.LINE, transformer, regressor)
+  # line_uc_output = calculate_effort(df[[c.NT_UC, c.NO_UC, c.T_UC]], df[c.LINE_UC], project, task, c.LINE, transformer, regressor)
 
   # Calculate MODULE
   module_cc_output = calculate_effort(df[[c.NT_CC, c.NO_CC, c.T_CC]], df[c.MODULE_CC], project, task, c.MODULE, transformer, regressor)
   module_ec_output = calculate_effort(df[[c.NT_EC, c.NO_EC, c.T_EC]], df[c.MODULE_EC], project, task, c.MODULE, transformer, regressor)
-  module_uc_output = calculate_effort(df[[c.NT_UC, c.NO_UC, c.T_UC]], df[c.MODULE_UC], project, task, c.MODULE, transformer, regressor)
+  # module_uc_output = calculate_effort(df[[c.NT_UC, c.NO_UC, c.T_UC]], df[c.MODULE_UC], project, task, c.MODULE, transformer, regressor)
 
-  output = pd.concat([line_cc_output, line_ec_output, line_uc_output, module_cc_output, module_ec_output, module_uc_output])
+  # output = pd.concat([line_cc_output, line_ec_output, line_uc_output, module_cc_output, module_ec_output, module_uc_output])
+  output = pd.concat([line_cc_output, line_ec_output, module_cc_output, module_ec_output])
 
   # Write to file
   output.sort_values(by=[c.PROJECT, c.MODEL, c.TASK], inplace=True)

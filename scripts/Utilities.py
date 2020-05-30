@@ -171,20 +171,8 @@ def one_sample_z_test(data, mean, alpha):
 def one_sample_sign_test(data, mean, alpha):
     model_records_mean = round(data.mean(), 2)
 
-    pvalue  = sign_test(data, mean)[1]
-    # z_statistic, pvalue = wilcoxon(data - mean, alternative='less')
-    print("One Sample Sign Test p-value: ", pvalue)
-
-    if pvalue > alpha:
-        print("One Sample Sign Test: {0} sample median is likely to be greater than {1} (fail to reject H0)".format(model_records_mean, mean))
-    else:
-        print("One Sample Sign Test: {0} sample median is not likely to be greater than {1} (reject H0)".format(model_records_mean, mean))
-
-def one_sample_sign_test(data, mean, alpha):
-    model_records_mean = round(data.mean(), 2)
-
-    pvalue  = sign_test(data, mean)[1]
-    # z_statistic, pvalue = wilcoxon(data - mean, alternative='less')
+    # pvalue  = sign_test(data, mean)[1]
+    z_statistic, pvalue = wilcoxon(data - mean, alternative='less')
     print("One Sample Sign Test p-value: ", pvalue)
 
     if pvalue > alpha:
