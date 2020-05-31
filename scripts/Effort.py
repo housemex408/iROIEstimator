@@ -21,6 +21,9 @@ from sklearn.model_selection import cross_val_predict
 from sklearn.model_selection import KFold
 from sklearn.model_selection import LeaveOneOut
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.preprocessing import QuantileTransformer
+from sklearn.compose import TransformedTargetRegressor
+from sklearn.pipeline import Pipeline
 
 class Effort:
     logger = utils.get_logger()
@@ -117,8 +120,11 @@ class Effort:
         are_same = utils.is_all_same(NT['y'])
 
         if are_same:
-          for i in range(len(NT)):
-            NT['y'][i] = random.randint(1,4)
+          size = len(NT)
+          min = NT['y'].head(1)
+          NT['y'] = np.random.randint(min,min+2,size)
+          # for i in range(len(NT)):
+          #   NT['y'][i] = random.randint(0,4)
 
         NT['y_orig'] = NT['y']
         NT['y'], lam = boxcox(NT['y'] + 1)
@@ -185,7 +191,14 @@ class Effort:
         if self.t_records <= splits:
           splits = self.t_records
 
-        self.model = DecisionTreeRegressor(random_state=0)
+        pipeline = Pipeline(
+          steps=[
+            ('scaler', QuantileTransformer()),
+            ('predictor', DecisionTreeRegressor(random_state=0, max_depth=10, min_samples_split=10))
+          ])
+        self.model = TransformedTargetRegressor(regressor=pipeline, transformer=QuantileTransformer())
+
+        # self.model = DecisionTreeRegressor(random_state=0, max_depth=10, min_samples_split=10)
         self.model.fit(self.X, self.Y)
 
         kfold = model_selection.KFold(n_splits=splits)
