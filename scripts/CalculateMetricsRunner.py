@@ -15,7 +15,7 @@ repos = c.ALL_PROJECTS
 for repo in repos:
     projects.append("python ./scripts/CalculateMetrics_H2.py --p={repo}".format(repo=repo))
 
-max_workers = 12
+max_workers = 8
 processes = (Popen(cmd, shell=True) for cmd in projects)
 running_processes = list(islice(processes, max_workers))  # start new processes
 while running_processes:
