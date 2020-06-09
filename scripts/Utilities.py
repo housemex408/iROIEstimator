@@ -75,22 +75,29 @@ def standardize(df, field):
     return (df[field] - df[field].mean()) / df[field].std()
 
 def calculate_PRED(percentage, dataFrame, percent_error_key):
-    dataFrame[percent_error_key].fillna(0, inplace=True)
-    dataFrame[percent_error_key].replace(np.inf, 1, inplace=True)
     countLessPercent = dataFrame[dataFrame[percent_error_key] < percentage][percent_error_key]
     pred = countLessPercent.count() / dataFrame[percent_error_key].count()
-    return pred
+    return round(pred, 2)
+
+def percent_error(y, y_pred):
+    if y == 0 and y_pred != 0:
+        return abs(y_pred)
+    elif y == 0 and y_pred == 0:
+        return 0 
+
+    error = abs((y - y_pred)/y)
+
+    return round(error, 2)
 
 def create_percent_error_df(y, y_pred):
     data = {}
+
     data[c.OBSERVED] = y.round(2)
     data[c.PREDICTED] = y_pred.round(2)
     data[c.DIFFERENCE] = abs(y - y_pred).round(2)
-    data[c.PERCENT_ERROR] = (abs(y - y_pred)/y).round(2)
+    data[c.PERCENT_ERROR] = np.vectorize(percent_error)(y, y_pred)
     
     results = pd.DataFrame(data)
-    results[c.PERCENT_ERROR].fillna(0, inplace=True)
-    results[c.PERCENT_ERROR].replace(np.inf, 0, inplace=True)
 
     return results
     

@@ -45,5 +45,41 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertEqual(result, 0.167)
 
+    def test_percentage_error_when_y_zero_and_ypred_isnt(self):
+        y = 0
+        y_pred = 2
+
+        result = utils.percent_error(y, y_pred)
+
+        self.assertEqual(result, 2)
+
+    def test_percentage_error_when_y_and_ypred_0(self):
+        y = 0
+        y_pred = 0
+
+        result = utils.percent_error(y, y_pred)
+
+        self.assertEqual(result, 0)
+    
+    def test_percentage_error_when_y_and_ypred_different(self):
+        y = 18
+        y_pred = 9.8
+
+        result = utils.percent_error(y, y_pred)
+
+        self.assertEqual(result, 0.46)
+
+    def test_create_percent_error_df(self):
+         df = pd.DataFrame({ "y": [1093,0,18], "y_pred": [403,0,9.8] })
+
+         y = df['y']
+         y_pred = df['y_pred']
+
+         result = utils.create_percent_error_df(y, y_pred)
+
+         self.assertEqual(result[c.PERCENT_ERROR].values[0], 0.63)
+         self.assertEqual(result[c.PERCENT_ERROR].values[1], 0)
+         self.assertEqual(result[c.PERCENT_ERROR].values[2], 0.46)
+
 if __name__ == '__main__':
     unittest.main()

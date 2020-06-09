@@ -27,13 +27,14 @@ from sklearn.kernel_ridge import KernelRidge
 from sklearn.neural_network import MLPRegressor
 from sklearn.isotonic import IsotonicRegression
 from sklearn.preprocessing import QuantileTransformer
+from sklearn.preprocessing import FunctionTransformer
 from sklearn.svm import SVR
 import argparse
 os.environ["NUMEXPR_MAX_THREADS"] = "12"
 
 regressors = {
   "DecisionTreeRegressor": DecisionTreeRegressor(random_state=0, max_depth=10, min_samples_split=10),
-  "RandomForestRegressor": RandomForestRegressor(random_state=0),
+  "RandomForestRegressor": RandomForestRegressor(random_state=0, max_depth=10, min_samples_split=10, n_estimators=10),
   "AdaBoostRegressor": AdaBoostRegressor(random_state=0),
   "GradientBoostingRegressor": GradientBoostingRegressor(random_state=0),
   "ExtraTreesRegressor": ExtraTreesRegressor(random_state=0),
@@ -49,10 +50,11 @@ transformers = {
   "RobustScaler": RobustScaler(),
   "StandardScaler": StandardScaler(),
   "MinMaxScaler": MinMaxScaler(),
-  "QuantileTransformer": QuantileTransformer()
+  "QuantileTransformer": QuantileTransformer(),
+  "FunctionTransformer": FunctionTransformer(np.log1p)
 }
 
-regressor = regressors["DecisionTreeRegressor"]
+regressor = regressors["RandomForestRegressor"]
 transformer = transformers["QuantileTransformer"]
 
 # BEGIN Functions
@@ -107,7 +109,6 @@ def calculate_effort(X, Y, project, task, model_type, transformer, regressor, i_
 
   kfold = model_selection.KFold(n_splits=splits)
   predictions = cross_val_predict(model, X, Y, cv=kfold)
-  # results = compareResults(Y, predictions)
   results = utils.create_percent_error_df(Y, predictions)
 
   r_squared, r_squared_adj, mae, mse, rmse, pred25, pred50 = extractPerfMeasures(model, Y, predictions, results, X)
@@ -119,7 +120,7 @@ def calculate_effort(X, Y, project, task, model_type, transformer, regressor, i_
 
 # BEGIN Main
 directoryPath = "scripts/exports"
-outputFile = "scripts/notebook/results/h2_metrics_h1_DT_06_06_2020.csv".format(directory=directoryPath)
+outputFile = "scripts/notebook/results/h2_metrics_h1_RF_06_07_2020.csv".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS, c.D_RECORDS, c.P_NA]
 o_df = pd.DataFrame(columns=headers)
 
