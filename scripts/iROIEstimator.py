@@ -16,8 +16,8 @@ class iROIEstimator:
     # input = "../../exports"
     input = "scripts/exports"
     output = "scripts/notebook/results"
-    # TASK_LIST = c.TASK_LIST
-    TASK_LIST = ["BUG"]
+    TASK_LIST = c.TASK_LIST
+    # TASK_LIST = ["BUG"]
 
     results_header = [
       c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_CONTRIBUTORS,
@@ -143,15 +143,15 @@ class iROIEstimator:
         self.module_ec.forecast_module_effort(self.predicton_months)
 
         self.task_forecasted_effort[task] = {
-            c.MODULE_CC: self.module_cc.calculate_total_effort(self.prediction_years),
-            c.MODULE_EC: self.module_ec.calculate_total_effort(self.prediction_years)
+            c.COST_CC: self.module_cc.calculate_total_effort(self.prediction_years),
+            c.COST_EC: self.module_ec.calculate_total_effort(self.prediction_years)
         }
 
     def display_forecast(self, predictionYears):
         for key in self.task_forecasted_effort:
             logger.info("{0} - {1} Forecasted Effort: \n".format(self.project_name, key))
-            logger.info(self.task_forecasted_effort[key][c.MODULE_CC].T)
-            logger.info(self.task_forecasted_effort[key][c.MODULE_EC].T)
+            logger.info(self.task_forecasted_effort[key][c.COST_CC].T)
+            logger.info(self.task_forecasted_effort[key][c.COST_EC].T)
 
             self.results.sort_values(by=[c.DATE, c.PROJECT, c.MODEL, c.TASK], ascending = True, inplace=True)
             self.performance_measures.sort_values(by=[c.PROJECT, c.MODEL, c.TASK], inplace=True)
@@ -181,6 +181,11 @@ class iROIEstimator:
         self.annualized_roi = round(pow(1 + self.roi, 1 / self.prediction_years) - 1, 3)
         return self.annualized_roi
 
+    def calculate_savings(self, effort_cc, cost_cc, effort_ec):
+        cost_ec = (cost_cc / effort_cc) * effort_ec
+        return cost_ec
+
+
     def calculate_results(self):
         effort_cc = 0.0
         effort_ec = 0.0
@@ -190,16 +195,33 @@ class iROIEstimator:
         self.roi = 0
         self.annualized_roi = 0
 
+        cost_cc = 0
+        cost_ec = 0
+        cost_invested = 0
+        cost_returned = 0
+
         for key in self.task_forecasted_effort:
-            effort_cc = self.task_forecasted_effort[key][c.MODULE_CC].values.sum()
-            effort_ec = self.task_forecasted_effort[key][c.MODULE_EC].values.sum()
+            effort_cc = self.task_forecasted_effort[key][c.COST_CC].iloc[:,1].values.sum()
+            effort_ec = self.task_forecasted_effort[key][c.COST_EC].iloc[:,1].values.sum()
+            cost_cc = self.task_forecasted_effort[key][c.COST_CC].iloc[:,0].values.sum()
+            cost_ec = self.calculate_savings(effort_cc, cost_cc, effort_ec)
+
+            cost_invested = cost_invested + cost_cc
+            # cost_returned = cost_returned + cost_ec
             self.amount_invested = self.amount_invested + effort_cc
             self.amount_returned = self.amount_returned + effort_ec
+
             logger.info("{0} - {1} CC Forecasted Effort: {2}".format(self.project_name, key, round(effort_cc), 2))
-            logger.info("{0} - {1} EC Forecasted Effort: {2}".format(self.project_name, key, round(effort_ec), 2))
+            logger.info("{0} - {1} CC Forecasted Costs: {2}".format(self.project_name, key, round(cost_cc), 2))
+            logger.info("{0} - {1} EC Forecasted Effort Savings: {2}".format(self.project_name, key, round(effort_ec), 2))
+            logger.info("{0} - {1} EC Forecasted Costs Savings: {2}".format(self.project_name, key, round(cost_ec), 2))
+
+        cost_returned = self.calculate_savings(self.amount_invested, cost_invested, self.amount_returned)
 
         logger.info("{0} - Core Contributor Forecasted Effort Over {1} years: {2}".format(self.project_name, self.prediction_years, round(self.amount_invested, 2)))
-        logger.info("{0} - External Contributor Forecasted Effort Over {1} years: {2}".format(self.project_name, self.prediction_years, round(self.amount_returned, 2)))
+        logger.info("{0} - Core Contributor Forecasted Costs Over {1} years: {2}".format(self.project_name, self.prediction_years, round(cost_invested, 2)))
+        logger.info("{0} - External Contributor Forecasted Effort Savings Over {1} years: {2}".format(self.project_name, self.prediction_years, round(self.amount_returned, 2)))
+        logger.info("{0} - External Contributor Forecasted Costs Savings Over {1} years: {2}".format(self.project_name, self.prediction_years, round(cost_returned, 2)))
 
         self.calculate_investment_gain()
         self.calculate_ROI()
@@ -226,7 +248,7 @@ class iROIEstimator:
           fcntl.flock(f, fcntl.LOCK_UN)
 
 # project_list = c.ALL_PROJECTS
-project_list = ["angular/angular.js"]
+project_list = ["angular/angular"]
 
 # def execute_iROIEstimator(p, model):
 #   try:

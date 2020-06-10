@@ -9,6 +9,7 @@ T_LINE = "T_Line"
 T_LINE_P = "T_Line_P"
 T_CC = "T_CC"
 TASK = "Task"
+EFFORT = "Effort"
 TASK_LIST = ["BUG", "DOCS", "REFACTOR", "TESTING", "FEATURE", "UPGRADE", "RELEASE", "SUPPORT", "OTHER"]
 PROJECT_LIST = [
   "angular/angular"

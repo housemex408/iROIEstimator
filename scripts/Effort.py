@@ -50,6 +50,7 @@ class Effort:
         self.module_forecast_results = None
         self.average_effort_release = None
         self.df = self.calculate_costs(df)
+        # self.df = df
 
     def get_cost_columns(self):
       EFFORT = self.type
@@ -89,7 +90,7 @@ class Effort:
       if df[[c.DATE, c.DATE_P]].isna().values.any():
           df[[c.DATE, c.DATE_P]].fillna(0, inplace=True)
 
-      df[T_CONTRIBS] = df[T_CONTRIBS].replace(0, 1)
+      # df[T_CONTRIBS] = df[T_CONTRIBS].replace(0, 1)
 
       average_effort = df[EFFORT].tail(30).mean()
       average_effort_contribs = df[T_CONTRIBS].mean()
