@@ -33,8 +33,8 @@ import argparse
 os.environ["NUMEXPR_MAX_THREADS"] = "12"
 
 regressors = {
-  "DecisionTreeRegressor": DecisionTreeRegressor(random_state=0, max_depth=10, min_samples_split=10),
-  "RandomForestRegressor": RandomForestRegressor(random_state=0, max_depth=10, min_samples_split=10, n_estimators=10),
+  "DecisionTreeRegressor": DecisionTreeRegressor(random_state=0, max_depth=10, min_samples_split=10, max_features="sqrt"),
+  "RandomForestRegressor": RandomForestRegressor(random_state=0, max_depth=10, min_samples_split=10, max_features="sqrt", n_estimators=10),
   "AdaBoostRegressor": AdaBoostRegressor(random_state=0),
   "GradientBoostingRegressor": GradientBoostingRegressor(random_state=0),
   "ExtraTreesRegressor": ExtraTreesRegressor(random_state=0),
@@ -120,7 +120,7 @@ def calculate_effort(X, Y, project, task, model_type, transformer, regressor, i_
 
 # BEGIN Main
 directoryPath = "scripts/exports"
-outputFile = "scripts/notebook/results/h2_metrics_h1_RF_06_07_2020.csv".format(directory=directoryPath)
+outputFile = "scripts/notebook/results/h2_metrics_h1_RF_06_08_2020.csv".format(directory=directoryPath)
 headers = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS, c.D_RECORDS, c.P_NA]
 o_df = pd.DataFrame(columns=headers)
 
