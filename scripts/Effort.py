@@ -49,13 +49,13 @@ class Effort:
         self.results = None
         self.module_forecast_results = None
         self.average_effort_release = None
-        self.calculate_costs()
+        self.df = self.calculate_costs(df)
 
     def get_cost_columns(self):
       EFFORT = self.type
       T_CONTRIBS = None
       BILLED = None
-      COST = None
+      COST = c.COST
       HOURS_DIFF = None
       AVG_EFFORT_CONTRIBS = None
       CONTRIB_DIFF = None
@@ -63,39 +63,39 @@ class Effort:
       if self.type == c.LINE_CC or self.type == c.MODULE_CC:
         T_CONTRIBS = c.T_CC
         BILLED = c.BILLED_HOURS_CC
-        COST = c.COST_CC
+        # COST = c.COST_CC
         HOURS_DIFF = c.HOURS_DIFF_CC
         AVG_EFFORT_CONTRIBS = c.AVG_MODULE_CONTRIBS_CC
         CONTRIB_DIFF = c.CONTRIB_DIFF_CC
       else:
         T_CONTRIBS = c.T_EC
         BILLED = c.BILLED_HOURS_EC
-        COST = c.COST_EC
+        # COST = c.COST_EC
         HOURS_DIFF = c.HOURS_DIFF_EC
         AVG_EFFORT_CONTRIBS = c.AVG_MODULE_CONTRIBS_EC
         CONTRIB_DIFF = c.CONTRIB_DIFF_EC
 
       return EFFORT, T_CONTRIBS, BILLED, COST, HOURS_DIFF, AVG_EFFORT_CONTRIBS, CONTRIB_DIFF
 
-    def calculate_costs(self):
+    def calculate_costs(self, df):
       EFFORT, T_CONTRIBS, BILLED, COST, HOURS_DIFF, AVG_EFFORT_CONTRIBS, CONTRIB_DIFF = self.get_cost_columns()
 
-      self.df[c.DATE_P] = self.df[c.DATE].shift()
-      self.df[c.DATE_P].fillna(self.df[c.DATE].min(), inplace=True)
+      df[c.DATE_P] = df[c.DATE].shift()
+      df[c.DATE_P].fillna(df[c.DATE].min(), inplace=True)
 
       # Cost section
-      self.df[HOURS_DIFF] = utils.calculate_hours_diff(self.df)
+      df[HOURS_DIFF] = utils.calculate_hours_diff(df)
 
-      if self.df[[c.DATE, c.DATE_P]].isna().values.any():
-          self.df[[c.DATE, c.DATE_P]].fillna(0, inplace=True)
+      if df[[c.DATE, c.DATE_P]].isna().values.any():
+          df[[c.DATE, c.DATE_P]].fillna(0, inplace=True)
 
-      self.df[T_CONTRIBS] = self.df[T_CONTRIBS].replace(0, 1)
+      df[T_CONTRIBS] = df[T_CONTRIBS].replace(0, 1)
 
-      average_effort = self.df[EFFORT].tail(30).mean()
-      average_effort_contribs = self.df[T_CONTRIBS].mean()
+      average_effort = df[EFFORT].tail(30).mean()
+      average_effort_contribs = df[T_CONTRIBS].mean()
       self.average_effort_release = average_effort / average_effort_contribs
 
-      self.df[AVG_EFFORT_CONTRIBS] = self.df.apply(
+      df[AVG_EFFORT_CONTRIBS] = df.apply(
         utils.calculate_contribs,
         effort=self.average_effort_release,
         model=EFFORT,
@@ -103,9 +103,11 @@ class Effort:
         axis=1
       )
 
-      self.df[CONTRIB_DIFF] = round(self.df[T_CONTRIBS] - self.df[AVG_EFFORT_CONTRIBS], 2)
-      self.df[BILLED] = round(self.df[HOURS_DIFF] * self.df[AVG_EFFORT_CONTRIBS], 2)
-      self.df[COST] = round(self.df[BILLED] * 100, 2)
+      df[CONTRIB_DIFF] = round(df[T_CONTRIBS] - df[AVG_EFFORT_CONTRIBS], 2)
+      df[BILLED] = round(df[HOURS_DIFF] * df[AVG_EFFORT_CONTRIBS], 2)
+      df[COST] = round(df[BILLED] * 100, 2)
+
+      return df
 
     def forecast_variable(self, variable, predicton_months):
         self.logger.debug("\n{0} - Forcasting {1} for {2} and task {3}: \n {4}".format(self.project_name, variable, self.type, self.task, self.df[variable]))
@@ -163,8 +165,11 @@ class Effort:
         y_pred_rf = rf_regressor.predict(X_Future)
         y_pred_index = dateIndex
 
-        resultData = {variable: y_pred_rf.round(2), c.DATE: y_pred_index}
-        results = pd.DataFrame(resultData)
+        # resultData = {variable: y_pred_rf.round(2), c.DATE: y_pred_index}
+        data[variable] = y_pred_rf.round(2)
+        data[c.DATE] = y_pred_index
+        # results = pd.DataFrame(resultData)
+        results = pd.DataFrame(data)
         return results
 
     def predict_effort(self):
@@ -198,16 +203,10 @@ class Effort:
           ])
         self.model = TransformedTargetRegressor(regressor=pipeline, transformer=QuantileTransformer())
 
-        # self.model = DecisionTreeRegressor(random_state=0, max_depth=10, min_samples_split=10)
         self.model.fit(self.X, self.Y)
 
         kfold = model_selection.KFold(n_splits=splits)
         self.predictions = cross_val_predict(self.model, self.X, self.Y, cv=kfold)
-
-        # self.logger.info("{0} - {1} - {2} R2 Scores: {3}".format(self.project_name, self.task, self.type, results_kfold.round(2)))
-        # self.logger.info("{0} - {1} - {2} R2 Accuracy: {3}".format(self.project_name, self.task, self.type, self.r_squared_X))
-        # self.logger.info("{0} - {1} - {2} Prediction Count: {3}".format(self.project_name, self.task, self.type, len(self.Y)))
-        # self.logger.info("{0} - {1} - {2} X-Validated Prediction Count: {3}".format(self.project_name, self.task, self.type, len(self.predictions_X)))
 
         results = self.calculate_diff()
 
@@ -303,7 +302,7 @@ class Effort:
         data = {
             c.NT: forecast_NT['yhat'],
             c.NO: forecast_NO['yhat'],
-            c.T_CONTRIBUTORS: forecast_T_Contributors['yhat'],
+            T_CONTRIBUTORS: forecast_T_Contributors['yhat'],
             c.T_LINE_P: forecast_T_Line_P['yhat']
         }
 
@@ -314,8 +313,9 @@ class Effort:
 
     def calculate_total_effort(self, prediction_years):
         results = self.module_forecast_results
+        results = self.calculate_costs(results)
         results['Year'] = results[c.DATE].apply(lambda x: x.year)
-        results = pd.pivot_table(results,index=["Year"],values=[self.type], aggfunc=np.sum).tail(prediction_years + 1)
+        results = pd.pivot_table(results,index=["Year"],values=[self.type, c.COST], aggfunc=np.sum).tail(prediction_years + 1)
         return results
 
     def display_forecast(self, prediction_years):

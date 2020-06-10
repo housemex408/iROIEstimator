@@ -16,8 +16,8 @@ class iROIEstimator:
     # input = "../../exports"
     input = "scripts/exports"
     output = "scripts/notebook/results"
-    TASK_LIST = c.TASK_LIST
-    # TASK_LIST = ["BUG"]
+    # TASK_LIST = c.TASK_LIST
+    TASK_LIST = ["BUG"]
 
     results_header = [
       c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_CONTRIBUTORS,
@@ -225,27 +225,27 @@ class iROIEstimator:
           self.roi_measures.to_csv(f, header=False, mode = 'a', index=False)
           fcntl.flock(f, fcntl.LOCK_UN)
 
-project_list = c.ALL_PROJECTS
-# project_list = ["angular/angular", "angular/angular.js"]
+# project_list = c.ALL_PROJECTS
+project_list = ["angular/angular.js"]
 
-def execute_iROIEstimator(p, model):
-  try:
-    logger.debug("Project {0}".format(p))
-    estimator = iROIEstimator(p, model)
-    estimator.execute()
-  except Exception:
-    logger.error("Error:  {0}".format(p), exc_info=True)
-
-
-with concurrent.futures.ProcessPoolExecutor(max_workers=12) as executor:
-    {executor.submit(execute_iROIEstimator, project, c.LINE): project for project in project_list}
-
-# for p in project_list:
+# def execute_iROIEstimator(p, model):
 #   try:
 #     logger.debug("Project {0}".format(p))
-#     estimator = iROIEstimator(p, c.MODULE)
+#     estimator = iROIEstimator(p, model)
 #     estimator.execute()
 #   except Exception:
 #     logger.error("Error:  {0}".format(p), exc_info=True)
-#     continue
+
+
+# with concurrent.futures.ProcessPoolExecutor(max_workers=12) as executor:
+#     {executor.submit(execute_iROIEstimator, project, c.LINE): project for project in project_list}
+
+for p in project_list:
+  try:
+    logger.debug("Project {0}".format(p))
+    estimator = iROIEstimator(p, c.MODULE)
+    estimator.execute()
+  except Exception:
+    logger.error("Error:  {0}".format(p), exc_info=True)
+    continue
 
