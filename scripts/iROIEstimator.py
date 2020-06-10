@@ -211,14 +211,14 @@ class iROIEstimator:
             self.amount_invested = self.amount_invested + effort_cc
             self.amount_returned = self.amount_returned + effort_ec
 
-            logger.info("{0} - {1} CC Forecasted Effort: {2}".format(self.project_name, key, round(effort_cc), 2))
+            logger.info("\n{0} - {1} CC Forecasted Effort: {2}".format(self.project_name, key, round(effort_cc), 2))
             logger.info("{0} - {1} CC Forecasted Costs: {2}".format(self.project_name, key, round(cost_cc), 2))
             logger.info("{0} - {1} EC Forecasted Effort Savings: {2}".format(self.project_name, key, round(effort_ec), 2))
             logger.info("{0} - {1} EC Forecasted Costs Savings: {2}".format(self.project_name, key, round(cost_ec), 2))
 
         cost_returned = self.calculate_savings(self.amount_invested, cost_invested, self.amount_returned)
 
-        logger.info("{0} - Core Contributor Forecasted Effort Over {1} years: {2}".format(self.project_name, self.prediction_years, round(self.amount_invested, 2)))
+        logger.info("\n{0} - Core Contributor Forecasted Effort Over {1} years: {2}".format(self.project_name, self.prediction_years, round(self.amount_invested, 2)))
         logger.info("{0} - Core Contributor Forecasted Costs Over {1} years: {2}".format(self.project_name, self.prediction_years, round(cost_invested, 2)))
         logger.info("{0} - External Contributor Forecasted Effort Savings Over {1} years: {2}".format(self.project_name, self.prediction_years, round(self.amount_returned, 2)))
         logger.info("{0} - External Contributor Forecasted Costs Savings Over {1} years: {2}".format(self.project_name, self.prediction_years, round(cost_returned, 2)))
