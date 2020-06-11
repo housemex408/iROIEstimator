@@ -9,6 +9,9 @@ import Constants as c
 from Effort import Effort
 import concurrent.futures
 import fcntl
+from currency_converter import CurrencyConverter
+import babel.numbers
+import decimal
 logger = utils.get_logger()
 os.environ["NUMEXPR_MAX_THREADS"] = "12"
 
@@ -16,8 +19,8 @@ class iROIEstimator:
     # input = "../../exports"
     input = "scripts/exports"
     output = "scripts/notebook/results"
-    TASK_LIST = c.TASK_LIST
-    # TASK_LIST = ["BUG"]
+    # TASK_LIST = c.TASK_LIST
+    TASK_LIST = ["BUG"]
 
     results_header = [
       c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_CONTRIBUTORS,
@@ -27,7 +30,7 @@ class iROIEstimator:
     performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
     roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.INVESTMENT_GAIN, c.ROI, c.ANNUALIZED_ROI]
 
-    def __init__(self, project, model=c.LINE, prediction_years=3):
+    def __init__(self, project, model=c.LINE, prediction_years=3, hourly_wage=100, team_size=5, team_location="US"):
         self.project_name = project.split('/')[1]
         self.file_template = "{cwd}/{project_name}/{project_name}_dataset_{task}.csv"
         self.model = model
@@ -43,6 +46,9 @@ class iROIEstimator:
         self.investment_gain = 0
         self.roi = 0
         self.annualized_roi = 0
+        self.hourly_wage = hourly_wage
+        self.team_size = team_size
+        self.team_location = team_location
         self.init_output_files(model)
 
 
@@ -79,13 +85,8 @@ class iROIEstimator:
             tasks = self.file_template.format(cwd=self.input, project_name=self.project_name, task = task)
             df = pd.read_csv(tasks)
 
-            # df = df.dropna(subset=[c.T_MODULE])
             df = df.dropna(subset=[c.DATE])
-            # df = df.dropna(subset=[c.TASK])
             df[c.DATE] = pd.to_datetime(df[c.DATE])
-            # df = df.set_index(c.DATE)
-            # df.index.name = c.DATE
-            # df.index = df.index.strftime('%Y-%m-%d')
 
             if df.isna().values.any():
                 df.fillna(0, inplace=True)
@@ -100,8 +101,8 @@ class iROIEstimator:
 
             self.results = pd.concat([self.results, results])
             self.performance_measures = pd.concat([self.performance_measures, performance_measures])
-
             self.forecast_effort(df, task)
+
         self.display_forecast(self.prediction_years)
         self.save_results_performance_measures()
         self.calculate_results()
@@ -121,13 +122,13 @@ class iROIEstimator:
 
         CC, EC = self.get_independent_variables()
 
-        self.module_cc = Effort(self.project_name, self.model, CC, task, df)
+        self.module_cc = Effort(self.project_name, self.model, CC, task, df, self.hourly_wage)
         module_cc_results = self.module_cc.predict_effort()
         logger.info("{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, CC, module_cc_results.size))
         self.module_cc.calculate_perf_measurements()
         module_cc_output = self.module_cc.create_output_df()
 
-        self.module_ec = Effort(self.project_name, self.model, EC, task, df)
+        self.module_ec = Effort(self.project_name, self.model, EC, task, df, self.hourly_wage)
         module_ec_results = self.module_ec.predict_effort()
         logger.info("{0} - {1} - {2} prediction count: {3}".format(self.project_name, task, EC, module_ec_results.size))
         self.module_ec.calculate_perf_measurements()
@@ -185,6 +186,19 @@ class iROIEstimator:
         cost_ec = (cost_cc / effort_cc) * effort_ec
         return cost_ec
 
+    def convert_currency(self, cost):
+      currencies = {
+        'US':'USD',
+        'UK':'GBP',
+        'MX':'MEX',
+        'CA':'CAD'
+      }
+
+      currency = currencies.get(self.team_location)
+      c = CurrencyConverter()
+      converted_cost = c.convert(cost, 'USD', currency)
+      formatted_cost = babel.numbers.format_currency(decimal.Decimal(converted_cost), currency)
+      return formatted_cost
 
     def calculate_results(self):
         effort_cc = 0.0
@@ -211,25 +225,25 @@ class iROIEstimator:
             self.amount_invested = self.amount_invested + effort_cc
             self.amount_returned = self.amount_returned + effort_ec
 
-            logger.info("\n{0} - {1} CC Forecasted Effort: {2}".format(self.project_name, key, round(effort_cc), 2))
-            logger.info("{0} - {1} CC Forecasted Costs: {2}".format(self.project_name, key, round(cost_cc), 2))
-            logger.info("{0} - {1} EC Forecasted Effort Savings: {2}".format(self.project_name, key, round(effort_ec), 2))
-            logger.info("{0} - {1} EC Forecasted Costs Savings: {2}".format(self.project_name, key, round(cost_ec), 2))
+            logger.info("{0} - {1} CC Forecasted Effort: {2:,}".format(self.project_name, key, round(effort_cc), 2))
+            logger.info("{0} - {1} CC Forecasted Costs: {2}".format(self.project_name, key, self.convert_currency(cost_cc)))
+            logger.info("{0} - {1} EC Forecasted Effort Savings: {2:,}".format(self.project_name, key, round(effort_ec), 2))
+            logger.info("{0} - {1} EC Forecasted Costs Savings: {2}".format(self.project_name, key, self.convert_currency(cost_ec)))
 
         cost_returned = self.calculate_savings(self.amount_invested, cost_invested, self.amount_returned)
 
-        logger.info("\n{0} - Core Contributor Forecasted Effort Over {1} years: {2}".format(self.project_name, self.prediction_years, round(self.amount_invested, 2)))
-        logger.info("{0} - Core Contributor Forecasted Costs Over {1} years: {2}".format(self.project_name, self.prediction_years, round(cost_invested, 2)))
-        logger.info("{0} - External Contributor Forecasted Effort Savings Over {1} years: {2}".format(self.project_name, self.prediction_years, round(self.amount_returned, 2)))
-        logger.info("{0} - External Contributor Forecasted Costs Savings Over {1} years: {2}".format(self.project_name, self.prediction_years, round(cost_returned, 2)))
+        logger.info("{0} - Core Contributor Forecasted Effort Over {1} years: {2:,}".format(self.project_name, self.prediction_years, round(self.amount_invested, 2)))
+        logger.info("{0} - Core Contributor Forecasted Costs Over {1} years: {2}".format(self.project_name, self.prediction_years, self.convert_currency(cost_invested)))
+        logger.info("{0} - External Contributor Forecasted Effort Savings Over {1} years: {2:,}".format(self.project_name, self.prediction_years, round(self.amount_returned, 2)))
+        logger.info("{0} - External Contributor Forecasted Costs Savings Over {1} years: {2}".format(self.project_name, self.prediction_years, self.convert_currency(cost_returned)))
 
         self.calculate_investment_gain()
         self.calculate_ROI()
         self.calculate_annualized_ROI()
 
-        logger.info("{0} - Investment Gain: {1}".format(self.project_name, self.investment_gain))
-        logger.info("{0} - ROI: {1}".format(self.project_name, self.roi))
-        logger.info("{0} - Annualized ROI: {1}".format(self.project_name, self.annualized_roi))
+        logger.info("{0} - Investment Gain: {1}".format(self.project_name, self.convert_currency(self.investment_gain)))
+        logger.info("{0} - ROI: {1:.2%}".format(self.project_name, self.roi))
+        logger.info("{0} - Annualized ROI: {1:.2%}".format(self.project_name, self.annualized_roi))
 
     def save_results_roi_measures(self):
         roi_measures = pd.DataFrame({c.PROJECT: [self.project_name],
@@ -248,7 +262,7 @@ class iROIEstimator:
           fcntl.flock(f, fcntl.LOCK_UN)
 
 # project_list = c.ALL_PROJECTS
-project_list = ["angular/angular"]
+project_list = ["angular/angular.js"]
 
 # def execute_iROIEstimator(p, model):
 #   try:
@@ -265,7 +279,7 @@ project_list = ["angular/angular"]
 for p in project_list:
   try:
     logger.debug("Project {0}".format(p))
-    estimator = iROIEstimator(p, c.MODULE)
+    estimator = iROIEstimator(p, c.LINE, 3, 100, 5, "UK")
     estimator.execute()
   except Exception:
     logger.error("Error:  {0}".format(p), exc_info=True)

@@ -24,11 +24,12 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.preprocessing import QuantileTransformer
 from sklearn.compose import TransformedTargetRegressor
 from sklearn.pipeline import Pipeline
+import concurrent.futures
 
 class Effort:
     logger = utils.get_logger()
 
-    def __init__(self, project, model, value, task, df):
+    def __init__(self, project, model, value, task, df, hourly_wage):
         self.modelType = model
         self.type = value
         self.task = task
@@ -49,6 +50,7 @@ class Effort:
         self.results = None
         self.module_forecast_results = None
         self.average_effort_release = None
+        self.hourly_wage = hourly_wage
         self.df = self.calculate_costs(df)
         # self.df = df
 
@@ -64,19 +66,24 @@ class Effort:
       if self.type == c.LINE_CC or self.type == c.MODULE_CC:
         T_CONTRIBS = c.T_CC
         BILLED = c.BILLED_HOURS_CC
-        # COST = c.COST_CC
         HOURS_DIFF = c.HOURS_DIFF_CC
         AVG_EFFORT_CONTRIBS = c.AVG_MODULE_CONTRIBS_CC
         CONTRIB_DIFF = c.CONTRIB_DIFF_CC
       else:
         T_CONTRIBS = c.T_EC
         BILLED = c.BILLED_HOURS_EC
-        # COST = c.COST_EC
         HOURS_DIFF = c.HOURS_DIFF_EC
         AVG_EFFORT_CONTRIBS = c.AVG_MODULE_CONTRIBS_EC
         CONTRIB_DIFF = c.CONTRIB_DIFF_EC
 
       return EFFORT, T_CONTRIBS, BILLED, COST, HOURS_DIFF, AVG_EFFORT_CONTRIBS, CONTRIB_DIFF
+
+
+    def minContrib(self, row, effort, contribs):
+      if row[contribs] == 0 and row[effort] > 0:
+          return 1
+      else:
+          return row[contribs]
 
     def calculate_costs(self, df):
       EFFORT, T_CONTRIBS, BILLED, COST, HOURS_DIFF, AVG_EFFORT_CONTRIBS, CONTRIB_DIFF = self.get_cost_columns()
@@ -88,9 +95,9 @@ class Effort:
       df[HOURS_DIFF] = utils.calculate_hours_diff(df)
 
       if df[[c.DATE, c.DATE_P]].isna().values.any():
-          df[[c.DATE, c.DATE_P]].fillna(0, inplace=True)
+        df[[c.DATE, c.DATE_P]].fillna(0, inplace=True)
 
-      # df[T_CONTRIBS] = df[T_CONTRIBS].replace(0, 1)
+      df[T_CONTRIBS] = df.apply(self.minContrib, effort=EFFORT, contribs=T_CONTRIBS, axis=1)
 
       average_effort = df[EFFORT].tail(30).mean()
       average_effort_contribs = df[T_CONTRIBS].mean()
@@ -106,7 +113,7 @@ class Effort:
 
       df[CONTRIB_DIFF] = round(df[T_CONTRIBS] - df[AVG_EFFORT_CONTRIBS], 2)
       df[BILLED] = round(df[HOURS_DIFF] * df[AVG_EFFORT_CONTRIBS], 2)
-      df[COST] = round(df[BILLED] * 100, 2)
+      df[COST] = round(df[BILLED] * self.hourly_wage, 2)
 
       return df
 
@@ -294,10 +301,15 @@ class Effort:
             NO = c.NO_EC
             T_CONTRIBUTORS = c.T_EC
 
-        forecast_NT = self.forecast_variable(NT, predicton_months)
-        forecast_NO = self.forecast_variable(NO, predicton_months)
-        forecast_T_Contributors = self.forecast_variable(T_CONTRIBUTORS, predicton_months)
-        forecast_T_Line_P = self.forecast_variable(c.T_LINE_P, predicton_months)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+          forecast_NT = executor.submit(self.forecast_variable, NT, predicton_months).result()
+          forecast_NO = executor.submit(self.forecast_variable, NO, predicton_months).result()
+          forecast_T_Contributors = executor.submit(self.forecast_variable, T_CONTRIBUTORS, predicton_months).result()
+          forecast_T_Line_P = executor.submit(self.forecast_variable, c.T_LINE_P, predicton_months).result()
+          # forecast_NT = self.forecast_variable(NT, predicton_months)
+          # forecast_NO = self.forecast_variable(NO, predicton_months)
+          # forecast_T_Contributors = self.forecast_variable(T_CONTRIBUTORS, predicton_months)
+          # forecast_T_Line_P = self.forecast_variable(c.T_LINE_P, predicton_months)
 
 
         data = {
