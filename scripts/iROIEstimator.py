@@ -286,7 +286,7 @@ class iROIEstimator:
         logger.info(" - CRITICAL INPUTS - \n")
         logger.info(" Github Repository URL: {0}".format(self.url))
         logger.info(" Team Location: {0}".format(self.team_location))
-        logger.info(" Team Size: {0}".format(self.team_size))
+        # logger.info(" Team Size: {0}".format(self.team_size))
         logger.info(" Hourly Wage: {0}".format(self.convert_currency(self.hourly_wage)))
         logger.info(" Analysis Years: {0}".format(self.prediction_years))
         logger.info(" Model: {0}".format(self.model))
@@ -325,7 +325,7 @@ project_list = ["angular/angular"]
 for p in project_list:
   try:
     logger.debug("Project {0}".format(p))
-    estimator = iROIEstimator(p, c.LINE, 3, 100, None, "US")
+    estimator = iROIEstimator(p, c.MODULE, 3, 100, None, "US")
     estimator.execute()
   except Exception:
     logger.error("Error:  {0}".format(p), exc_info=True)
