@@ -287,7 +287,7 @@ class Effort:
                       c.T_RECORDS: self.t_records})
         return row_df
 
-    def forecast_module_effort(self, predicton_months):
+    def forecast_module_effort(self, prediction_months, team_size=None):
         NT = None
         NO = None
         T_CONTRIBUTORS = None
@@ -300,17 +300,24 @@ class Effort:
             NT = c.NT_EC
             NO = c.NO_EC
             T_CONTRIBUTORS = c.T_EC
+            team_size = None
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
-          forecast_NT = executor.submit(self.forecast_variable, NT, predicton_months).result()
-          forecast_NO = executor.submit(self.forecast_variable, NO, predicton_months).result()
-          forecast_T_Contributors = executor.submit(self.forecast_variable, T_CONTRIBUTORS, predicton_months).result()
-          forecast_T_Line_P = executor.submit(self.forecast_variable, c.T_LINE_P, predicton_months).result()
-          # forecast_NT = self.forecast_variable(NT, predicton_months)
-          # forecast_NO = self.forecast_variable(NO, predicton_months)
-          # forecast_T_Contributors = self.forecast_variable(T_CONTRIBUTORS, predicton_months)
-          # forecast_T_Line_P = self.forecast_variable(c.T_LINE_P, predicton_months)
+        # with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+        #   forecast_NT = executor.submit(self.forecast_variable, NT, predicton_months).result()
+        #   forecast_NO = executor.submit(self.forecast_variable, NO, predicton_months).result()
+        #   forecast_T_Contributors = executor.submit(self.forecast_variable, T_CONTRIBUTORS, predicton_months).result()
+        #   forecast_T_Line_P = executor.submit(self.forecast_variable, c.T_LINE_P, predicton_months).result()
+        forecast_NT = self.forecast_variable(NT, prediction_months)
+        forecast_NO = self.forecast_variable(NO, prediction_months)
+        forecast_T_Line_P = self.forecast_variable(c.T_LINE_P, prediction_months)
+        forecast_T_Contributors = None
 
+        if team_size != None:
+          forecast_T_Contributors = {}
+          df_size =  len(forecast_NT['yhat'])
+          forecast_T_Contributors['yhat'] = utils.make_contrib_forecast(df_size, team_size)
+        else:
+          forecast_T_Contributors = self.forecast_variable(T_CONTRIBUTORS, prediction_months)
 
         data = {
             c.NT: forecast_NT['yhat'],

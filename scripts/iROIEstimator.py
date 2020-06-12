@@ -31,6 +31,7 @@ class iROIEstimator:
     roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.INVESTMENT_GAIN, c.ROI, c.ANNUALIZED_ROI]
 
     def __init__(self, project, model=c.LINE, prediction_years=3, hourly_wage=100, team_size=5, team_location="US"):
+        self.url = "https://github.com/{0}".format(project)
         self.project_name = project.split('/')[1]
         self.file_template = "{cwd}/{project_name}/{project_name}_dataset_{task}.csv"
         self.model = model
@@ -140,8 +141,8 @@ class iROIEstimator:
         return results_df, output_df
 
     def forecast_effort(self, df, task):
-        self.module_cc.forecast_module_effort(self.predicton_months)
-        self.module_ec.forecast_module_effort(self.predicton_months)
+        self.module_cc.forecast_module_effort(self.predicton_months, self.team_size)
+        self.module_ec.forecast_module_effort(self.predicton_months, self.team_size)
 
         self.task_forecasted_effort[task] = {
             c.COST_CC: self.module_cc.calculate_total_effort(self.prediction_years),
@@ -214,36 +215,51 @@ class iROIEstimator:
         cost_invested = 0
         cost_returned = 0
 
+        logger.info(" - OUTPUT - \n")
+
         for key in self.task_forecasted_effort:
             effort_cc = self.task_forecasted_effort[key][c.COST_CC].iloc[:,1].values.sum()
             effort_ec = self.task_forecasted_effort[key][c.COST_EC].iloc[:,1].values.sum()
             cost_cc = self.task_forecasted_effort[key][c.COST_CC].iloc[:,0].values.sum()
-            cost_ec = self.calculate_savings(effort_cc, cost_cc, effort_ec)
+            cost_ec = self.task_forecasted_effort[key][c.COST_EC].iloc[:,0].values.sum()
+            # cost_ec = self.calculate_savings(effort_cc, cost_cc, effort_ec)
 
             cost_invested = cost_invested + cost_cc
-            # cost_returned = cost_returned + cost_ec
+            cost_returned = cost_returned + cost_ec
             self.amount_invested = self.amount_invested + effort_cc
             self.amount_returned = self.amount_returned + effort_ec
 
-            logger.info("{0} - {1} CC Forecasted Effort: {2:,}".format(self.project_name, key, round(effort_cc), 2))
-            logger.info("{0} - {1} CC Forecasted Costs: {2}".format(self.project_name, key, self.convert_currency(cost_cc)))
-            logger.info("{0} - {1} EC Forecasted Effort Savings: {2:,}".format(self.project_name, key, round(effort_ec), 2))
-            logger.info("{0} - {1} EC Forecasted Costs Savings: {2}".format(self.project_name, key, self.convert_currency(cost_ec)))
+            logger.info(" {0} CC Forecasted Effort: {1:,}".format(key, round(effort_cc), 2))
+            logger.info(" {0} CC Forecasted Costs: {1}".format(key, self.convert_currency(cost_cc)))
+            logger.info(" {0} EC Forecasted Effort Savings: {1:,}".format(key, round(effort_ec), 2))
+            logger.info(" {0} EC Forecasted Costs Savings: {1}".format(key, self.convert_currency(cost_ec)))
 
-        cost_returned = self.calculate_savings(self.amount_invested, cost_invested, self.amount_returned)
+        logger.info(" ---------------------------------------------------\n")
 
-        logger.info("{0} - Core Contributor Forecasted Effort Over {1} years: {2:,}".format(self.project_name, self.prediction_years, round(self.amount_invested, 2)))
-        logger.info("{0} - Core Contributor Forecasted Costs Over {1} years: {2}".format(self.project_name, self.prediction_years, self.convert_currency(cost_invested)))
-        logger.info("{0} - External Contributor Forecasted Effort Savings Over {1} years: {2:,}".format(self.project_name, self.prediction_years, round(self.amount_returned, 2)))
-        logger.info("{0} - External Contributor Forecasted Costs Savings Over {1} years: {2}".format(self.project_name, self.prediction_years, self.convert_currency(cost_returned)))
+        # cost_returned = self.calculate_savings(self.amount_invested, cost_invested, self.amount_returned)
+
+        logger.info(" Total CC Forecasted Effort: {0:,}".format(round(self.amount_invested, 2)))
+        logger.info(" Total CC Forecasted Costs: {0}".format(self.convert_currency(cost_invested)))
+        logger.info(" Total EC Forecasted Effort Savings: {0:,}".format(round(self.amount_returned, 2)))
+        logger.info(" Total EC Forecasted Costs Savings: {0}".format( self.convert_currency(cost_returned)))
 
         self.calculate_investment_gain()
         self.calculate_ROI()
         self.calculate_annualized_ROI()
 
-        logger.info("{0} - Investment Gain: {1}".format(self.project_name, self.convert_currency(self.investment_gain)))
-        logger.info("{0} - ROI: {1:.2%}".format(self.project_name, self.roi))
-        logger.info("{0} - Annualized ROI: {1:.2%}".format(self.project_name, self.annualized_roi))
+        logger.info(" Effort Investment Gain: {0}".format(self.convert_currency(self.investment_gain)))
+        logger.info(" Effort ROI: {0:.2%}".format(self.roi))
+        logger.info(" Effort Annualized ROI: {0:.2%}\n".format(self.annualized_roi))
+        # logger.info(" Cost Investment Gain: {0}".format(self.convert_currency(self.investment_gain)))
+        # logger.info(" Cost ROI: {0:.2%}".format(self.roi))
+        # logger.info(" Cost Annualized ROI: {0:.2%}\n".format(self.annualized_roi))
+
+        logger.info(" - CRITICAL INPUTS - \n")
+        logger.info(" Github Repository URL: {0}".format(self.url))
+        logger.info(" Team Location: {0}".format(self.team_location))
+        logger.info(" Team Size: {0}".format(self.team_size))
+        logger.info(" Hourly Wage: {0}".format(self.convert_currency(self.hourly_wage)))
+        logger.info(" Analysis Years: {0}".format(self.prediction_years))
 
     def save_results_roi_measures(self):
         roi_measures = pd.DataFrame({c.PROJECT: [self.project_name],
@@ -279,7 +295,7 @@ project_list = ["angular/angular.js"]
 for p in project_list:
   try:
     logger.debug("Project {0}".format(p))
-    estimator = iROIEstimator(p, c.LINE, 3, 100, 5, "UK")
+    estimator = iROIEstimator(p, c.LINE, 3, 100, None, "UK")
     estimator.execute()
   except Exception:
     logger.error("Error:  {0}".format(p), exc_info=True)

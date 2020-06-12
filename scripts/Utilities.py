@@ -33,6 +33,10 @@ unit_hour='hour'
 #Weekend list. 5-Sat, 6-Sun
 weekend_list = [5,6]
 
+def make_contrib_forecast(prediction_months, team_size):
+    contributors = np.full((1, prediction_months), team_size)
+    return contributors.flatten()
+
 def calculate_hours_diff(df):
     return list(map(
         businessDuration, df[c.DATE_P], df[c.DATE], repeat(biz_open_time), repeat(biz_close_time), repeat(weekend_list), repeat(US_holiday_list), repeat(unit_hour)
@@ -83,7 +87,7 @@ def percent_error(y, y_pred):
     if y == 0 and y_pred != 0:
         return abs(y_pred)
     elif y == 0 and y_pred == 0:
-        return 0 
+        return 0
 
     error = abs((y - y_pred)/y)
 
@@ -96,11 +100,11 @@ def create_percent_error_df(y, y_pred):
     data[c.PREDICTED] = y_pred.round(2)
     data[c.DIFFERENCE] = abs(y - y_pred).round(2)
     data[c.PERCENT_ERROR] = np.vectorize(percent_error)(y, y_pred)
-    
+
     results = pd.DataFrame(data)
 
     return results
-    
+
 def pred_25_scorer(estimator, X, y):
     y_pred = estimator.predict(X)
 

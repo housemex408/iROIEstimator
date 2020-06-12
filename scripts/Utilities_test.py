@@ -60,7 +60,7 @@ class TestStringMethods(unittest.TestCase):
         result = utils.percent_error(y, y_pred)
 
         self.assertEqual(result, 0)
-    
+
     def test_percentage_error_when_y_and_ypred_different(self):
         y = 18
         y_pred = 9.8
@@ -80,6 +80,18 @@ class TestStringMethods(unittest.TestCase):
          self.assertEqual(result[c.PERCENT_ERROR].values[0], 0.63)
          self.assertEqual(result[c.PERCENT_ERROR].values[1], 0)
          self.assertEqual(result[c.PERCENT_ERROR].values[2], 0.46)
+
+    def test_make_contrib_forecast(self):
+        prediction_months = 36
+        team_size = 5
+
+        result = utils.make_contrib_forecast(prediction_months, team_size)
+        is_all_same = utils.is_all_same(pd.Series(result))
+
+        self.assertEqual(len(result), 36)
+        self.assertTrue(is_all_same)
+
+
 
 if __name__ == '__main__':
     unittest.main()
