@@ -133,13 +133,11 @@ class Effort:
           size = len(NT)
           min = NT['y'].head(1)
           NT['y'] = np.random.randint(min,min+2,size)
-          # for i in range(len(NT)):
-          #   NT['y'][i] = random.randint(0,4)
 
         NT['y_orig'] = NT['y']
         NT['y'], lam = boxcox(NT['y'] + 1)
 
-        m_NT = Prophet(interval_width=0.90)
+        m_NT = Prophet(uncertainty_samples=0)
         m_NT.fit(NT)
         future_NT = m_NT.make_future_dataframe(periods = predicton_months, freq='m')
         forecast_NT = m_NT.predict(future_NT)

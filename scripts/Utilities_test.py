@@ -92,6 +92,5 @@ class TestStringMethods(unittest.TestCase):
         self.assertTrue(is_all_same)
 
 
-
 if __name__ == '__main__':
     unittest.main()

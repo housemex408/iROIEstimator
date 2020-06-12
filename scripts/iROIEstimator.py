@@ -19,8 +19,8 @@ class iROIEstimator:
     # input = "../../exports"
     input = "scripts/exports"
     output = "scripts/notebook/results"
-    # TASK_LIST = c.TASK_LIST
-    TASK_LIST = ["BUG"]
+    TASK_LIST = c.TASK_LIST
+    # TASK_LIST = ["BUG"]
 
     results_header = [
       c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_CONTRIBUTORS,
@@ -47,6 +47,11 @@ class iROIEstimator:
         self.investment_gain = 0
         self.roi = 0
         self.annualized_roi = 0
+        self.cost_invested = 0
+        self.cost_returned = 0
+        self.cost_investment_gain = 0
+        self.cost_roi = 0
+        self.cost_annualized_roi = 0
         self.hourly_wage = hourly_wage
         self.team_size = team_size
         self.team_location = team_location
@@ -183,6 +188,18 @@ class iROIEstimator:
         self.annualized_roi = round(pow(1 + self.roi, 1 / self.prediction_years) - 1, 3)
         return self.annualized_roi
 
+    def calculate_cost_investment_gain(self):
+        self.cost_investment_gain = round(self.cost_returned - self.cost_invested, 2)
+        return self.cost_investment_gain
+
+    def calculate_cost_ROI(self):
+        self.cost_roi = round(((self.cost_investment_gain + self.cost_invested) / self.cost_invested) - 1, 3)
+        return self.roi
+
+    def calculate_cost_annualized_ROI(self):
+        self.cost_annualized_roi = round(pow(1 + self.cost_roi, 1 / self.prediction_years) - 1, 3)
+        return self.cost_annualized_roi
+
     def calculate_savings(self, effort_cc, cost_cc, effort_ec):
         cost_ec = (cost_cc / effort_cc) * effort_ec
         return cost_ec
@@ -201,6 +218,12 @@ class iROIEstimator:
       formatted_cost = babel.numbers.format_currency(decimal.Decimal(converted_cost), currency)
       return formatted_cost
 
+    def get_model_measurement(self):
+      measurement = "LOC (added/modified/deleted)"
+      if self.model == c.MODULE:
+        measurement = "Files (added/modified/deleted)"
+      return measurement
+
     def calculate_results(self):
         effort_cc = 0.0
         effort_ec = 0.0
@@ -212,8 +235,11 @@ class iROIEstimator:
 
         cost_cc = 0
         cost_ec = 0
-        cost_invested = 0
-        cost_returned = 0
+        self.cost_invested = 0
+        self.cost_returned = 0
+        self.cost_investment_gain = 0
+        self.cost_roi = 0
+        self.cost_annualized_roi = 0
 
         logger.info(" - OUTPUT - \n")
 
@@ -221,38 +247,41 @@ class iROIEstimator:
             effort_cc = self.task_forecasted_effort[key][c.COST_CC].iloc[:,1].values.sum()
             effort_ec = self.task_forecasted_effort[key][c.COST_EC].iloc[:,1].values.sum()
             cost_cc = self.task_forecasted_effort[key][c.COST_CC].iloc[:,0].values.sum()
-            cost_ec = self.task_forecasted_effort[key][c.COST_EC].iloc[:,0].values.sum()
-            # cost_ec = self.calculate_savings(effort_cc, cost_cc, effort_ec)
+            # cost_ec = self.task_forecasted_effort[key][c.COST_EC].iloc[:,0].values.sum()
+            cost_ec = self.calculate_savings(effort_cc, cost_cc, effort_ec)
 
-            cost_invested = cost_invested + cost_cc
-            cost_returned = cost_returned + cost_ec
+            self.cost_invested = self.cost_invested + cost_cc
+            self.cost_returned = self.cost_returned + cost_ec
             self.amount_invested = self.amount_invested + effort_cc
             self.amount_returned = self.amount_returned + effort_ec
 
-            logger.info(" {0} CC Forecasted Effort: {1:,}".format(key, round(effort_cc), 2))
+            logger.info(" {0} CC Forecasted Effort: {1:,} {2}".format(key, round(effort_cc, 0), self.get_model_measurement()))
             logger.info(" {0} CC Forecasted Costs: {1}".format(key, self.convert_currency(cost_cc)))
-            logger.info(" {0} EC Forecasted Effort Savings: {1:,}".format(key, round(effort_ec), 2))
+            logger.info(" {0} EC Forecasted Effort Savings: {1:,} {2}".format(key, round(effort_ec, 0), self.get_model_measurement()))
             logger.info(" {0} EC Forecasted Costs Savings: {1}".format(key, self.convert_currency(cost_ec)))
 
         logger.info(" ---------------------------------------------------\n")
 
-        # cost_returned = self.calculate_savings(self.amount_invested, cost_invested, self.amount_returned)
+        self.cost_returned = self.calculate_savings(self.amount_invested, self.cost_invested, self.amount_returned)
 
-        logger.info(" Total CC Forecasted Effort: {0:,}".format(round(self.amount_invested, 2)))
-        logger.info(" Total CC Forecasted Costs: {0}".format(self.convert_currency(cost_invested)))
-        logger.info(" Total EC Forecasted Effort Savings: {0:,}".format(round(self.amount_returned, 2)))
-        logger.info(" Total EC Forecasted Costs Savings: {0}".format( self.convert_currency(cost_returned)))
+        logger.info(" Total CC Forecasted Effort: {0:,} {1}".format(round(self.amount_invested, 0), self.get_model_measurement()))
+        logger.info(" Total CC Forecasted Costs: {0}".format(self.convert_currency(self.cost_invested)))
+        logger.info(" Total EC Forecasted Effort Savings: {0:,} {1}".format(round(self.amount_returned, 0), self.get_model_measurement()))
+        logger.info(" Total EC Forecasted Costs Savings: {0}\n".format( self.convert_currency(self.cost_returned)))
 
         self.calculate_investment_gain()
         self.calculate_ROI()
         self.calculate_annualized_ROI()
+        self.calculate_cost_investment_gain()
+        self.calculate_cost_ROI()
+        self.calculate_cost_annualized_ROI()
 
-        logger.info(" Effort Investment Gain: {0}".format(self.convert_currency(self.investment_gain)))
+        logger.info(" Effort Investment Gain: {0:,} {1}".format(self.investment_gain, self.get_model_measurement()))
         logger.info(" Effort ROI: {0:.2%}".format(self.roi))
         logger.info(" Effort Annualized ROI: {0:.2%}\n".format(self.annualized_roi))
-        # logger.info(" Cost Investment Gain: {0}".format(self.convert_currency(self.investment_gain)))
-        # logger.info(" Cost ROI: {0:.2%}".format(self.roi))
-        # logger.info(" Cost Annualized ROI: {0:.2%}\n".format(self.annualized_roi))
+        logger.info(" Cost Investment Gain: {0}".format(self.convert_currency(self.cost_investment_gain)))
+        logger.info(" Cost ROI: {0:.2%}".format(self.cost_roi))
+        logger.info(" Cost Annualized ROI: {0:.2%}\n".format(self.cost_annualized_roi))
 
         logger.info(" - CRITICAL INPUTS - \n")
         logger.info(" Github Repository URL: {0}".format(self.url))
@@ -260,6 +289,7 @@ class iROIEstimator:
         logger.info(" Team Size: {0}".format(self.team_size))
         logger.info(" Hourly Wage: {0}".format(self.convert_currency(self.hourly_wage)))
         logger.info(" Analysis Years: {0}".format(self.prediction_years))
+        logger.info(" Model: {0}".format(self.model))
 
     def save_results_roi_measures(self):
         roi_measures = pd.DataFrame({c.PROJECT: [self.project_name],
@@ -278,7 +308,7 @@ class iROIEstimator:
           fcntl.flock(f, fcntl.LOCK_UN)
 
 # project_list = c.ALL_PROJECTS
-project_list = ["angular/angular.js"]
+project_list = ["angular/angular"]
 
 # def execute_iROIEstimator(p, model):
 #   try:
@@ -295,7 +325,7 @@ project_list = ["angular/angular.js"]
 for p in project_list:
   try:
     logger.debug("Project {0}".format(p))
-    estimator = iROIEstimator(p, c.LINE, 3, 100, None, "UK")
+    estimator = iROIEstimator(p, c.LINE, 3, 100, None, "US")
     estimator.execute()
   except Exception:
     logger.error("Error:  {0}".format(p), exc_info=True)
