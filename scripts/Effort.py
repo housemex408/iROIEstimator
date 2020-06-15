@@ -243,7 +243,7 @@ class Effort:
             c.NT: self.X[NT],
             c.NO: self.X[NO],
             c.T_CONTRIBUTORS: self.X[T_CONTRIBUTORS],
-            c.T_LINE_P: self.X[c.T_LINE_P],
+            c.T_LINE: self.X[c.T_LINE_P],
             c.AVG_MODULE_CONTRIBS: self.df[AVG_EFFORT_CONTRIBS],
             c.HOURS_DIFF: self.df[HOURS_DIFF],
             c.CONTRIB_DIFF: self.df[CONTRIB_DIFF],

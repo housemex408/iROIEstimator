@@ -19,13 +19,13 @@ class iROIEstimator:
     # input = "../../exports"
     input = "scripts/exports"
     output = "scripts/notebook/results"
-    TASK_LIST = c.TASK_LIST
-    # TASK_LIST = ["BUG"]
+    # TASK_LIST = c.TASK_LIST
+    TASK_LIST = ["BUG"]
 
     results_header = [
-      c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_CONTRIBUTORS,
+      c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_CONTRIBUTORS, c.T_LINE,
       c.AVG_MODULE_CONTRIBS, c.HOURS_DIFF, c.CONTRIB_DIFF, c.BILLED_HOURS, c.COST,
-      c.T_LINE_P, c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR
+      c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR
     ]
     performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
     roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.INVESTMENT_GAIN, c.ROI, c.ANNUALIZED_ROI]
