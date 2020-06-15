@@ -214,7 +214,7 @@ class iROIEstimator:
 
       currency = currencies.get(self.team_location)
       c = CurrencyConverter()
-      converted_cost = c.convert(cost, 'USD', currency)
+      converted_cost = c.convert(cost, currency, currency)
       formatted_cost = babel.numbers.format_currency(decimal.Decimal(converted_cost), currency)
       return formatted_cost
 
@@ -308,7 +308,7 @@ class iROIEstimator:
           fcntl.flock(f, fcntl.LOCK_UN)
 
 # project_list = c.ALL_PROJECTS
-project_list = ["angular/angular"]
+
 
 # def execute_iROIEstimator(p, model):
 #   try:
@@ -322,10 +322,16 @@ project_list = ["angular/angular"]
 # with concurrent.futures.ProcessPoolExecutor(max_workers=12) as executor:
 #     {executor.submit(execute_iROIEstimator, project, c.LINE): project for project in project_list}
 
-for p in project_list:
+# CRITICAL INPUTS
+github_repository_url = ["angular/angular"]
+analysis_years = 3
+hourly_wage = 100
+team_location = "US"
+
+for p in github_repository_url:
   try:
     logger.debug("Project {0}".format(p))
-    estimator = iROIEstimator(p, c.MODULE, 3, 100, None, "US")
+    estimator = iROIEstimator(p, c.LINE, 3, 100, None, "US")
     estimator.execute()
   except Exception:
     logger.error("Error:  {0}".format(p), exc_info=True)
