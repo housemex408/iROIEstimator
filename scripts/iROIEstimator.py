@@ -12,6 +12,7 @@ import fcntl
 from currency_converter import CurrencyConverter
 import babel.numbers
 import decimal
+import math
 logger = utils.get_logger()
 os.environ["NUMEXPR_MAX_THREADS"] = "12"
 
@@ -19,13 +20,13 @@ class iROIEstimator:
     # input = "../../exports"
     input = "scripts/exports"
     output = "scripts/notebook/results"
-    # TASK_LIST = c.TASK_LIST
-    TASK_LIST = ["BUG"]
+    TASK_LIST = c.TASK_LIST
+    # TASK_LIST = ["REFACTOR"]
 
     results_header = [
       c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_CONTRIBUTORS, c.T_LINE,
-      c.AVG_MODULE_CONTRIBS, c.HOURS_DIFF, c.CONTRIB_DIFF, c.BILLED_HOURS, c.COST,
-      c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR
+      c.LINE, c.MODULE, c.AVG_MODULE_CONTRIBS, c.HOURS_DIFF, c.CONTRIB_DIFF, c.BILLED_HOURS, 
+      c.COST, c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR
     ]
     performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
     roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.INVESTMENT_GAIN, c.ROI, c.ANNUALIZED_ROI]
@@ -181,7 +182,10 @@ class iROIEstimator:
         return self.investment_gain
 
     def calculate_ROI(self):
-        self.roi = round(((self.investment_gain + self.amount_invested) / self.amount_invested) - 1, 3)
+        if self.amount_invested == 0:
+          self.roi = round(self.investment_gain, 3)
+        else:
+          self.roi = round(((self.investment_gain + self.amount_invested) / self.amount_invested) - 1, 3)
         return self.roi
 
     def calculate_annualized_ROI(self):
@@ -193,7 +197,10 @@ class iROIEstimator:
         return self.cost_investment_gain
 
     def calculate_cost_ROI(self):
-        self.cost_roi = round(((self.cost_investment_gain + self.cost_invested) / self.cost_invested) - 1, 3)
+        if self.cost_invested == 0:
+          self.cost_roi = round(self.cost_investment_gain, 3)
+        else:
+          self.cost_roi = round(((self.cost_investment_gain + self.cost_invested) / self.cost_invested) - 1, 3)
         return self.roi
 
     def calculate_cost_annualized_ROI(self):
@@ -249,6 +256,8 @@ class iROIEstimator:
             cost_cc = self.task_forecasted_effort[key][c.COST_CC].iloc[:,0].values.sum()
             # cost_ec = self.task_forecasted_effort[key][c.COST_EC].iloc[:,0].values.sum()
             cost_ec = self.calculate_savings(effort_cc, cost_cc, effort_ec)
+            if math.isnan(cost_ec):
+              cost_ec = self.task_forecasted_effort[key][c.COST_EC].iloc[:,0].values.sum()
 
             self.cost_invested = self.cost_invested + cost_cc
             self.cost_returned = self.cost_returned + cost_ec
@@ -262,7 +271,8 @@ class iROIEstimator:
 
         logger.info(" ---------------------------------------------------\n")
 
-        self.cost_returned = self.calculate_savings(self.amount_invested, self.cost_invested, self.amount_returned)
+        if self.cost_invested > 0:
+          self.cost_returned = self.calculate_savings(self.amount_invested, self.cost_invested, self.amount_returned)
 
         logger.info(" Total CC Forecasted Effort: {0:,} {1}".format(round(self.amount_invested, 0), self.get_model_measurement()))
         logger.info(" Total CC Forecasted Costs: {0}".format(self.convert_currency(self.cost_invested)))
@@ -324,6 +334,7 @@ class iROIEstimator:
 
 # CRITICAL INPUTS
 github_repository_url = ["angular/angular"]
+# github_repository_url = c.ALL_PROJECTS
 analysis_years = 3
 hourly_wage = 100
 team_location = "US"

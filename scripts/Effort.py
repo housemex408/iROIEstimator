@@ -224,15 +224,21 @@ class Effort:
         NO = None
         T_CONTRIBUTORS = None
         TYPE = self.type
+        LINE = None
+        MODULE = None
 
         if self.type == c.LINE_CC or self.type == c.MODULE_CC:
             NT = c.NT_CC
             NO = c.NO_CC
             T_CONTRIBUTORS = c.T_CC
+            LINE = c.LINE_CC
+            MODULE = c.MODULE_CC
         elif self.type == c.LINE_EC or self.type == c.MODULE_EC:
             NT = c.NT_EC
             NO = c.NO_EC
             T_CONTRIBUTORS = c.T_EC
+            LINE = c.LINE_EC
+            MODULE = c.MODULE_EC
 
         EFFORT, T_CONTRIBS, BILLED, COST, HOURS_DIFF, AVG_EFFORT_CONTRIBS, CONTRIB_DIFF = self.get_cost_columns()
 
@@ -245,6 +251,8 @@ class Effort:
             c.NO: self.X[NO],
             c.T_CONTRIBUTORS: self.X[T_CONTRIBUTORS],
             c.T_LINE: self.X[c.T_LINE_P],
+            c.LINE: self.df[LINE],
+            c.MODULE: self.df[MODULE],
             c.AVG_MODULE_CONTRIBS: self.df[AVG_EFFORT_CONTRIBS],
             c.HOURS_DIFF: self.df[HOURS_DIFF],
             c.CONTRIB_DIFF: self.df[CONTRIB_DIFF],
