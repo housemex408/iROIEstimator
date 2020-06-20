@@ -146,7 +146,8 @@ class Effort:
 
         forecast_NT_inv = pd.DataFrame()
         forecast_NT_inv['ds'] = forecast_NT['ds']
-        forecast_NT_inv[['yhat','yhat_upper','yhat_lower']] = forecast_NT[['yhat','yhat_upper','yhat_lower']].apply(lambda x: inv_boxcox(x, lam))
+        # forecast_NT_inv[['yhat','yhat_upper','yhat_lower']] = forecast_NT[['yhat','yhat_upper','yhat_lower']].apply(lambda x: inv_boxcox(x, lam))
+        forecast_NT_inv[['yhat']] = forecast_NT[['yhat']].apply(lambda x: inv_boxcox(x, lam))
 
         m_NT.history['y_t'] = m_NT.history['y']
         m_NT.history['y'] = m_NT.history['y_orig']
