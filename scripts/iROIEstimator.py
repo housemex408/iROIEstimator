@@ -317,34 +317,33 @@ class iROIEstimator:
           self.roi_measures.to_csv(f, header=False, mode = 'a', index=False)
           fcntl.flock(f, fcntl.LOCK_UN)
 
-# project_list = c.ALL_PROJECTS
-
-
-# def execute_iROIEstimator(p, model):
-#   try:
-#     logger.debug("Project {0}".format(p))
-#     estimator = iROIEstimator(p, model)
-#     estimator.execute()
-#   except Exception:
-#     logger.error("Error:  {0}".format(p), exc_info=True)
-
-
-# with concurrent.futures.ProcessPoolExecutor(max_workers=12) as executor:
-#     {executor.submit(execute_iROIEstimator, project, c.LINE): project for project in project_list}
-
 # CRITICAL INPUTS
-github_repository_url = ["angular/angular"]
-# github_repository_url = c.ALL_PROJECTS
+# github_repository_url = ["angular/angular"]
+github_repository_url = c.ALL_PROJECTS
 analysis_years = 3
 hourly_wage = 100
 team_location = "US"
 
-for p in github_repository_url:
+def execute_iROIEstimator(p, model, analysis_years, hourly_wage, team_size, team_location):
   try:
     logger.debug("Project {0}".format(p))
-    estimator = iROIEstimator(p, c.LINE, 3, 100, None, "US")
+    estimator = iROIEstimator(p, model, analysis_years, hourly_wage, team_size, team_location)
     estimator.execute()
   except Exception:
     logger.error("Error:  {0}".format(p), exc_info=True)
-    continue
+
+
+with concurrent.futures.ProcessPoolExecutor(max_workers=12) as executor:
+    {executor.submit(execute_iROIEstimator, project, c.LINE, analysis_years, hourly_wage, None, team_location): project for project in github_repository_url}
+
+
+
+# for p in github_repository_url:
+#   try:
+#     logger.debug("Project {0}".format(p))
+#     estimator = iROIEstimator(p, c.MODULE, analysis_years, hourly_wage, None, team_location)
+#     estimator.execute()
+#   except Exception:
+#     logger.error("Error:  {0}".format(p), exc_info=True)
+#     continue
 
