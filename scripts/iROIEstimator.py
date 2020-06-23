@@ -318,8 +318,8 @@ class iROIEstimator:
           fcntl.flock(f, fcntl.LOCK_UN)
 
 # CRITICAL INPUTS
-# github_repository_url = ["angular/angular"]
-github_repository_url = c.ALL_PROJECTS
+github_repository_url = ["angular/angular"]
+# github_repository_url = c.ALL_PROJECTS
 analysis_years = 3
 hourly_wage = 100
 team_location = "US"
@@ -334,7 +334,7 @@ def execute_iROIEstimator(p, model, analysis_years, hourly_wage, team_size, team
 
 
 with concurrent.futures.ProcessPoolExecutor(max_workers=12) as executor:
-    {executor.submit(execute_iROIEstimator, project, c.LINE, analysis_years, hourly_wage, None, team_location): project for project in github_repository_url}
+    {executor.submit(execute_iROIEstimator, project, c.MODULE, analysis_years, hourly_wage, None, team_location): project for project in github_repository_url}
 
 
 
