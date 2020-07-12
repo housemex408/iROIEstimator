@@ -62,8 +62,8 @@ def log_transform(df, field):
     return np.log1p(df[field])
     # return (df[field]+1).transform(np.log)
 
-def reverse_log_transform(df):
-    return np.expm1(df)
+def reverse_log_transform(df, field):
+    return np.expm1(df[field])
 
 def normalize(df, field):
     return (df[field] - df[field].min()) / (df[field].max() - df[field].min())
