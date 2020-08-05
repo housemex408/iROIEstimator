@@ -5,7 +5,7 @@ from itertools import islice
 
 # repos = open("./scripts/popular_repos.csv", 'r')
 # repos = open("./scripts/less_popular_repos.csv", 'r')
-repos = ["linux/linux","angular/angular", "angular.js/angular.js"]
+repos = ["google/closure-compiler","google/closure-library"]
 # repos = ["linux/linux"]
 projects = []
 
