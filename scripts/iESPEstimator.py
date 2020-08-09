@@ -21,7 +21,6 @@ class iROIEstimator:
     input = "scripts/exports"
     output = "scripts/notebook/results"
     TASK_LIST = c.TASK_LIST
-    # TASK_LIST = ["REFACTOR"]
 
     results_header = [
       c.DATE, c.PROJECT, c.MODEL, c.TASK, c.NT, c.NO, c.T_CONTRIBUTORS, c.T_LINE,
@@ -62,7 +61,7 @@ class iROIEstimator:
     def init_output_files(self, model):
         self.results_file = "{directory}/prediction_results_{model}.csv".format(directory=self.output, model=model)
         self.performance_measures_file = "{directory}/performance_measures_{model}.csv".format(directory=self.output, model=model)
-        self.roi_measures_file = "{directory}/roi_measures_{model}.csv".format(directory=self.output, model=model)
+        self.roi_measures_file = "{directory}/esp_measures_{model}.csv".format(directory=self.output, model=model)
 
         self.results = pd.DataFrame(columns = self.results_header)
         self.performance_measures = pd.DataFrame(columns = self.performance_measures_header)
@@ -318,7 +317,7 @@ class iROIEstimator:
           fcntl.flock(f, fcntl.LOCK_UN)
 
 # CRITICAL INPUTS
-github_repository_url = ["ansible/angular"]
+github_repository_url = ["angular/angular"]
 # github_repository_url = c.ALL_PROJECTS
 analysis_years = 3
 hourly_wage = 100
