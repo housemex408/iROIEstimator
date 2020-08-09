@@ -1,4 +1,4 @@
-Project,Model,Amount_Invested,Amount_Returned,Investment_Gain,ROI,Annualized_ROI
+Project,Model,Effort_Incurred,Effort_Saved,Net_Effort_Saved,ESP,Annualized_ESP
 angular,Module,273097.00000000006,13669.670000000002,-259427.33,-0.95,-0.632
 node,Module,1853694.1400000001,152643.0,-1701051.14,-0.918,-0.566
 neutron,Module,51940.25,88997.66,37057.41,0.713,0.197

@@ -1,4 +1,4 @@
-Project,Model,Amount_Invested,Amount_Returned,Investment_Gain,ROI,Annualized_ROI
+Project,Model,Effort_Incurred,Effort_Saved,Net_Effort_Saved,ESP,Annualized_ESP
 angular,Line,149536.47,238397.68,88861.21,0.59,0.17
 angular.js,Line,956091.87,3102688.87,2146597,2.25,0.48
 ansible,Line,2926135.18,104977762.3,102051627.1,34.88,2.3

@@ -947,8 +947,8 @@ Line_EC  4953.6  1984.53  4397.45  3049.34
 2020-05-10 22:25:47,189 INFO angular - Core Contributor Forecasted Effort Over 3 years: 10540007.2
 2020-05-10 22:25:47,189 INFO angular - External Contributor Forecasted Effort Over 3 years: 277590.37
 2020-05-10 22:25:47,190 INFO angular - Investment Gain: -10262416.83
-2020-05-10 22:25:47,190 INFO angular - ROI: -0.974
-2020-05-10 22:25:47,190 INFO angular - Annualized ROI: -0.704
+2020-05-10 22:25:47,190 INFO angular - ESP: -0.974
+2020-05-10 22:25:47,190 INFO angular - Annualized ESP: -0.704
 2020-05-10 22:25:47,200 DEBUG Project nodejs/node
 2020-05-10 22:25:47,976 INFO node - BUG - Line_CC prediction count: 630
 2020-05-10 22:25:49,565 INFO node - BUG - Line_EC prediction count: 630
@@ -1898,8 +1898,8 @@ Line_EC  3258314.6  3045645.52  3657294.63  1943908.49
 2020-05-10 22:27:25,200 INFO node - Core Contributor Forecasted Effort Over 3 years: 180973249.57
 2020-05-10 22:27:25,200 INFO node - External Contributor Forecasted Effort Over 3 years: 15339209.47
 2020-05-10 22:27:25,201 INFO node - Investment Gain: -165634040.1
-2020-05-10 22:27:25,201 INFO node - ROI: -0.915
-2020-05-10 22:27:25,201 INFO node - Annualized ROI: -0.56
+2020-05-10 22:27:25,201 INFO node - ESP: -0.915
+2020-05-10 22:27:25,201 INFO node - Annualized ESP: -0.56
 2020-05-10 22:27:25,217 DEBUG Project openstack/neutron
 2020-05-10 22:27:25,922 INFO neutron - BUG - Line_CC prediction count: 333
 2020-05-10 22:27:26,526 INFO neutron - BUG - Line_EC prediction count: 333
@@ -2973,8 +2973,8 @@ Line_EC  3035822.71  1269151.52  2556146.63  145498.84
 2020-05-10 22:29:04,769 INFO neutron - Core Contributor Forecasted Effort Over 3 years: 6491507.05
 2020-05-10 22:29:04,769 INFO neutron - External Contributor Forecasted Effort Over 3 years: 8701888.93
 2020-05-10 22:29:04,769 INFO neutron - Investment Gain: 2210381.88
-2020-05-10 22:29:04,769 INFO neutron - ROI: 0.341
-2020-05-10 22:29:04,769 INFO neutron - Annualized ROI: 0.103
+2020-05-10 22:29:04,769 INFO neutron - ESP: 0.341
+2020-05-10 22:29:04,769 INFO neutron - Annualized ESP: 0.103
 2020-05-10 22:29:04,789 DEBUG Project vuejs/vue
 2020-05-10 22:29:05,229 INFO vue - BUG - Line_CC prediction count: 270
 2020-05-10 22:29:05,731 INFO vue - BUG - Line_EC prediction count: 270
@@ -4392,8 +4392,8 @@ Line_EC  216.19  3657.85  29454.43  40182.26
 2020-05-10 22:33:09,647 INFO vue - Core Contributor Forecasted Effort Over 3 years: 279368.14
 2020-05-10 22:33:09,648 INFO vue - External Contributor Forecasted Effort Over 3 years: 77524.98
 2020-05-10 22:33:09,648 INFO vue - Investment Gain: -201843.16
-2020-05-10 22:33:09,648 INFO vue - ROI: -0.722
-2020-05-10 22:33:09,648 INFO vue - Annualized ROI: -0.347
+2020-05-10 22:33:09,648 INFO vue - ESP: -0.722
+2020-05-10 22:33:09,648 INFO vue - Annualized ESP: -0.347
 2020-05-10 22:33:09,670 DEBUG Project home-assistant/home-assistant
 2020-05-10 22:33:10,296 INFO home-assistant - BUG - Line_CC prediction count: 657
 2020-05-10 22:33:10,743 INFO home-assistant - BUG - Line_EC prediction count: 657
@@ -5711,8 +5711,8 @@ Line_EC  0.17  320.34  79973.85  398.71
 2020-05-10 22:34:54,820 INFO home-assistant - Core Contributor Forecasted Effort Over 3 years: 205886.12
 2020-05-10 22:34:54,820 INFO home-assistant - External Contributor Forecasted Effort Over 3 years: 491352.99
 2020-05-10 22:34:54,820 INFO home-assistant - Investment Gain: 285466.87
-2020-05-10 22:34:54,821 INFO home-assistant - ROI: 1.387
-2020-05-10 22:34:54,821 INFO home-assistant - Annualized ROI: 0.336
+2020-05-10 22:34:54,821 INFO home-assistant - ESP: 1.387
+2020-05-10 22:34:54,821 INFO home-assistant - Annualized ESP: 0.336
 2020-05-10 22:34:54,843 DEBUG Project tensorflow/tensorflow
 2020-05-10 22:34:55,282 INFO tensorflow - BUG - Line_CC prediction count: 189
 2020-05-10 22:34:55,719 INFO tensorflow - BUG - Line_EC prediction count: 189
@@ -7482,8 +7482,8 @@ Line_EC  6429174.51  9804655.82  10532843.68  13750251.99
 2020-05-10 22:36:39,889 INFO tensorflow - Core Contributor Forecasted Effort Over 3 years: 17633910.89
 2020-05-10 22:36:39,889 INFO tensorflow - External Contributor Forecasted Effort Over 3 years: 51726601.24
 2020-05-10 22:36:39,889 INFO tensorflow - Investment Gain: 34092690.35
-2020-05-10 22:36:39,890 INFO tensorflow - ROI: 1.933
-2020-05-10 22:36:39,890 INFO tensorflow - Annualized ROI: 0.431
+2020-05-10 22:36:39,890 INFO tensorflow - ESP: 1.933
+2020-05-10 22:36:39,890 INFO tensorflow - Annualized ESP: 0.431
 2020-05-10 22:36:39,914 DEBUG Project moby/moby
 2020-05-10 22:36:40,349 INFO moby - BUG - Line_CC prediction count: 81
 2020-05-10 22:36:40,830 INFO moby - BUG - Line_EC prediction count: 81
@@ -9058,8 +9058,8 @@ Line_EC  1064137.92  219397.2  483245.98  321257.11
 2020-05-10 22:40:00,482 INFO gitlabhq - Core Contributor Forecasted Effort Over 3 years: 1953452.65
 2020-05-10 22:40:00,482 INFO gitlabhq - External Contributor Forecasted Effort Over 3 years: 2665520.67
 2020-05-10 22:40:00,483 INFO gitlabhq - Investment Gain: 712068.02
-2020-05-10 22:40:00,483 INFO gitlabhq - ROI: 0.365
-2020-05-10 22:40:00,483 INFO gitlabhq - Annualized ROI: 0.109
+2020-05-10 22:40:00,483 INFO gitlabhq - ESP: 0.365
+2020-05-10 22:40:00,483 INFO gitlabhq - Annualized ESP: 0.109
 2020-05-10 22:40:00,516 DEBUG Project dotnet/orleans
 2020-05-10 22:40:01,008 INFO orleans - BUG - Line_CC prediction count: 189
 2020-05-10 22:40:01,458 INFO orleans - BUG - Line_EC prediction count: 189
@@ -10341,8 +10341,8 @@ Line_EC  16.63  15.76  16.54  2.33
 2020-05-10 22:43:20,507 INFO orleans - Core Contributor Forecasted Effort Over 3 years: 1326932.13
 2020-05-10 22:43:20,507 INFO orleans - External Contributor Forecasted Effort Over 3 years: 1838.78
 2020-05-10 22:43:20,508 INFO orleans - Investment Gain: -1325093.35
-2020-05-10 22:43:20,508 INFO orleans - ROI: -0.999
-2020-05-10 22:43:20,508 INFO orleans - Annualized ROI: -0.9
+2020-05-10 22:43:20,508 INFO orleans - ESP: -0.999
+2020-05-10 22:43:20,508 INFO orleans - Annualized ESP: -0.9
 2020-05-10 22:43:20,550 DEBUG Project dotnet/roslyn
 2020-05-10 22:43:20,981 INFO roslyn - BUG - Line_CC prediction count: 126
 2020-05-10 22:43:21,369 INFO roslyn - BUG - Line_EC prediction count: 126
@@ -12124,8 +12124,8 @@ Line_EC  43921044.27  50611413.0  55454642.77  9459398.12
 2020-05-10 22:44:57,510 INFO roslyn - Core Contributor Forecasted Effort Over 3 years: 22005487.69
 2020-05-10 22:44:57,510 INFO roslyn - External Contributor Forecasted Effort Over 3 years: 243123896.71
 2020-05-10 22:44:57,510 INFO roslyn - Investment Gain: 221118409.02
-2020-05-10 22:44:57,510 INFO roslyn - ROI: 10.048
-2020-05-10 22:44:57,511 INFO roslyn - Annualized ROI: 1.227
+2020-05-10 22:44:57,510 INFO roslyn - ESP: 10.048
+2020-05-10 22:44:57,511 INFO roslyn - Annualized ESP: 1.227
 2020-05-10 22:44:57,543 DEBUG Project ansible/ansible
 2020-05-10 22:44:58,019 INFO ansible - BUG - Line_CC prediction count: 558
 2020-05-10 22:44:58,464 INFO ansible - BUG - Line_EC prediction count: 558
@@ -13075,8 +13075,8 @@ Line_EC  4017723.13  10910227.12  23793736.26  3882428.07
 2020-05-10 22:46:21,129 INFO ansible - Core Contributor Forecasted Effort Over 3 years: 5378449.13
 2020-05-10 22:46:21,129 INFO ansible - External Contributor Forecasted Effort Over 3 years: 61029918.23
 2020-05-10 22:46:21,130 INFO ansible - Investment Gain: 55651469.1
-2020-05-10 22:46:21,130 INFO ansible - ROI: 10.347
-2020-05-10 22:46:21,130 INFO ansible - Annualized ROI: 1.247
+2020-05-10 22:46:21,130 INFO ansible - ESP: 10.347
+2020-05-10 22:46:21,130 INFO ansible - Annualized ESP: 1.247
 2020-05-10 22:46:21,168 DEBUG Project cloudfoundry/cli
 2020-05-10 22:46:21,642 INFO cli - BUG - Line_CC prediction count: 72
 2020-05-10 22:46:22,038 INFO cli - BUG - Line_EC prediction count: 72
@@ -14438,8 +14438,8 @@ Line_EC  208071.62  195535.04  275151.2  81304.1
 2020-05-10 22:51:17,393 INFO cli - Core Contributor Forecasted Effort Over 3 years: 3239680.5
 2020-05-10 22:51:17,393 INFO cli - External Contributor Forecasted Effort Over 3 years: 926828.18
 2020-05-10 22:51:17,394 INFO cli - Investment Gain: -2312852.32
-2020-05-10 22:51:17,394 INFO cli - ROI: -0.714
-2020-05-10 22:51:17,394 INFO cli - Annualized ROI: -0.341
+2020-05-10 22:51:17,394 INFO cli - ESP: -0.714
+2020-05-10 22:51:17,394 INFO cli - Annualized ESP: -0.341
 2020-05-10 22:51:17,437 DEBUG Project openstack/nova
 2020-05-10 22:51:17,961 INFO nova - BUG - Line_CC prediction count: 459
 2020-05-10 22:51:18,384 INFO nova - BUG - Line_EC prediction count: 459
@@ -15389,8 +15389,8 @@ Line_EC  10482007.77  3884338.86  3110308.38  128910.31
 2020-05-10 22:52:45,329 INFO nova - Core Contributor Forecasted Effort Over 3 years: 17501121.4
 2020-05-10 22:52:45,330 INFO nova - External Contributor Forecasted Effort Over 3 years: 20671837.55
 2020-05-10 22:52:45,330 INFO nova - Investment Gain: 3170716.15
-2020-05-10 22:52:45,330 INFO nova - ROI: 0.181
-2020-05-10 22:52:45,330 INFO nova - Annualized ROI: 0.057
+2020-05-10 22:52:45,330 INFO nova - ESP: 0.181
+2020-05-10 22:52:45,330 INFO nova - Annualized ESP: 0.057
 2020-05-10 22:52:45,371 DEBUG Project angular/angular.js
 2020-05-10 22:52:45,927 INFO angular.js - BUG - Line_CC prediction count: 441
 2020-05-10 22:52:46,345 INFO angular.js - BUG - Line_EC prediction count: 441
@@ -16460,8 +16460,8 @@ Line_EC  3265.42  246904.27  260464.14  278681.99
 2020-05-10 22:54:12,504 INFO angular.js - Core Contributor Forecasted Effort Over 3 years: 1593580.32
 2020-05-10 22:54:12,504 INFO angular.js - External Contributor Forecasted Effort Over 3 years: 4384800.96
 2020-05-10 22:54:12,505 INFO angular.js - Investment Gain: 2791220.64
-2020-05-10 22:54:12,505 INFO angular.js - ROI: 1.752
-2020-05-10 22:54:12,505 INFO angular.js - Annualized ROI: 0.401
+2020-05-10 22:54:12,505 INFO angular.js - ESP: 1.752
+2020-05-10 22:54:12,505 INFO angular.js - Annualized ESP: 0.401
 2020-05-10 22:54:12,557 DEBUG Project auth0/lock
 2020-05-10 22:54:13,023 INFO lock - BUG - Line_CC prediction count: 378
 2020-05-10 22:54:13,435 INFO lock - BUG - Line_EC prediction count: 378
@@ -17831,8 +17831,8 @@ Line_EC  200692.06  69228.12  59326.08  24719.2
 2020-05-10 22:56:21,912 INFO lock - Core Contributor Forecasted Effort Over 3 years: 202471.24
 2020-05-10 22:56:21,912 INFO lock - External Contributor Forecasted Effort Over 3 years: 2606674.37
 2020-05-10 22:56:21,913 INFO lock - Investment Gain: 2404203.13
-2020-05-10 22:56:21,913 INFO lock - ROI: 11.874
-2020-05-10 22:56:21,913 INFO lock - Annualized ROI: 1.344
+2020-05-10 22:56:21,913 INFO lock - ESP: 11.874
+2020-05-10 22:56:21,913 INFO lock - Annualized ESP: 1.344
 2020-05-10 22:56:21,992 DEBUG Project kubernetes/kubernetes
 2020-05-10 22:56:22,617 INFO kubernetes - BUG - Line_CC prediction count: 693
 2020-05-10 22:56:23,070 INFO kubernetes - BUG - Line_EC prediction count: 693
@@ -18782,8 +18782,8 @@ Line_EC  746791.09  938684.34  1039437.5  210252.51
 2020-05-10 22:57:49,157 INFO kubernetes - Core Contributor Forecasted Effort Over 3 years: 5490078.88
 2020-05-10 22:57:49,157 INFO kubernetes - External Contributor Forecasted Effort Over 3 years: 12215973.08
 2020-05-10 22:57:49,157 INFO kubernetes - Investment Gain: 6725894.2
-2020-05-10 22:57:49,157 INFO kubernetes - ROI: 1.225
-2020-05-10 22:57:49,158 INFO kubernetes - Annualized ROI: 0.305
+2020-05-10 22:57:49,157 INFO kubernetes - ESP: 1.225
+2020-05-10 22:57:49,158 INFO kubernetes - Annualized ESP: 0.305
 2020-05-10 22:57:49,210 DEBUG Project apache/mesos
 2020-05-10 22:57:49,705 INFO mesos - BUG - Line_CC prediction count: 243
 2020-05-10 22:57:50,104 INFO mesos - BUG - Line_EC prediction count: 243
@@ -19837,8 +19837,8 @@ Line_EC  458688.61  363913.58  381417.81  268227.85
 2020-05-10 22:59:29,306 INFO mesos - Core Contributor Forecasted Effort Over 3 years: 4763073.73
 2020-05-10 22:59:29,306 INFO mesos - External Contributor Forecasted Effort Over 3 years: 3283575.47
 2020-05-10 22:59:29,307 INFO mesos - Investment Gain: -1479498.26
-2020-05-10 22:59:29,307 INFO mesos - ROI: -0.311
-2020-05-10 22:59:29,307 INFO mesos - Annualized ROI: -0.117
+2020-05-10 22:59:29,307 INFO mesos - ESP: -0.311
+2020-05-10 22:59:29,307 INFO mesos - Annualized ESP: -0.117
 2020-05-10 22:59:29,364 DEBUG Project odin-lang/Odin
 2020-05-10 22:59:29,860 INFO Odin - BUG - Line_CC prediction count: 18
 2020-05-10 22:59:30,242 INFO Odin - BUG - Line_EC prediction count: 18
@@ -19903,8 +19903,8 @@ Line_EC  2816.0  4224.0  4224.0  1760.0
 2020-05-10 22:59:37,586 INFO Odin - Core Contributor Forecasted Effort Over 3 years: 41859.95
 2020-05-10 22:59:37,586 INFO Odin - External Contributor Forecasted Effort Over 3 years: 13024.0
 2020-05-10 22:59:37,586 INFO Odin - Investment Gain: -28835.95
-2020-05-10 22:59:37,586 INFO Odin - ROI: -0.689
-2020-05-10 22:59:37,586 INFO Odin - Annualized ROI: -0.322
+2020-05-10 22:59:37,586 INFO Odin - ESP: -0.689
+2020-05-10 22:59:37,586 INFO Odin - Annualized ESP: -0.322
 2020-05-10 22:59:37,639 DEBUG Project NixOS/nixpkgs
 2020-05-10 22:59:38,068 INFO nixpkgs - BUG - Line_CC prediction count: 90
 2020-05-10 22:59:38,460 INFO nixpkgs - BUG - Line_EC prediction count: 90
@@ -21570,8 +21570,8 @@ Line_EC  810196.83  1009507.77  1021618.42  119030.76
 2020-05-10 23:01:32,866 INFO nixpkgs - Core Contributor Forecasted Effort Over 3 years: 29419812.83
 2020-05-10 23:01:32,866 INFO nixpkgs - External Contributor Forecasted Effort Over 3 years: 3426011.1
 2020-05-10 23:01:32,866 INFO nixpkgs - Investment Gain: -25993801.73
-2020-05-10 23:01:32,867 INFO nixpkgs - ROI: -0.884
-2020-05-10 23:01:32,867 INFO nixpkgs - Annualized ROI: -0.512
+2020-05-10 23:01:32,867 INFO nixpkgs - ESP: -0.884
+2020-05-10 23:01:32,867 INFO nixpkgs - Annualized ESP: -0.512
 2020-05-10 23:01:32,929 DEBUG Project facebook/react
 2020-05-10 23:01:33,432 INFO react - BUG - Line_CC prediction count: 225
 2020-05-10 23:01:33,899 INFO react - BUG - Line_EC prediction count: 225
@@ -22857,8 +22857,8 @@ Line_EC  2620635.6  12548908.51  31271068.7  24770424.14
 2020-05-10 23:06:00,592 INFO react - Core Contributor Forecasted Effort Over 3 years: 2533625.84
 2020-05-10 23:06:00,592 INFO react - External Contributor Forecasted Effort Over 3 years: 122907954.66
 2020-05-10 23:06:00,593 INFO react - Investment Gain: 120374328.82
-2020-05-10 23:06:00,593 INFO react - ROI: 47.511
-2020-05-10 23:06:00,593 INFO react - Annualized ROI: 2.647
+2020-05-10 23:06:00,593 INFO react - ESP: 47.511
+2020-05-10 23:06:00,593 INFO react - Annualized ESP: 2.647
 2020-05-10 23:06:00,664 DEBUG Project Homebrew/brew
 2020-05-10 23:06:01,103 INFO brew - BUG - Line_CC prediction count: 198
 2020-05-10 23:06:01,502 INFO brew - BUG - Line_EC prediction count: 198
@@ -24068,8 +24068,8 @@ Line_EC  2046.74  1537.55  5490.21  600.73
 2020-05-10 23:09:31,296 INFO brew - Core Contributor Forecasted Effort Over 3 years: 31034.95
 2020-05-10 23:09:31,296 INFO brew - External Contributor Forecasted Effort Over 3 years: 53151.72
 2020-05-10 23:09:31,296 INFO brew - Investment Gain: 22116.77
-2020-05-10 23:09:31,296 INFO brew - ROI: 0.713
-2020-05-10 23:09:31,297 INFO brew - Annualized ROI: 0.197
+2020-05-10 23:09:31,296 INFO brew - ESP: 0.713
+2020-05-10 23:09:31,297 INFO brew - Annualized ESP: 0.197
 2020-05-10 23:09:31,363 DEBUG Project openstack/cinder
 2020-05-10 23:09:31,921 INFO cinder - BUG - Line_CC prediction count: 360
 2020-05-10 23:09:32,372 INFO cinder - BUG - Line_EC prediction count: 360
@@ -25203,8 +25203,8 @@ Line_EC  4622915.88  4089697.1  3946353.95  571333.81
 2020-05-10 23:11:03,950 INFO cinder - Core Contributor Forecasted Effort Over 3 years: 19907838.72
 2020-05-10 23:11:03,950 INFO cinder - External Contributor Forecasted Effort Over 3 years: 16702709.24
 2020-05-10 23:11:03,950 INFO cinder - Investment Gain: -3205129.48
-2020-05-10 23:11:03,951 INFO cinder - ROI: -0.161
-2020-05-10 23:11:03,951 INFO cinder - Annualized ROI: -0.057
+2020-05-10 23:11:03,951 INFO cinder - ESP: -0.161
+2020-05-10 23:11:03,951 INFO cinder - Annualized ESP: -0.057
 2020-05-10 23:11:04,021 DEBUG Project elastic/elasticsearch
 2020-05-10 23:11:04,495 INFO elasticsearch - BUG - Line_CC prediction count: 342
 2020-05-10 23:11:04,916 INFO elasticsearch - BUG - Line_EC prediction count: 342
@@ -26154,8 +26154,8 @@ Line_EC  1.598072e+08  2.281659e+08  2.833265e+08  73531329.63
 2020-05-10 23:12:25,741 INFO elasticsearch - Core Contributor Forecasted Effort Over 3 years: 61532815.33
 2020-05-10 23:12:25,741 INFO elasticsearch - External Contributor Forecasted Effort Over 3 years: 1069883570.47
 2020-05-10 23:12:25,741 INFO elasticsearch - Investment Gain: 1008350755.14
-2020-05-10 23:12:25,741 INFO elasticsearch - ROI: 16.387
-2020-05-10 23:12:25,741 INFO elasticsearch - Annualized ROI: 1.591
+2020-05-10 23:12:25,741 INFO elasticsearch - ESP: 16.387
+2020-05-10 23:12:25,741 INFO elasticsearch - Annualized ESP: 1.591
 2020-05-10 23:12:25,811 DEBUG Project torvalds/linux
 2020-05-10 23:12:26,398 INFO linux - BUG - Line_CC prediction count: 1233
 2020-05-10 23:12:26,923 INFO linux - BUG - Line_EC prediction count: 1233
@@ -27273,8 +27273,8 @@ Line_EC  10875.2  6619.94  2613.06  5209.17
 2020-05-10 23:13:52,312 INFO linux - Core Contributor Forecasted Effort Over 3 years: 108509.59
 2020-05-10 23:13:52,312 INFO linux - External Contributor Forecasted Effort Over 3 years: 61962.87
 2020-05-10 23:13:52,313 INFO linux - Investment Gain: -46546.72
-2020-05-10 23:13:52,313 INFO linux - ROI: -0.429
-2020-05-10 23:13:52,313 INFO linux - Annualized ROI: -0.17
+2020-05-10 23:13:52,313 INFO linux - ESP: -0.429
+2020-05-10 23:13:52,313 INFO linux - Annualized ESP: -0.17
 2020-05-10 23:13:52,385 DEBUG Project cloudfoundry/cf-deployment
 2020-05-10 23:13:52,892 INFO cf-deployment - BUG - Line_CC prediction count: 144
 2020-05-10 23:13:53,301 INFO cf-deployment - BUG - Line_EC prediction count: 144
@@ -28228,8 +28228,8 @@ Line_EC  1640.07  630.57  1855.32  232.38
 2020-05-10 23:19:07,589 INFO cf-deployment - Core Contributor Forecasted Effort Over 3 years: 93213.87
 2020-05-10 23:19:07,590 INFO cf-deployment - External Contributor Forecasted Effort Over 3 years: 11872.21
 2020-05-10 23:19:07,590 INFO cf-deployment - Investment Gain: -81341.66
-2020-05-10 23:19:07,590 INFO cf-deployment - ROI: -0.873
-2020-05-10 23:19:07,590 INFO cf-deployment - Annualized ROI: -0.497
+2020-05-10 23:19:07,590 INFO cf-deployment - ESP: -0.873
+2020-05-10 23:19:07,590 INFO cf-deployment - Annualized ESP: -0.497
 2020-05-10 23:19:07,697 DEBUG Project OfficeDev/office-js
 2020-05-10 23:19:08,143 INFO office-js - BUG - Line_CC prediction count: 54
 2020-05-10 23:19:08,542 INFO office-js - BUG - Line_EC prediction count: 54
@@ -28362,5 +28362,5 @@ Line_EC  385.19  355.56  355.56  29.63
 2020-05-10 23:19:17,465 INFO office-js - Core Contributor Forecasted Effort Over 3 years: 2131.87
 2020-05-10 23:19:17,465 INFO office-js - External Contributor Forecasted Effort Over 3 years: 1125.94
 2020-05-10 23:19:17,465 INFO office-js - Investment Gain: -1005.93
-2020-05-10 23:19:17,465 INFO office-js - ROI: -0.472
-2020-05-10 23:19:17,465 INFO office-js - Annualized ROI: -0.192
+2020-05-10 23:19:17,465 INFO office-js - ESP: -0.472
+2020-05-10 23:19:17,465 INFO office-js - Annualized ESP: -0.192

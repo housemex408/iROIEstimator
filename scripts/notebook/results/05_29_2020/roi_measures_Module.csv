@@ -1,4 +1,4 @@
-Project,Model,Amount_Invested,Amount_Returned,Investment_Gain,ROI,Annualized_ROI
+Project,Model,Effort_Incurred,Effort_Saved,Net_Effort_Saved,ESP,Annualized_ESP
 cli,Module,24305.0,2078.0,-22227.0,-0.915,-0.56
 roslyn,Module,4997.0,162971.0,157974.0,31.614,2.195
 orleans,Module,6681.0,92.0,-6589.0,-0.986,-0.759

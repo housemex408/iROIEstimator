@@ -1,4 +1,4 @@
-Project,Model,Amount_Invested,Amount_Returned,Investment_Gain,ROI,Annualized_ROI
+Project,Model,Effort_Incurred,Effort_Saved,Net_Effort_Saved,ESP,Annualized_ESP
 tensorflow,Line,3874318.52,179796.12000000005,-3694522.4,-0.954,-0.642
 neutron,Line,4674.0,1567205.4400000002,1562531.44,334.303,5.947
 vue,Line,178488.48,316004.0,137515.52,0.77,0.21

@@ -1,4 +1,4 @@
-Project,Model,Amount_Invested,Amount_Returned,Investment_Gain,ROI,Annualized_ROI
+Project,Model,Effort_Incurred,Effort_Saved,Net_Effort_Saved,ESP,Annualized_ESP
 tensorflow,Module,1269.58,5629.950000000001,4360.37,3.434,0.643
 neutron,Module,410.0,19715.730000000003,19305.73,47.087,2.636
 vue,Module,7361.12,33904.0,26542.88,3.606,0.664

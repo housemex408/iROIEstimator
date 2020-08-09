@@ -1,4 +1,4 @@
-Project,Model,Amount_Invested,Amount_Returned,Investment_Gain,ROI,Annualized_ROI
+Project,Model,Effort_Incurred,Effort_Saved,Net_Effort_Saved,ESP,Annualized_ESP
 angular,Line,10540007.2,277590.37000000005,-10262416.83,-0.974,-0.704
 node,Line,180973249.57,15339209.47,-165634040.1,-0.915,-0.56
 neutron,Line,6491507.050000001,8701888.93,2210381.88,0.341,0.103

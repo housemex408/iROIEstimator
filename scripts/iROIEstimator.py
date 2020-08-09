@@ -29,7 +29,7 @@ class iROIEstimator:
       c.COST, c.OBSERVED, c.PREDICTED, c.DIFFERENCE, c.PERCENT_ERROR
     ]
     performance_measures_header = [c.PROJECT, c.MODEL, c.TASK, c.R_SQUARED, c.R_SQUARED_ADJ, c.MAE, c.MSE, c.RMSE, c.PRED_25, c.PRED_50, c.T_RECORDS]
-    roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.INVESTMENT_GAIN, c.ROI, c.ANNUALIZED_ROI]
+    roi_header = [c.PROJECT, c.MODEL, c.AMOUNT_INVESTED, c.AMOUNT_RETURNED, c.INVESTMENT_GAIN, c.ESP, c.ANNUALIZED_ROI]
 
     def __init__(self, project, model=c.LINE, prediction_years=3, hourly_wage=100, team_size=5, team_location="US"):
         self.url = "https://github.com/{0}".format(project)
@@ -46,7 +46,7 @@ class iROIEstimator:
         self.amount_invested = 0
         self.amount_returned = 0
         self.investment_gain = 0
-        self.roi = 0
+        self.esp = 0
         self.annualized_roi = 0
         self.cost_invested = 0
         self.cost_returned = 0
@@ -183,13 +183,13 @@ class iROIEstimator:
 
     def calculate_ROI(self):
         if self.amount_invested == 0:
-          self.roi = round(self.investment_gain, 3)
+          self.esp = round(self.investment_gain, 3)
         else:
-          self.roi = round(((self.investment_gain + self.amount_invested) / self.amount_invested) - 1, 3)
-        return self.roi
+          self.esp = round(((self.investment_gain + self.amount_invested) / self.amount_invested) - 1, 3)
+        return self.esp
 
     def calculate_annualized_ROI(self):
-        self.annualized_roi = round(pow(1 + self.roi, 1 / self.prediction_years) - 1, 3)
+        self.annualized_roi = round(pow(1 + self.esp, 1 / self.prediction_years) - 1, 3)
         return self.annualized_roi
 
     def calculate_cost_investment_gain(self):
@@ -201,7 +201,7 @@ class iROIEstimator:
           self.cost_roi = round(self.cost_investment_gain, 3)
         else:
           self.cost_roi = round(((self.cost_investment_gain + self.cost_invested) / self.cost_invested) - 1, 3)
-        return self.roi
+        return self.esp
 
     def calculate_cost_annualized_ROI(self):
         self.cost_annualized_roi = round(pow(1 + self.cost_roi, 1 / self.prediction_years) - 1, 3)
@@ -237,7 +237,7 @@ class iROIEstimator:
         self.amount_invested = 0
         self.amount_returned = 0
         self.investment_gain = 0
-        self.roi = 0
+        self.esp = 0
         self.annualized_roi = 0
 
         cost_cc = 0
@@ -287,11 +287,11 @@ class iROIEstimator:
         self.calculate_cost_annualized_ROI()
 
         logger.info(" Net Effort Savings: {0:,} {1}".format(self.investment_gain, self.get_model_measurement()))
-        logger.info(" Effort Savings Percentage (ESP): {0:.2%}".format(self.roi))
+        logger.info(" Effort Savings Percentage (ESP): {0:.2%}".format(self.esp))
         logger.info(" Annualized ESP: {0:.2%}\n".format(self.annualized_roi))
         # logger.info(" Cost Investment Gain: {0}".format(self.convert_currency(self.cost_investment_gain)))
-        # logger.info(" Cost ROI: {0:.2%}".format(self.cost_roi))
-        # logger.info(" Cost Annualized ROI: {0:.2%}\n".format(self.cost_annualized_roi))
+        # logger.info(" Cost ESP: {0:.2%}".format(self.cost_roi))
+        # logger.info(" Cost Annualized ESP: {0:.2%}\n".format(self.cost_annualized_roi))
 
         logger.info(" - CRITICAL INPUTS - \n")
         logger.info(" Github Repository URL: {0}".format(self.url))
@@ -307,7 +307,7 @@ class iROIEstimator:
                       c.AMOUNT_INVESTED: [self.amount_invested],
                       c.AMOUNT_RETURNED: [self.amount_returned],
                       c.INVESTMENT_GAIN: [self.investment_gain],
-                      c.ROI: [self.roi],
+                      c.ESP: [self.esp],
                       c.ANNUALIZED_ROI: [self.annualized_roi]})
 
         self.roi_measures = pd.concat([self.roi_measures, roi_measures])
