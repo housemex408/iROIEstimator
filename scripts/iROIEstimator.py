@@ -264,20 +264,20 @@ class iROIEstimator:
             self.amount_invested = self.amount_invested + effort_cc
             self.amount_returned = self.amount_returned + effort_ec
 
-            logger.info(" {0} CC Forecasted Effort: {1:,} {2}".format(key, round(effort_cc, 0), self.get_model_measurement()))
-            logger.info(" {0} CC Forecasted Costs: {1}".format(key, self.convert_currency(cost_cc)))
-            logger.info(" {0} EC Forecasted Effort Savings: {1:,} {2}".format(key, round(effort_ec, 0), self.get_model_measurement()))
-            logger.info(" {0} EC Forecasted Costs Savings: {1}".format(key, self.convert_currency(cost_ec)))
+            logger.info(" {0} CC Forecasted Effort Incurred: {1:,} {2}".format(key, round(effort_cc, 0), self.get_model_measurement()))
+            # logger.info(" {0} CC Forecasted Costs: {1}".format(key, self.convert_currency(cost_cc)))
+            logger.info(" {0} EC Forecasted Effort Saved: {1:,} {2}".format(key, round(effort_ec, 0), self.get_model_measurement()))
+            # logger.info(" {0} EC Forecasted Costs Savings: {1}".format(key, self.convert_currency(cost_ec)))
 
         logger.info(" ---------------------------------------------------\n")
 
         if self.cost_invested > 0:
           self.cost_returned = self.calculate_savings(self.amount_invested, self.cost_invested, self.amount_returned)
 
-        logger.info(" Total CC Forecasted Effort: {0:,} {1}".format(round(self.amount_invested, 0), self.get_model_measurement()))
-        logger.info(" Total CC Forecasted Costs: {0}".format(self.convert_currency(self.cost_invested)))
-        logger.info(" Total EC Forecasted Effort Savings: {0:,} {1}".format(round(self.amount_returned, 0), self.get_model_measurement()))
-        logger.info(" Total EC Forecasted Costs Savings: {0}\n".format( self.convert_currency(self.cost_returned)))
+        logger.info(" Total CC Forecasted Effort Incurred: {0:,} {1}".format(round(self.amount_invested, 0), self.get_model_measurement()))
+        # logger.info(" Total CC Forecasted Costs: {0}".format(self.convert_currency(self.cost_invested)))
+        logger.info(" Total EC Forecasted Effort Saved: {0:,} {1}".format(round(self.amount_returned, 0), self.get_model_measurement()))
+        # logger.info(" Total EC Forecasted Costs Savings: {0}\n".format( self.convert_currency(self.cost_returned)))
 
         self.calculate_investment_gain()
         self.calculate_ROI()
@@ -286,18 +286,18 @@ class iROIEstimator:
         self.calculate_cost_ROI()
         self.calculate_cost_annualized_ROI()
 
-        logger.info(" Effort Investment Gain: {0:,} {1}".format(self.investment_gain, self.get_model_measurement()))
-        logger.info(" Effort ROI: {0:.2%}".format(self.roi))
-        logger.info(" Effort Annualized ROI: {0:.2%}\n".format(self.annualized_roi))
-        logger.info(" Cost Investment Gain: {0}".format(self.convert_currency(self.cost_investment_gain)))
-        logger.info(" Cost ROI: {0:.2%}".format(self.cost_roi))
-        logger.info(" Cost Annualized ROI: {0:.2%}\n".format(self.cost_annualized_roi))
+        logger.info(" Net Effort Savings: {0:,} {1}".format(self.investment_gain, self.get_model_measurement()))
+        logger.info(" Effort Savings Percentage (ESP): {0:.2%}".format(self.roi))
+        logger.info(" Annualized ESP: {0:.2%}\n".format(self.annualized_roi))
+        # logger.info(" Cost Investment Gain: {0}".format(self.convert_currency(self.cost_investment_gain)))
+        # logger.info(" Cost ROI: {0:.2%}".format(self.cost_roi))
+        # logger.info(" Cost Annualized ROI: {0:.2%}\n".format(self.cost_annualized_roi))
 
         logger.info(" - CRITICAL INPUTS - \n")
         logger.info(" Github Repository URL: {0}".format(self.url))
-        logger.info(" Team Location: {0}".format(self.team_location))
+        # logger.info(" Team Location: {0}".format(self.team_location))
         # logger.info(" Team Size: {0}".format(self.team_size))
-        logger.info(" Hourly Wage: {0}".format(self.convert_currency(self.hourly_wage)))
+        # logger.info(" Hourly Wage: {0}".format(self.convert_currency(self.hourly_wage)))
         logger.info(" Analysis Years: {0}".format(self.prediction_years))
         logger.info(" Model: {0}".format(self.model))
 
@@ -318,7 +318,7 @@ class iROIEstimator:
           fcntl.flock(f, fcntl.LOCK_UN)
 
 # CRITICAL INPUTS
-github_repository_url = ["angular/angular"]
+github_repository_url = ["ansible/angular"]
 # github_repository_url = c.ALL_PROJECTS
 analysis_years = 3
 hourly_wage = 100
