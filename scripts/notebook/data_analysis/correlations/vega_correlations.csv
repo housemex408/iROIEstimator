@@ -1,0 +1,324 @@
+vega:BUG - Pearsons correlation:
+E_Module => NT_CC: 0.8687281617452344
+E_Module => NO_CC: 0.8871503897422757
+E_Module => T_CC: 0.39441292642145903
+E_Module => NT_EC: 0.8687281617452344
+E_Module => NO_CC: 0.8871503897422757
+E_Module => T_EC: 0.39441292642145903
+E_Module => T_Line: 0.057737607065387136
+
+vega:BUG - Pearsons correlation:
+E_Line => NT_CC: 0.35342635316967247
+E_Line => NO_CC: 0.20655096913322013
+E_Line => T_CC: 0.2442478241551255
+E_Line => NT_EC: 0.35342635316967247
+E_Line => NO_CC: 0.20655096913322013
+E_Line => T_EC: 0.2442478241551255
+E_Line => T_Line: -0.005685336245616228
+
+vega:BUG - Spearman correlation:
+E_Module => NT_CC: 0.983683286262248
+E_Module => NO_CC: 0.9551121576786546
+E_Module => T_CC: 0.9608792383270169
+E_Module => NT_EC: 0.983683286262248
+E_Module => NO_CC: 0.9551121576786546
+E_Module => T_EC: 0.9608792383270169
+E_Module => T_Line: 0.049304951869593085
+
+vega:BUG - Spearman correlation:
+E_Line => NT_CC: 0.9784068620596317
+E_Line => NO_CC: 0.9497027754982117
+E_Line => T_CC: 0.9595335514895956
+E_Line => NT_EC: 0.9784068620596317
+E_Line => NO_CC: 0.9497027754982117
+E_Line => T_EC: 0.9595335514895956
+E_Line => T_Line: 0.051102946379292975
+
+vega:DOCS - Pearsons correlation:
+E_Module => NT_CC: 0.19103009095638598
+E_Module => NO_CC: 0.04124535047325951
+E_Module => T_CC: 0.23184983302328618
+E_Module => NT_EC: 0.19103009095638598
+E_Module => NO_CC: 0.04124535047325951
+E_Module => T_EC: 0.23184983302328618
+E_Module => T_Line: -0.03989950524983561
+
+vega:DOCS - Pearsons correlation:
+E_Line => NT_CC: 0.20156365863180387
+E_Line => NO_CC: 0.007212560748554895
+E_Line => T_CC: 0.18020582605990534
+E_Line => NT_EC: 0.20156365863180387
+E_Line => NO_CC: 0.007212560748554895
+E_Line => T_EC: 0.18020582605990534
+E_Line => T_Line: -0.04517764802752125
+
+vega:DOCS - Spearman correlation:
+E_Module => NT_CC: 0.986953020426993
+E_Module => NO_CC: 0.9690905420131252
+E_Module => T_CC: 0.9691033688313048
+E_Module => NT_EC: 0.986953020426993
+E_Module => NO_CC: 0.9690905420131252
+E_Module => T_EC: 0.9691033688313048
+E_Module => T_Line: 0.345912335217277
+
+vega:DOCS - Spearman correlation:
+E_Line => NT_CC: 0.9758552832422758
+E_Line => NO_CC: 0.9718583969777748
+E_Line => T_CC: 0.9683998603360019
+E_Line => NT_EC: 0.9758552832422758
+E_Line => NO_CC: 0.9718583969777748
+E_Line => T_EC: 0.9683998603360019
+E_Line => T_Line: 0.34667408637447017
+
+vega:REFACTOR - Pearsons correlation:
+E_Module => NT_CC: 1.0
+E_Module => NO_CC: 1.0
+E_Module => T_CC: 1.0
+E_Module => NT_EC: 1.0
+E_Module => NO_CC: 1.0
+E_Module => T_EC: 1.0
+E_Module => T_Line: 0.005117202371638356
+
+vega:REFACTOR - Pearsons correlation:
+E_Line => NT_CC: 1.0
+E_Line => NO_CC: 1.0
+E_Line => T_CC: 1.0
+E_Line => NT_EC: 1.0
+E_Line => NO_CC: 1.0
+E_Line => T_EC: 1.0
+E_Line => T_Line: 0.005117202371638356
+
+vega:REFACTOR - Spearman correlation:
+E_Module => NT_CC: 1.0
+E_Module => NO_CC: 1.0
+E_Module => T_CC: 1.0
+E_Module => NT_EC: 1.0
+E_Module => NO_CC: 1.0
+E_Module => T_EC: 1.0
+E_Module => T_Line: 0.013652414380021998
+
+vega:REFACTOR - Spearman correlation:
+E_Line => NT_CC: 1.0
+E_Line => NO_CC: 1.0
+E_Line => T_CC: 1.0
+E_Line => NT_EC: 1.0
+E_Line => NO_CC: 1.0
+E_Line => T_EC: 1.0
+E_Line => T_Line: 0.013652414380021998
+
+vega:TESTING - Pearsons correlation:
+E_Module => NT_CC: 0.7251885107917413
+E_Module => NO_CC: 0.7290699268553381
+E_Module => T_CC: 0.5232600216655607
+E_Module => NT_EC: 0.7251885107917413
+E_Module => NO_CC: 0.7290699268553381
+E_Module => T_EC: 0.5232600216655607
+E_Module => T_Line: -0.06919324695358925
+
+vega:TESTING - Pearsons correlation:
+E_Line => NT_CC: 0.2651284338400554
+E_Line => NO_CC: 0.17922801390481147
+E_Line => T_CC: 0.3522315151362356
+E_Line => NT_EC: 0.2651284338400554
+E_Line => NO_CC: 0.17922801390481147
+E_Line => T_EC: 0.3522315151362356
+E_Line => T_Line: 0.02658323922178677
+
+vega:TESTING - Spearman correlation:
+E_Module => NT_CC: 0.9718103231380572
+E_Module => NO_CC: 0.9616869413318808
+E_Module => T_CC: 0.9744721884667863
+E_Module => NT_EC: 0.9718103231380572
+E_Module => NO_CC: 0.9616869413318808
+E_Module => T_EC: 0.9744721884667863
+E_Module => T_Line: -0.07539245931555676
+
+vega:TESTING - Spearman correlation:
+E_Line => NT_CC: 0.9707500942673546
+E_Line => NO_CC: 0.9706002589953576
+E_Line => T_CC: 0.9762978440360414
+E_Line => NT_EC: 0.9707500942673546
+E_Line => NO_CC: 0.9706002589953576
+E_Line => T_EC: 0.9762978440360414
+E_Line => T_Line: -0.05708087431532395
+
+vega:FEATURE - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+vega:FEATURE - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+vega:FEATURE - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+vega:FEATURE - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+vega:UPGRADE - Pearsons correlation:
+E_Module => NT_CC: 0.6522618190305522
+E_Module => NO_CC: 0.996376942872815
+E_Module => T_CC: 0.6522618190305522
+E_Module => NT_EC: 0.6522618190305522
+E_Module => NO_CC: 0.996376942872815
+E_Module => T_EC: 0.6522618190305522
+E_Module => T_Line: 0.013567548973015398
+
+vega:UPGRADE - Pearsons correlation:
+E_Line => NT_CC: 0.655181028809898
+E_Line => NO_CC: 0.9922251984234474
+E_Line => T_CC: 0.655181028809898
+E_Line => NT_EC: 0.655181028809898
+E_Line => NO_CC: 0.9922251984234474
+E_Line => T_EC: 0.655181028809898
+E_Line => T_Line: 0.022547977132048633
+
+vega:UPGRADE - Spearman correlation:
+E_Module => NT_CC: 0.9999370177924111
+E_Module => NO_CC: 1.0
+E_Module => T_CC: 0.9999370177924111
+E_Module => NT_EC: 0.9999370177924111
+E_Module => NO_CC: 1.0
+E_Module => T_EC: 0.9999370177924111
+E_Module => T_Line: 0.038979523442125165
+
+vega:UPGRADE - Spearman correlation:
+E_Line => NT_CC: 0.9999370177924111
+E_Line => NO_CC: 1.0
+E_Line => T_CC: 0.9999370177924111
+E_Line => NT_EC: 0.9999370177924111
+E_Line => NO_CC: 1.0
+E_Line => T_EC: 0.9999370177924111
+E_Line => T_Line: 0.038979523442125165
+
+vega:RELEASE - Pearsons correlation:
+E_Module => NT_CC: 1.0
+E_Module => NO_CC: 0.286960809064639
+E_Module => T_CC: 0.9644581578948921
+E_Module => NT_EC: 1.0
+E_Module => NO_CC: 0.286960809064639
+E_Module => T_EC: 0.9644581578948921
+E_Module => T_Line: 0.0793155003162692
+
+vega:RELEASE - Pearsons correlation:
+E_Line => NT_CC: 0.9721310838638256
+E_Line => NO_CC: 0.23959107962155776
+E_Line => T_CC: 0.9274044702196553
+E_Line => NT_EC: 0.9721310838638256
+E_Line => NO_CC: 0.23959107962155776
+E_Line => T_EC: 0.9274044702196553
+E_Line => T_Line: 0.09973548964367275
+
+vega:RELEASE - Spearman correlation:
+E_Module => NT_CC: 1.0
+E_Module => NO_CC: 0.9988557901308949
+E_Module => T_CC: 0.9997499937459366
+E_Module => NT_EC: 1.0
+E_Module => NO_CC: 0.9988557901308949
+E_Module => T_EC: 0.9997499937459366
+E_Module => T_Line: 0.08479820420179034
+
+vega:RELEASE - Spearman correlation:
+E_Line => NT_CC: 0.999632058167777
+E_Line => NO_CC: 0.9987833657280237
+E_Line => T_CC: 0.9993821439014728
+E_Line => NT_EC: 0.999632058167777
+E_Line => NO_CC: 0.9987833657280237
+E_Line => T_EC: 0.9993821439014728
+E_Line => T_Line: 0.08581499263768945
+
+vega:SUPPORT - Pearsons correlation:
+E_Module => NT_CC: 0.9447319079008611
+E_Module => NO_CC: 0.9319876369226889
+E_Module => T_CC: 0.6689593361581723
+E_Module => NT_EC: 0.9447319079008611
+E_Module => NO_CC: 0.9319876369226889
+E_Module => T_EC: 0.6689593361581723
+E_Module => T_Line: -0.03324377690780504
+
+vega:SUPPORT - Pearsons correlation:
+E_Line => NT_CC: 0.7466386864100076
+E_Line => NO_CC: 0.7898898588955898
+E_Line => T_CC: 0.6354696040576998
+E_Line => NT_EC: 0.7466386864100076
+E_Line => NO_CC: 0.7898898588955898
+E_Line => T_EC: 0.6354696040576998
+E_Line => T_Line: -0.021706573324488023
+
+vega:SUPPORT - Spearman correlation:
+E_Module => NT_CC: 0.9994297119581806
+E_Module => NO_CC: 0.9993406541998747
+E_Module => T_CC: 0.9992064671666033
+E_Module => NT_EC: 0.9994297119581806
+E_Module => NO_CC: 0.9993406541998747
+E_Module => T_EC: 0.9992064671666033
+E_Module => T_Line: -0.16096322969630195
+
+vega:SUPPORT - Spearman correlation:
+E_Line => NT_CC: 0.9994247572098793
+E_Line => NO_CC: 0.9989688474866585
+E_Line => T_CC: 0.9992015135250549
+E_Line => NT_EC: 0.9994247572098793
+E_Line => NO_CC: 0.9989688474866585
+E_Line => T_EC: 0.9992015135250549
+E_Line => T_Line: -0.1586773736619238
+
+vega:OTHER - Pearsons correlation:
+E_Module => NT_CC: 0.9202945017026822
+E_Module => NO_CC: 0.9389101360415812
+E_Module => T_CC: 0.18429848844857577
+E_Module => NT_EC: 0.9202945017026822
+E_Module => NO_CC: 0.9389101360415812
+E_Module => T_EC: 0.18429848844857577
+E_Module => T_Line: -0.00994691460748825
+
+vega:OTHER - Pearsons correlation:
+E_Line => NT_CC: 0.3342155596436194
+E_Line => NO_CC: 0.28698119086350404
+E_Line => T_CC: 0.14100915549880014
+E_Line => NT_EC: 0.3342155596436194
+E_Line => NO_CC: 0.28698119086350404
+E_Line => T_EC: 0.14100915549880014
+E_Line => T_Line: 0.049160226159645215
+
+vega:OTHER - Spearman correlation:
+E_Module => NT_CC: 0.9379024656170962
+E_Module => NO_CC: 0.7635476156144653
+E_Module => T_CC: 0.7241265067527463
+E_Module => NT_EC: 0.9379024656170962
+E_Module => NO_CC: 0.7635476156144653
+E_Module => T_EC: 0.7241265067527463
+E_Module => T_Line: -0.023270987904673954
+
+vega:OTHER - Spearman correlation:
+E_Line => NT_CC: 0.8992543258782036
+E_Line => NO_CC: 0.7639253308801356
+E_Line => T_CC: 0.687745262991057
+E_Line => NT_EC: 0.8992543258782036
+E_Line => NO_CC: 0.7639253308801356
+E_Line => T_EC: 0.687745262991057
+E_Line => T_Line: 0.0242468604041557
+

@@ -1,0 +1,324 @@
+webtorrent:BUG - Pearsons correlation:
+E_Module => NT_CC: 1.0
+E_Module => NO_CC: 0.9902267920664325
+E_Module => T_CC: 0.8809484959234641
+E_Module => NT_EC: 1.0
+E_Module => NO_CC: 0.9902267920664325
+E_Module => T_EC: 0.8809484959234641
+E_Module => T_Line: 0.09431448671316284
+
+webtorrent:BUG - Pearsons correlation:
+E_Line => NT_CC: 0.3689886547907828
+E_Line => NO_CC: 0.3022239678906291
+E_Line => T_CC: 0.6884449096228867
+E_Line => NT_EC: 0.3689886547907828
+E_Line => NO_CC: 0.3022239678906291
+E_Line => T_EC: 0.6884449096228867
+E_Line => T_Line: 0.07338968151095145
+
+webtorrent:BUG - Spearman correlation:
+E_Module => NT_CC: 0.9999999999999999
+E_Module => NO_CC: 0.9999999999999999
+E_Module => T_CC: 0.999985619787172
+E_Module => NT_EC: 0.9999999999999999
+E_Module => NO_CC: 0.9999999999999999
+E_Module => T_EC: 0.999985619787172
+E_Module => T_Line: 0.12938698001959956
+
+webtorrent:BUG - Spearman correlation:
+E_Line => NT_CC: 0.9999568596717021
+E_Line => NO_CC: 0.9999568596717021
+E_Line => T_CC: 0.999985619787172
+E_Line => NT_EC: 0.9999568596717021
+E_Line => NO_CC: 0.9999568596717021
+E_Line => T_EC: 0.999985619787172
+E_Line => T_Line: 0.12936243888820032
+
+webtorrent:DOCS - Pearsons correlation:
+E_Module => NT_CC: 0.9999999999999999
+E_Module => NO_CC: 0.9999999999999999
+E_Module => T_CC: 0.9999999999999999
+E_Module => NT_EC: 0.9999999999999999
+E_Module => NO_CC: 0.9999999999999999
+E_Module => T_EC: 0.9999999999999999
+E_Module => T_Line: 0.057359333474026684
+
+webtorrent:DOCS - Pearsons correlation:
+E_Line => NT_CC: 0.9999999999999999
+E_Line => NO_CC: 0.9999999999999999
+E_Line => T_CC: 0.9999999999999999
+E_Line => NT_EC: 0.9999999999999999
+E_Line => NO_CC: 0.9999999999999999
+E_Line => T_EC: 0.9999999999999999
+E_Line => T_Line: 0.057359333474026684
+
+webtorrent:DOCS - Spearman correlation:
+E_Module => NT_CC: 1.0
+E_Module => NO_CC: 1.0
+E_Module => T_CC: 1.0
+E_Module => NT_EC: 1.0
+E_Module => NO_CC: 1.0
+E_Module => T_EC: 1.0
+E_Module => T_Line: 0.05866416020808645
+
+webtorrent:DOCS - Spearman correlation:
+E_Line => NT_CC: 1.0
+E_Line => NO_CC: 1.0
+E_Line => T_CC: 1.0
+E_Line => NT_EC: 1.0
+E_Line => NO_CC: 1.0
+E_Line => T_EC: 1.0
+E_Line => T_Line: 0.05866416020808645
+
+webtorrent:REFACTOR - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+webtorrent:REFACTOR - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+webtorrent:REFACTOR - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+webtorrent:REFACTOR - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+webtorrent:TESTING - Pearsons correlation:
+E_Module => NT_CC: 0.9837758310565599
+E_Module => NO_CC: 0.9570697852757735
+E_Module => T_CC: 0.9483713850721504
+E_Module => NT_EC: 0.9837758310565599
+E_Module => NO_CC: 0.9570697852757735
+E_Module => T_EC: 0.9483713850721504
+E_Module => T_Line: 0.07899150841777802
+
+webtorrent:TESTING - Pearsons correlation:
+E_Line => NT_CC: 0.9554367783483703
+E_Line => NO_CC: 0.9157763883611507
+E_Line => T_CC: 0.9038905989884688
+E_Line => NT_EC: 0.9554367783483703
+E_Line => NO_CC: 0.9157763883611507
+E_Line => T_EC: 0.9038905989884688
+E_Line => T_Line: 0.07498508855742692
+
+webtorrent:TESTING - Spearman correlation:
+E_Module => NT_CC: 1.0
+E_Module => NO_CC: 1.0
+E_Module => T_CC: 0.9999946250863346
+E_Module => NT_EC: 1.0
+E_Module => NO_CC: 1.0
+E_Module => T_EC: 0.9999946250863346
+E_Module => T_Line: 0.09272142460918335
+
+webtorrent:TESTING - Spearman correlation:
+E_Line => NT_CC: 1.0
+E_Line => NO_CC: 1.0
+E_Line => T_CC: 0.9999946250863346
+E_Line => NT_EC: 1.0
+E_Line => NO_CC: 1.0
+E_Line => T_EC: 0.9999946250863346
+E_Line => T_Line: 0.09272142460918335
+
+webtorrent:FEATURE - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+webtorrent:FEATURE - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+webtorrent:FEATURE - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+webtorrent:FEATURE - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+webtorrent:UPGRADE - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+webtorrent:UPGRADE - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+webtorrent:UPGRADE - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+webtorrent:UPGRADE - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+webtorrent:RELEASE - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+webtorrent:RELEASE - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+webtorrent:RELEASE - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+webtorrent:RELEASE - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+webtorrent:SUPPORT - Pearsons correlation:
+E_Module => NT_CC: 0.9999999999999999
+E_Module => NO_CC: 0.9999999999999999
+E_Module => T_CC: 0.9999999999999999
+E_Module => NT_EC: 0.9999999999999999
+E_Module => NO_CC: 0.9999999999999999
+E_Module => T_EC: 0.9999999999999999
+E_Module => T_Line: 0.061963591694371926
+
+webtorrent:SUPPORT - Pearsons correlation:
+E_Line => NT_CC: 0.9999999999999999
+E_Line => NO_CC: 0.9999999999999999
+E_Line => T_CC: 0.9999999999999999
+E_Line => NT_EC: 0.9999999999999999
+E_Line => NO_CC: 0.9999999999999999
+E_Line => T_EC: 0.9999999999999999
+E_Line => T_Line: 0.061963591694371926
+
+webtorrent:SUPPORT - Spearman correlation:
+E_Module => NT_CC: 1.0
+E_Module => NO_CC: 1.0
+E_Module => T_CC: 1.0
+E_Module => NT_EC: 1.0
+E_Module => NO_CC: 1.0
+E_Module => T_EC: 1.0
+E_Module => T_Line: 0.08135195697364474
+
+webtorrent:SUPPORT - Spearman correlation:
+E_Line => NT_CC: 1.0
+E_Line => NO_CC: 1.0
+E_Line => T_CC: 1.0
+E_Line => NT_EC: 1.0
+E_Line => NO_CC: 1.0
+E_Line => T_EC: 1.0
+E_Line => T_Line: 0.08135195697364474
+
+webtorrent:OTHER - Pearsons correlation:
+E_Module => NT_CC: 0.9220690324998264
+E_Module => NO_CC: 0.7006849661473196
+E_Module => T_CC: 0.7809052852682893
+E_Module => NT_EC: 0.9220690324998264
+E_Module => NO_CC: 0.7006849661473196
+E_Module => T_EC: 0.7809052852682893
+E_Module => T_Line: 0.26169194921121797
+
+webtorrent:OTHER - Pearsons correlation:
+E_Line => NT_CC: 0.24626790625024142
+E_Line => NO_CC: 0.5934818090178825
+E_Line => T_CC: 0.535727367064729
+E_Line => NT_EC: 0.24626790625024142
+E_Line => NO_CC: 0.5934818090178825
+E_Line => T_EC: 0.535727367064729
+E_Line => T_Line: 0.2047583301989757
+
+webtorrent:OTHER - Spearman correlation:
+E_Module => NT_CC: 0.9994297687058367
+E_Module => NO_CC: 0.9224379396790809
+E_Module => T_CC: 0.9987313500571718
+E_Module => NT_EC: 0.9994297687058367
+E_Module => NO_CC: 0.9224379396790809
+E_Module => T_EC: 0.9987313500571718
+E_Module => T_Line: 0.3494748614303206
+
+webtorrent:OTHER - Spearman correlation:
+E_Line => NT_CC: 0.9986591339133536
+E_Line => NO_CC: 0.9277596438449451
+E_Line => T_CC: 0.9993208751370676
+E_Line => NT_EC: 0.9986591339133536
+E_Line => NO_CC: 0.9277596438449451
+E_Line => T_EC: 0.9993208751370676
+E_Line => T_Line: 0.34978685281934907
+

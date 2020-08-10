@@ -1,0 +1,324 @@
+office-js:BUG - Pearsons correlation:
+E_Module => NT_CC: 0.9893414924338627
+E_Module => NO_CC: 0.9466123139080295
+E_Module => T_CC: 0.8572229261152422
+E_Module => NT_EC: 0.9893414924338627
+E_Module => NO_CC: 0.9466123139080295
+E_Module => T_EC: 0.8572229261152422
+E_Module => T_Line: -0.05286098012908938
+
+office-js:BUG - Pearsons correlation:
+E_Line => NT_CC: 0.9725408054153328
+E_Line => NO_CC: 0.9533652694712766
+E_Line => T_CC: 0.9385115969138249
+E_Line => NT_EC: 0.9725408054153328
+E_Line => NO_CC: 0.9533652694712766
+E_Line => T_EC: 0.9385115969138249
+E_Line => T_Line: -0.05080772351355145
+
+office-js:BUG - Spearman correlation:
+E_Module => NT_CC: 0.9745696621908352
+E_Module => NO_CC: 0.974575814731785
+E_Module => T_CC: 0.9712873823544368
+E_Module => NT_EC: 0.9745696621908352
+E_Module => NO_CC: 0.974575814731785
+E_Module => T_EC: 0.9712873823544368
+E_Module => T_Line: -0.07931954321273103
+
+office-js:BUG - Spearman correlation:
+E_Line => NT_CC: 0.9745745446045264
+E_Line => NO_CC: 0.9745867936186808
+E_Line => T_CC: 0.9712813049674383
+E_Line => NT_EC: 0.9745745446045264
+E_Line => NO_CC: 0.9745867936186808
+E_Line => T_EC: 0.9712813049674383
+E_Line => T_Line: -0.07925791704919452
+
+office-js:DOCS - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+office-js:DOCS - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+office-js:DOCS - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+office-js:DOCS - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+office-js:REFACTOR - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+office-js:REFACTOR - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+office-js:REFACTOR - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+office-js:REFACTOR - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+office-js:TESTING - Pearsons correlation:
+E_Module => NT_CC: 0.9999999999999998
+E_Module => NO_CC: 0.9999999999999998
+E_Module => T_CC: 0.9999999999999998
+E_Module => NT_EC: 0.9999999999999998
+E_Module => NO_CC: 0.9999999999999998
+E_Module => T_EC: 0.9999999999999998
+E_Module => T_Line: -0.01705263281517464
+
+office-js:TESTING - Pearsons correlation:
+E_Line => NT_CC: 0.9999999999999998
+E_Line => NO_CC: 0.9999999999999998
+E_Line => T_CC: 0.9999999999999998
+E_Line => NT_EC: 0.9999999999999998
+E_Line => NO_CC: 0.9999999999999998
+E_Line => T_EC: 0.9999999999999998
+E_Line => T_Line: -0.01705263281517464
+
+office-js:TESTING - Spearman correlation:
+E_Module => NT_CC: 1.0
+E_Module => NO_CC: 1.0
+E_Module => T_CC: 1.0
+E_Module => NT_EC: 1.0
+E_Module => NO_CC: 1.0
+E_Module => T_EC: 1.0
+E_Module => T_Line: -0.029027473279992753
+
+office-js:TESTING - Spearman correlation:
+E_Line => NT_CC: 1.0
+E_Line => NO_CC: 1.0
+E_Line => T_CC: 1.0
+E_Line => NT_EC: 1.0
+E_Line => NO_CC: 1.0
+E_Line => T_EC: 1.0
+E_Line => T_Line: -0.029027473279992753
+
+office-js:FEATURE - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+office-js:FEATURE - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+office-js:FEATURE - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+office-js:FEATURE - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+office-js:UPGRADE - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+office-js:UPGRADE - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+office-js:UPGRADE - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+office-js:UPGRADE - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+office-js:RELEASE - Pearsons correlation:
+E_Module => NT_CC: 0.8490968379640051
+E_Module => NO_CC: 0.3813875961113552
+E_Module => T_CC: 0.4818271827426879
+E_Module => NT_EC: 0.8490968379640051
+E_Module => NO_CC: 0.3813875961113552
+E_Module => T_EC: 0.4818271827426879
+E_Module => T_Line: -0.18317913048684092
+
+office-js:RELEASE - Pearsons correlation:
+E_Line => NT_CC: 0.6466513415769091
+E_Line => NO_CC: 0.3869967498107389
+E_Line => T_CC: 0.31133177612047724
+E_Line => NT_EC: 0.6466513415769091
+E_Line => NO_CC: 0.3869967498107389
+E_Line => T_EC: 0.31133177612047724
+E_Line => T_Line: -0.1322257807886156
+
+office-js:RELEASE - Spearman correlation:
+E_Module => NT_CC: 0.9984074337845338
+E_Module => NO_CC: 0.945909627310007
+E_Module => T_CC: 0.9974094550189333
+E_Module => NT_EC: 0.9984074337845338
+E_Module => NO_CC: 0.945909627310007
+E_Module => T_EC: 0.9974094550189333
+E_Module => T_Line: -0.3558014553203224
+
+office-js:RELEASE - Spearman correlation:
+E_Line => NT_CC: 0.998378329506669
+E_Line => NO_CC: 0.9459954152761009
+E_Line => T_CC: 0.9973628697460677
+E_Line => NT_EC: 0.998378329506669
+E_Line => NO_CC: 0.9459954152761009
+E_Line => T_EC: 0.9973628697460677
+E_Line => T_Line: -0.3561202450100102
+
+office-js:SUPPORT - Pearsons correlation:
+E_Module => NT_CC: 1.0
+E_Module => NO_CC: 0.989263124169719
+E_Module => T_CC: 1.0
+E_Module => NT_EC: 1.0
+E_Module => NO_CC: 0.989263124169719
+E_Module => T_EC: 1.0
+E_Module => T_Line: -0.0525948440591113
+
+office-js:SUPPORT - Pearsons correlation:
+E_Line => NT_CC: 1.0
+E_Line => NO_CC: 0.989263124169719
+E_Line => T_CC: 1.0
+E_Line => NT_EC: 1.0
+E_Line => NO_CC: 0.989263124169719
+E_Line => T_EC: 1.0
+E_Line => T_Line: -0.0525948440591113
+
+office-js:SUPPORT - Spearman correlation:
+E_Module => NT_CC: 1.0
+E_Module => NO_CC: 0.9996967342640979
+E_Module => T_CC: 1.0
+E_Module => NT_EC: 1.0
+E_Module => NO_CC: 0.9996967342640979
+E_Module => T_EC: 1.0
+E_Module => T_Line: -0.08678858612838365
+
+office-js:SUPPORT - Spearman correlation:
+E_Line => NT_CC: 1.0
+E_Line => NO_CC: 0.9996967342640979
+E_Line => T_CC: 1.0
+E_Line => NT_EC: 1.0
+E_Line => NO_CC: 0.9996967342640979
+E_Line => T_EC: 1.0
+E_Line => T_Line: -0.08678858612838365
+
+office-js:OTHER - Pearsons correlation:
+E_Module => NT_CC: 0.30723356395891444
+E_Module => NO_CC: 0.09352990459698625
+E_Module => T_CC: 0.3189634964131921
+E_Module => NT_EC: 0.30723356395891444
+E_Module => NO_CC: 0.09352990459698625
+E_Module => T_EC: 0.3189634964131921
+E_Module => T_Line: -0.03336724494448773
+
+office-js:OTHER - Pearsons correlation:
+E_Line => NT_CC: 0.07492900330475427
+E_Line => NO_CC: -0.0006745790696899125
+E_Line => T_CC: 0.1882564377520542
+E_Line => NT_EC: 0.07492900330475427
+E_Line => NO_CC: -0.0006745790696899125
+E_Line => T_EC: 0.1882564377520542
+E_Line => T_Line: 0.07192311847175864
+
+office-js:OTHER - Spearman correlation:
+E_Module => NT_CC: 0.9684670098956008
+E_Module => NO_CC: 0.8973815789124732
+E_Module => T_CC: 0.9503675492628675
+E_Module => NT_EC: 0.9684670098956008
+E_Module => NO_CC: 0.8973815789124732
+E_Module => T_EC: 0.9503675492628675
+E_Module => T_Line: -0.3131453952594435
+
+office-js:OTHER - Spearman correlation:
+E_Line => NT_CC: 0.9522549270931066
+E_Line => NO_CC: 0.8926875606488752
+E_Line => T_CC: 0.946360454950893
+E_Line => NT_EC: 0.9522549270931066
+E_Line => NO_CC: 0.8926875606488752
+E_Line => T_EC: 0.946360454950893
+E_Line => T_Line: -0.2963113200381821
+

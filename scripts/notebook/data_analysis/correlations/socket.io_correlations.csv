@@ -1,0 +1,324 @@
+socket.io:BUG - Pearsons correlation:
+E_Module => NT_CC: 0.9903421798712225
+E_Module => NO_CC: 0.899499584467654
+E_Module => T_CC: 0.8303316368801592
+E_Module => NT_EC: 0.9903421798712225
+E_Module => NO_CC: 0.899499584467654
+E_Module => T_EC: 0.8303316368801592
+E_Module => T_Line: -0.011637629264561043
+
+socket.io:BUG - Pearsons correlation:
+E_Line => NT_CC: 0.9712472624281819
+E_Line => NO_CC: 0.883862228994109
+E_Line => T_CC: 0.7905485389165692
+E_Line => NT_EC: 0.9712472624281819
+E_Line => NO_CC: 0.883862228994109
+E_Line => T_EC: 0.7905485389165692
+E_Line => T_Line: -0.01922279502278865
+
+socket.io:BUG - Spearman correlation:
+E_Module => NT_CC: 0.914373040500235
+E_Module => NO_CC: 0.8953455083671035
+E_Module => T_CC: 0.9077615529086689
+E_Module => NT_EC: 0.914373040500235
+E_Module => NO_CC: 0.8953455083671035
+E_Module => T_EC: 0.9077615529086689
+E_Module => T_Line: 0.21271910249591972
+
+socket.io:BUG - Spearman correlation:
+E_Line => NT_CC: 0.9141259141395175
+E_Line => NO_CC: 0.8951604460349565
+E_Line => T_CC: 0.9077493613985935
+E_Line => NT_EC: 0.9141259141395175
+E_Line => NO_CC: 0.8951604460349565
+E_Line => T_EC: 0.9077493613985935
+E_Line => T_Line: 0.21256570777079625
+
+socket.io:DOCS - Pearsons correlation:
+E_Module => NT_CC: 0.9950830241275412
+E_Module => NO_CC: 0.6827822654329354
+E_Module => T_CC: 0.8060202046246138
+E_Module => NT_EC: 0.9950830241275412
+E_Module => NO_CC: 0.6827822654329354
+E_Module => T_EC: 0.8060202046246138
+E_Module => T_Line: 0.06099084635606356
+
+socket.io:DOCS - Pearsons correlation:
+E_Line => NT_CC: 0.7246344980879111
+E_Line => NO_CC: 0.36840089273908005
+E_Line => T_CC: 0.6808390731803299
+E_Line => NT_EC: 0.7246344980879111
+E_Line => NO_CC: 0.36840089273908005
+E_Line => T_EC: 0.6808390731803299
+E_Line => T_Line: 0.09636183852781902
+
+socket.io:DOCS - Spearman correlation:
+E_Module => NT_CC: 0.9999597029660824
+E_Module => NO_CC: 0.9995903510656143
+E_Module => T_CC: 0.9989719086514204
+E_Module => NT_EC: 0.9999597029660824
+E_Module => NO_CC: 0.9995903510656143
+E_Module => T_EC: 0.9989719086514204
+E_Module => T_Line: 0.24013814432178793
+
+socket.io:DOCS - Spearman correlation:
+E_Line => NT_CC: 0.9988113264618472
+E_Line => NO_CC: 0.9980526195624434
+E_Line => T_CC: 0.9988981157125456
+E_Line => NT_EC: 0.9988113264618472
+E_Line => NO_CC: 0.9980526195624434
+E_Line => T_EC: 0.9988981157125456
+E_Line => T_Line: 0.2417637770461675
+
+socket.io:REFACTOR - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+socket.io:REFACTOR - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+socket.io:REFACTOR - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+socket.io:REFACTOR - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+socket.io:TESTING - Pearsons correlation:
+E_Module => NT_CC: 0.6923079291268229
+E_Module => NO_CC: 0.47871391565592936
+E_Module => T_CC: 0.7359307804878336
+E_Module => NT_EC: 0.6923079291268229
+E_Module => NO_CC: 0.47871391565592936
+E_Module => T_EC: 0.7359307804878336
+E_Module => T_Line: 0.0693117344692537
+
+socket.io:TESTING - Pearsons correlation:
+E_Line => NT_CC: 0.356009615220209
+E_Line => NO_CC: 0.1350290637360261
+E_Line => T_CC: 0.42136190530626205
+E_Line => NT_EC: 0.356009615220209
+E_Line => NO_CC: 0.1350290637360261
+E_Line => T_EC: 0.42136190530626205
+E_Line => T_Line: 0.08543484813490163
+
+socket.io:TESTING - Spearman correlation:
+E_Module => NT_CC: 0.9334034970098015
+E_Module => NO_CC: 0.9297034034079515
+E_Module => T_CC: 0.9334034970098015
+E_Module => NT_EC: 0.9334034970098015
+E_Module => NO_CC: 0.9297034034079515
+E_Module => T_EC: 0.9334034970098015
+E_Module => T_Line: 0.16399167756200242
+
+socket.io:TESTING - Spearman correlation:
+E_Line => NT_CC: 0.9330345785859779
+E_Line => NO_CC: 0.9292909398415248
+E_Line => T_CC: 0.9330345785859779
+E_Line => NT_EC: 0.9330345785859779
+E_Line => NO_CC: 0.9292909398415248
+E_Line => T_EC: 0.9330345785859779
+E_Line => T_Line: 0.16529476762035292
+
+socket.io:FEATURE - Pearsons correlation:
+E_Module => NT_CC: 0.9940946386383119
+E_Module => NO_CC: 0.8676708373219415
+E_Module => T_CC: 0.7967335126887065
+E_Module => NT_EC: 0.9940946386383119
+E_Module => NO_CC: 0.8676708373219415
+E_Module => T_EC: 0.7967335126887065
+E_Module => T_Line: -0.03275039052011338
+
+socket.io:FEATURE - Pearsons correlation:
+E_Line => NT_CC: 0.9811286038566202
+E_Line => NO_CC: 0.8618499818645607
+E_Line => T_CC: 0.740037452823051
+E_Line => NT_EC: 0.9811286038566202
+E_Line => NO_CC: 0.8618499818645607
+E_Line => T_EC: 0.740037452823051
+E_Line => T_Line: -0.04255729958289578
+
+socket.io:FEATURE - Spearman correlation:
+E_Module => NT_CC: 1.0
+E_Module => NO_CC: 0.9999132981648818
+E_Module => T_CC: 0.9996422822278677
+E_Module => NT_EC: 1.0
+E_Module => NO_CC: 0.9999132981648818
+E_Module => T_EC: 0.9996422822278677
+E_Module => T_Line: 0.14450274752707268
+
+socket.io:FEATURE - Spearman correlation:
+E_Line => NT_CC: 0.9999891621825194
+E_Line => NO_CC: 0.9998591107218742
+E_Line => T_CC: 0.9996314482872668
+E_Line => NT_EC: 0.9999891621825194
+E_Line => NO_CC: 0.9998591107218742
+E_Line => T_EC: 0.9996314482872668
+E_Line => T_Line: 0.14449321291047737
+
+socket.io:UPGRADE - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+socket.io:UPGRADE - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+socket.io:UPGRADE - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+socket.io:UPGRADE - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+socket.io:RELEASE - Pearsons correlation:
+E_Module => NT_CC: 0.9985440144637008
+E_Module => NO_CC: 0.982528034154731
+E_Module => T_CC: 0.7169067260392599
+E_Module => NT_EC: 0.9985440144637008
+E_Module => NO_CC: 0.982528034154731
+E_Module => T_EC: 0.7169067260392599
+E_Module => T_Line: -0.02681912547201991
+
+socket.io:RELEASE - Pearsons correlation:
+E_Line => NT_CC: 0.32944952398298166
+E_Line => NO_CC: 0.2973984892343199
+E_Line => T_CC: 0.3815801304745671
+E_Line => NT_EC: 0.32944952398298166
+E_Line => NO_CC: 0.2973984892343199
+E_Line => T_EC: 0.3815801304745671
+E_Line => T_Line: 0.06734996899948822
+
+socket.io:RELEASE - Spearman correlation:
+E_Module => NT_CC: 0.999177070514872
+E_Module => NO_CC: 0.9390521227447409
+E_Module => T_CC: 0.9981227306655313
+E_Module => NT_EC: 0.999177070514872
+E_Module => NO_CC: 0.9390521227447409
+E_Module => T_EC: 0.9981227306655313
+E_Module => T_Line: 0.3166450961515595
+
+socket.io:RELEASE - Spearman correlation:
+E_Line => NT_CC: 0.9969841588347477
+E_Line => NO_CC: 0.938291688942146
+E_Line => T_CC: 0.9964790338835237
+E_Line => NT_EC: 0.9969841588347477
+E_Line => NO_CC: 0.938291688942146
+E_Line => T_EC: 0.9964790338835237
+E_Line => T_Line: 0.3193408868376938
+
+socket.io:SUPPORT - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+socket.io:SUPPORT - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+socket.io:SUPPORT - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+socket.io:SUPPORT - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+socket.io:OTHER - Pearsons correlation:
+E_Module => NT_CC: 0.9679960679852057
+E_Module => NO_CC: 0.9555450452896014
+E_Module => T_CC: 0.754377626607518
+E_Module => NT_EC: 0.9679960679852057
+E_Module => NO_CC: 0.9555450452896014
+E_Module => T_EC: 0.754377626607518
+E_Module => T_Line: -0.022524929816634558
+
+socket.io:OTHER - Pearsons correlation:
+E_Line => NT_CC: 0.8219408901489939
+E_Line => NO_CC: 0.8484175362324222
+E_Line => T_CC: 0.6342141582311487
+E_Line => NT_EC: 0.8219408901489939
+E_Line => NO_CC: 0.8484175362324222
+E_Line => T_EC: 0.6342141582311487
+E_Line => T_Line: -0.014682457270375253
+
+socket.io:OTHER - Spearman correlation:
+E_Module => NT_CC: 0.9585025280645624
+E_Module => NO_CC: 0.9566824049709535
+E_Module => T_CC: 0.9647894458580297
+E_Module => NT_EC: 0.9585025280645624
+E_Module => NO_CC: 0.9566824049709535
+E_Module => T_EC: 0.9647894458580297
+E_Module => T_Line: 0.24539876410228234
+
+socket.io:OTHER - Spearman correlation:
+E_Line => NT_CC: 0.9583274289360245
+E_Line => NO_CC: 0.9566708083314124
+E_Line => T_CC: 0.9642274387628378
+E_Line => NT_EC: 0.9583274289360245
+E_Line => NO_CC: 0.9566708083314124
+E_Line => T_EC: 0.9642274387628378
+E_Line => T_Line: 0.24650639317003056
+

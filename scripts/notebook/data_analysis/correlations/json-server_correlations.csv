@@ -1,0 +1,324 @@
+json-server:BUG - Pearsons correlation:
+E_Module => NT_CC: 0.8446469837757087
+E_Module => NO_CC: 0.7983491089010616
+E_Module => T_CC: 0.6160436387089798
+E_Module => NT_EC: 0.8446469837757087
+E_Module => NO_CC: 0.7983491089010616
+E_Module => T_EC: 0.6160436387089798
+E_Module => T_Line: 0.1941386780501336
+
+json-server:BUG - Pearsons correlation:
+E_Line => NT_CC: 0.43199835912901047
+E_Line => NO_CC: 0.7024005685395842
+E_Line => T_CC: 0.11377801159651342
+E_Line => NT_EC: 0.43199835912901047
+E_Line => NO_CC: 0.7024005685395842
+E_Line => T_EC: 0.11377801159651342
+E_Line => T_Line: 0.4059836928352235
+
+json-server:BUG - Spearman correlation:
+E_Module => NT_CC: 0.9630481558679097
+E_Module => NO_CC: 0.9427763386551232
+E_Module => T_CC: 0.9547156739121228
+E_Module => NT_EC: 0.9630481558679097
+E_Module => NO_CC: 0.9427763386551232
+E_Module => T_EC: 0.9547156739121228
+E_Module => T_Line: 0.1152463949894152
+
+json-server:BUG - Spearman correlation:
+E_Line => NT_CC: 0.9595602830400523
+E_Line => NO_CC: 0.9303540018006166
+E_Line => T_CC: 0.9503541054253327
+E_Line => NT_EC: 0.9595602830400523
+E_Line => NO_CC: 0.9303540018006166
+E_Line => T_EC: 0.9503541054253327
+E_Line => T_Line: 0.09784595678479792
+
+json-server:DOCS - Pearsons correlation:
+E_Module => NT_CC: 0.704154339142587
+E_Module => NO_CC: 0.4074978166944704
+E_Module => T_CC: 0.704154339142587
+E_Module => NT_EC: 0.704154339142587
+E_Module => NO_CC: 0.4074978166944704
+E_Module => T_EC: 0.704154339142587
+E_Module => T_Line: 0.010122388806249705
+
+json-server:DOCS - Pearsons correlation:
+E_Line => NT_CC: 0.7041543391425871
+E_Line => NO_CC: 0.4074978166944704
+E_Line => T_CC: 0.7041543391425871
+E_Line => NT_EC: 0.7041543391425871
+E_Line => NO_CC: 0.4074978166944704
+E_Line => T_EC: 0.7041543391425871
+E_Line => T_Line: 0.010122388806249707
+
+json-server:DOCS - Spearman correlation:
+E_Module => NT_CC: 0.704154339142587
+E_Module => NO_CC: 0.6982128310246148
+E_Module => T_CC: 0.704154339142587
+E_Module => NT_EC: 0.704154339142587
+E_Module => NO_CC: 0.6982128310246148
+E_Module => T_EC: 0.704154339142587
+E_Module => T_Line: 0.11239295994022601
+
+json-server:DOCS - Spearman correlation:
+E_Line => NT_CC: 0.704154339142587
+E_Line => NO_CC: 0.6982128310246148
+E_Line => T_CC: 0.704154339142587
+E_Line => NT_EC: 0.704154339142587
+E_Line => NO_CC: 0.6982128310246148
+E_Line => T_EC: 0.704154339142587
+E_Line => T_Line: 0.11239295994022601
+
+json-server:REFACTOR - Pearsons correlation:
+E_Module => NT_CC: 0.6656534838242817
+E_Module => NO_CC: 0.38054202971053563
+E_Module => T_CC: 0.7383722366420148
+E_Module => NT_EC: 0.6656534838242817
+E_Module => NO_CC: 0.38054202971053563
+E_Module => T_EC: 0.7383722366420148
+E_Module => T_Line: -0.03257260685362037
+
+json-server:REFACTOR - Pearsons correlation:
+E_Line => NT_CC: 0.5401080310133834
+E_Line => NO_CC: 0.2191494287725756
+E_Line => T_CC: 0.6294791600075541
+E_Line => NT_EC: 0.5401080310133834
+E_Line => NO_CC: 0.2191494287725756
+E_Line => T_EC: 0.6294791600075541
+E_Line => T_Line: -0.07965293364528248
+
+json-server:REFACTOR - Spearman correlation:
+E_Module => NT_CC: 0.9975800191138146
+E_Module => NO_CC: 0.9518732793770006
+E_Module => T_CC: 0.9983361053365846
+E_Module => NT_EC: 0.9975800191138146
+E_Module => NO_CC: 0.9518732793770006
+E_Module => T_EC: 0.9983361053365846
+E_Module => T_Line: -0.035423250983296246
+
+json-server:REFACTOR - Spearman correlation:
+E_Line => NT_CC: 0.9971393333737546
+E_Line => NO_CC: 0.9513420219321717
+E_Line => T_CC: 0.998197822060717
+E_Line => NT_EC: 0.9971393333737546
+E_Line => NO_CC: 0.9513420219321717
+E_Line => T_EC: 0.998197822060717
+E_Line => T_Line: -0.04088490425851973
+
+json-server:TESTING - Pearsons correlation:
+E_Module => NT_CC: 0.8333004997269109
+E_Module => NO_CC: 0.5113854792172864
+E_Module => T_CC: 0.8321062199523003
+E_Module => NT_EC: 0.8333004997269109
+E_Module => NO_CC: 0.5113854792172864
+E_Module => T_EC: 0.8321062199523003
+E_Module => T_Line: 0.06570671774763867
+
+json-server:TESTING - Pearsons correlation:
+E_Line => NT_CC: 0.2472189577281774
+E_Line => NO_CC: 0.8381853808269704
+E_Line => T_CC: 0.2686131507147907
+E_Line => NT_EC: 0.2472189577281774
+E_Line => NO_CC: 0.8381853808269704
+E_Line => T_EC: 0.2686131507147907
+E_Line => T_Line: 0.4010702854882209
+
+json-server:TESTING - Spearman correlation:
+E_Module => NT_CC: 0.99752517809263
+E_Module => NO_CC: 0.9933725327432965
+E_Module => T_CC: 0.9974473045073139
+E_Module => NT_EC: 0.99752517809263
+E_Module => NO_CC: 0.9933725327432965
+E_Module => T_EC: 0.9974473045073139
+E_Module => T_Line: 0.22996615146707608
+
+json-server:TESTING - Spearman correlation:
+E_Line => NT_CC: 0.9975214627185506
+E_Line => NO_CC: 0.9948112890771982
+E_Line => T_CC: 0.9971328109252531
+E_Line => NT_EC: 0.9975214627185506
+E_Line => NO_CC: 0.9948112890771982
+E_Line => T_EC: 0.9971328109252531
+E_Line => T_Line: 0.22766870405136874
+
+json-server:FEATURE - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+json-server:FEATURE - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+json-server:FEATURE - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+json-server:FEATURE - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+json-server:UPGRADE - Pearsons correlation:
+E_Module => NT_CC: 0.9835986731363312
+E_Module => NO_CC: 0.9500680750747273
+E_Module => T_CC: 0.8449877710758171
+E_Module => NT_EC: 0.9835986731363312
+E_Module => NO_CC: 0.9500680750747273
+E_Module => T_EC: 0.8449877710758171
+E_Module => T_Line: 0.5678776426207157
+
+json-server:UPGRADE - Pearsons correlation:
+E_Line => NT_CC: 0.870445587455475
+E_Line => NO_CC: 0.9688507955254908
+E_Line => T_CC: 0.566742205680004
+E_Line => NT_EC: 0.870445587455475
+E_Line => NO_CC: 0.9688507955254908
+E_Line => T_EC: 0.566742205680004
+E_Line => T_Line: 0.46382992349271074
+
+json-server:UPGRADE - Spearman correlation:
+E_Module => NT_CC: 0.9999145473620916
+E_Module => NO_CC: 0.9997294034618177
+E_Module => T_CC: 0.9997720927552877
+E_Module => NT_EC: 0.9999145473620916
+E_Module => NO_CC: 0.9997294034618177
+E_Module => T_EC: 0.9997720927552877
+E_Module => T_Line: 0.32691374947491036
+
+json-server:UPGRADE - Spearman correlation:
+E_Line => NT_CC: 0.9998575867794393
+E_Line => NO_CC: 0.9998148650239859
+E_Line => T_CC: 0.9997151402876261
+E_Line => NT_EC: 0.9998575867794393
+E_Line => NO_CC: 0.9998148650239859
+E_Line => T_EC: 0.9997151402876261
+E_Line => T_Line: 0.32697370960646194
+
+json-server:RELEASE - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+json-server:RELEASE - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+json-server:RELEASE - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+json-server:RELEASE - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+json-server:SUPPORT - Pearsons correlation:
+E_Module => NT_CC: 0.9014239973857338
+E_Module => NO_CC: 0.7714555201032817
+E_Module => T_CC: 0.9014239973857338
+E_Module => NT_EC: 0.9014239973857338
+E_Module => NO_CC: 0.7714555201032817
+E_Module => T_EC: 0.9014239973857338
+E_Module => T_Line: 0.052730233445284366
+
+json-server:SUPPORT - Pearsons correlation:
+E_Line => NT_CC: 0.7846637496760764
+E_Line => NO_CC: 0.7079091809549236
+E_Line => T_CC: 0.7846637496760764
+E_Line => NT_EC: 0.7846637496760764
+E_Line => NO_CC: 0.7079091809549236
+E_Line => T_EC: 0.7846637496760764
+E_Line => T_Line: 0.07108397677215317
+
+json-server:SUPPORT - Spearman correlation:
+E_Module => NT_CC: 0.9993241699762303
+E_Module => NO_CC: 0.9989227394761017
+E_Module => T_CC: 0.9993241699762303
+E_Module => NT_EC: 0.9993241699762303
+E_Module => NO_CC: 0.9989227394761017
+E_Module => T_EC: 0.9993241699762303
+E_Module => T_Line: 0.0789605502743652
+
+json-server:SUPPORT - Spearman correlation:
+E_Line => NT_CC: 0.9992329466499814
+E_Line => NO_CC: 0.9988406812963749
+E_Line => T_CC: 0.9992329466499814
+E_Line => NT_EC: 0.9992329466499814
+E_Line => NO_CC: 0.9988406812963749
+E_Line => T_EC: 0.9992329466499814
+E_Line => T_Line: 0.08212657545246764
+
+json-server:OTHER - Pearsons correlation:
+E_Module => NT_CC: 0.7892679934002595
+E_Module => NO_CC: 0.47712579942218836
+E_Module => T_CC: 0.1574376678597327
+E_Module => NT_EC: 0.7892679934002595
+E_Module => NO_CC: 0.47712579942218836
+E_Module => T_EC: 0.1574376678597327
+E_Module => T_Line: 0.16932502590018533
+
+json-server:OTHER - Pearsons correlation:
+E_Line => NT_CC: 0.5126231308472744
+E_Line => NO_CC: 0.6901691574129107
+E_Line => T_CC: 0.03870627145634219
+E_Line => NT_EC: 0.5126231308472744
+E_Line => NO_CC: 0.6901691574129107
+E_Line => T_EC: 0.03870627145634219
+E_Line => T_Line: 0.48738647739819047
+
+json-server:OTHER - Spearman correlation:
+E_Module => NT_CC: 0.8902438758594903
+E_Module => NO_CC: 0.24160156956034687
+E_Module => T_CC: 0.3926659266707399
+E_Module => NT_EC: 0.8902438758594903
+E_Module => NO_CC: 0.24160156956034687
+E_Module => T_EC: 0.3926659266707399
+E_Module => T_Line: 0.18537160192548113
+
+json-server:OTHER - Spearman correlation:
+E_Line => NT_CC: 0.80764517775792
+E_Line => NO_CC: 0.23118646947395094
+E_Line => T_CC: 0.4020341232643595
+E_Line => NT_EC: 0.80764517775792
+E_Line => NO_CC: 0.23118646947395094
+E_Line => T_EC: 0.4020341232643595
+E_Line => T_Line: 0.20678851532625656
+
