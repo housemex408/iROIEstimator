@@ -1,0 +1,324 @@
+nightwatch:BUG - Pearsons correlation:
+E_Module => NT_CC: 0.7582059345300214
+E_Module => NO_CC: 0.35076847962859536
+E_Module => T_CC: 0.6122931239212008
+E_Module => NT_EC: 0.7582059345300214
+E_Module => NO_CC: 0.35076847962859536
+E_Module => T_EC: 0.6122931239212008
+E_Module => T_Line: 0.3543554308990167
+
+nightwatch:BUG - Pearsons correlation:
+E_Line => NT_CC: 0.4834972883612823
+E_Line => NO_CC: 0.21767086218335535
+E_Line => T_CC: 0.4000370859561358
+E_Line => NT_EC: 0.4834972883612823
+E_Line => NO_CC: 0.21767086218335535
+E_Line => T_EC: 0.4000370859561358
+E_Line => T_Line: 0.20765887213279138
+
+nightwatch:BUG - Spearman correlation:
+E_Module => NT_CC: 0.9649657511176745
+E_Module => NO_CC: 0.9357897750962142
+E_Module => T_CC: 0.9498122079548093
+E_Module => NT_EC: 0.9649657511176745
+E_Module => NO_CC: 0.9357897750962142
+E_Module => T_EC: 0.9498122079548093
+E_Module => T_Line: 0.5019034867257086
+
+nightwatch:BUG - Spearman correlation:
+E_Line => NT_CC: 0.9594195814223849
+E_Line => NO_CC: 0.933455785049333
+E_Line => T_CC: 0.9495588046780804
+E_Line => NT_EC: 0.9594195814223849
+E_Line => NO_CC: 0.933455785049333
+E_Line => T_EC: 0.9495588046780804
+E_Line => T_Line: 0.49610826593623375
+
+nightwatch:DOCS - Pearsons correlation:
+E_Module => NT_CC: 0.7055915149852745
+E_Module => NO_CC: 0.5232543014249098
+E_Module => T_CC: 0.7287826939416038
+E_Module => NT_EC: 0.7055915149852745
+E_Module => NO_CC: 0.5232543014249098
+E_Module => T_EC: 0.7287826939416038
+E_Module => T_Line: 0.12066894408926093
+
+nightwatch:DOCS - Pearsons correlation:
+E_Line => NT_CC: 0.44309058950547786
+E_Line => NO_CC: 0.764911800829347
+E_Line => T_CC: 0.5360571155348945
+E_Line => NT_EC: 0.44309058950547786
+E_Line => NO_CC: 0.764911800829347
+E_Line => T_EC: 0.5360571155348945
+E_Line => T_Line: 0.06489209930994613
+
+nightwatch:DOCS - Spearman correlation:
+E_Module => NT_CC: 0.9990330333608171
+E_Module => NO_CC: 0.9990781523915625
+E_Module => T_CC: 0.999314767949302
+E_Module => NT_EC: 0.9990330333608171
+E_Module => NO_CC: 0.9990781523915625
+E_Module => T_EC: 0.999314767949302
+E_Module => T_Line: 0.14024794468543514
+
+nightwatch:DOCS - Spearman correlation:
+E_Line => NT_CC: 0.9987736836953698
+E_Line => NO_CC: 0.9991421804186545
+E_Line => T_CC: 0.9993019732810647
+E_Line => NT_EC: 0.9987736836953698
+E_Line => NO_CC: 0.9991421804186545
+E_Line => T_EC: 0.9993019732810647
+E_Line => T_Line: 0.14175023777223186
+
+nightwatch:REFACTOR - Pearsons correlation:
+E_Module => NT_CC: 0.8385244056545488
+E_Module => NO_CC: 0.8995001819910534
+E_Module => T_CC: 0.656627344465286
+E_Module => NT_EC: 0.8385244056545488
+E_Module => NO_CC: 0.8995001819910534
+E_Module => T_EC: 0.656627344465286
+E_Module => T_Line: 0.12179280758482741
+
+nightwatch:REFACTOR - Pearsons correlation:
+E_Line => NT_CC: 0.6264324202569421
+E_Line => NO_CC: 0.8880954282524252
+E_Line => T_CC: 0.5678620120649076
+E_Line => NT_EC: 0.6264324202569421
+E_Line => NO_CC: 0.8880954282524252
+E_Line => T_EC: 0.5678620120649076
+E_Line => T_Line: 0.09669689947209523
+
+nightwatch:REFACTOR - Spearman correlation:
+E_Module => NT_CC: 0.9998491964800528
+E_Module => NO_CC: 0.9998298702795827
+E_Module => T_CC: 0.9995359090131765
+E_Module => NT_EC: 0.9998491964800528
+E_Module => NO_CC: 0.9998298702795827
+E_Module => T_EC: 0.9995359090131765
+E_Module => T_Line: 0.13917295790603973
+
+nightwatch:REFACTOR - Spearman correlation:
+E_Line => NT_CC: 0.9996635880899416
+E_Line => NO_CC: 0.9997680048832117
+E_Line => T_CC: 0.9995359090131765
+E_Line => NT_EC: 0.9996635880899416
+E_Line => NO_CC: 0.9997680048832117
+E_Line => T_EC: 0.9995359090131765
+E_Line => T_Line: 0.13904237103491043
+
+nightwatch:TESTING - Pearsons correlation:
+E_Module => NT_CC: 0.6873024820038662
+E_Module => NO_CC: 0.5883897970676893
+E_Module => T_CC: 0.31738417647108774
+E_Module => NT_EC: 0.6873024820038662
+E_Module => NO_CC: 0.5883897970676893
+E_Module => T_EC: 0.31738417647108774
+E_Module => T_Line: 0.027474097464408556
+
+nightwatch:TESTING - Pearsons correlation:
+E_Line => NT_CC: 0.634639628081531
+E_Line => NO_CC: 0.51257081051888
+E_Line => T_CC: 0.2605425494944593
+E_Line => NT_EC: 0.634639628081531
+E_Line => NO_CC: 0.51257081051888
+E_Line => T_EC: 0.2605425494944593
+E_Line => T_Line: 0.018568657444511073
+
+nightwatch:TESTING - Spearman correlation:
+E_Module => NT_CC: 0.9951140883562097
+E_Module => NO_CC: 0.9910914996341125
+E_Module => T_CC: 0.9953526509421033
+E_Module => NT_EC: 0.9951140883562097
+E_Module => NO_CC: 0.9910914996341125
+E_Module => T_EC: 0.9953526509421033
+E_Module => T_Line: 0.2193111974422888
+
+nightwatch:TESTING - Spearman correlation:
+E_Line => NT_CC: 0.995611196532197
+E_Line => NO_CC: 0.9928291200488161
+E_Line => T_CC: 0.9952983948298543
+E_Line => NT_EC: 0.995611196532197
+E_Line => NO_CC: 0.9928291200488161
+E_Line => T_EC: 0.9952983948298543
+E_Line => T_Line: 0.21855628152832363
+
+nightwatch:FEATURE - Pearsons correlation:
+E_Module => NT_CC: 0.2796485723013508
+E_Module => NO_CC: 0.4000162564243312
+E_Module => T_CC: 0.3255349828331351
+E_Module => NT_EC: 0.2796485723013508
+E_Module => NO_CC: 0.4000162564243312
+E_Module => T_EC: 0.3255349828331351
+E_Module => T_Line: 0.09856187422394783
+
+nightwatch:FEATURE - Pearsons correlation:
+E_Line => NT_CC: 0.2796485723013508
+E_Line => NO_CC: 0.4000162564243312
+E_Line => T_CC: 0.3255349828331351
+E_Line => NT_EC: 0.2796485723013508
+E_Line => NO_CC: 0.4000162564243312
+E_Line => T_EC: 0.3255349828331351
+E_Line => T_Line: 0.09856187422394783
+
+nightwatch:FEATURE - Spearman correlation:
+E_Module => NT_CC: 0.32351697291430387
+E_Module => NO_CC: 0.33327199964792964
+E_Module => T_CC: 0.32553498283313503
+E_Module => NT_EC: 0.32351697291430387
+E_Module => NO_CC: 0.33327199964792964
+E_Module => T_EC: 0.32553498283313503
+E_Module => T_Line: 0.08552366625923226
+
+nightwatch:FEATURE - Spearman correlation:
+E_Line => NT_CC: 0.32351697291430387
+E_Line => NO_CC: 0.33327199964792964
+E_Line => T_CC: 0.32553498283313503
+E_Line => NT_EC: 0.32351697291430387
+E_Line => NO_CC: 0.33327199964792964
+E_Line => T_EC: 0.32553498283313503
+E_Line => T_Line: 0.08552366625923226
+
+nightwatch:UPGRADE - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+nightwatch:UPGRADE - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+nightwatch:UPGRADE - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+nightwatch:UPGRADE - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+nightwatch:RELEASE - Pearsons correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+nightwatch:RELEASE - Pearsons correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+nightwatch:RELEASE - Spearman correlation:
+E_Module => NT_CC: nan
+E_Module => NO_CC: nan
+E_Module => T_CC: nan
+E_Module => NT_EC: nan
+E_Module => NO_CC: nan
+E_Module => T_EC: nan
+E_Module => T_Line: nan
+
+nightwatch:RELEASE - Spearman correlation:
+E_Line => NT_CC: nan
+E_Line => NO_CC: nan
+E_Line => T_CC: nan
+E_Line => NT_EC: nan
+E_Line => NO_CC: nan
+E_Line => T_EC: nan
+E_Line => T_Line: nan
+
+nightwatch:SUPPORT - Pearsons correlation:
+E_Module => NT_CC: 0.5775736996892589
+E_Module => NO_CC: 0.25978283328504725
+E_Module => T_CC: 0.6337755522246806
+E_Module => NT_EC: 0.5775736996892589
+E_Module => NO_CC: 0.25978283328504725
+E_Module => T_EC: 0.6337755522246806
+E_Module => T_Line: 0.19540944509010746
+
+nightwatch:SUPPORT - Pearsons correlation:
+E_Line => NT_CC: 0.3883353210299575
+E_Line => NO_CC: 0.14620306167890584
+E_Line => T_CC: 0.4338534974528779
+E_Line => NT_EC: 0.3883353210299575
+E_Line => NO_CC: 0.14620306167890584
+E_Line => T_EC: 0.4338534974528779
+E_Line => T_Line: 0.15651106648113816
+
+nightwatch:SUPPORT - Spearman correlation:
+E_Module => NT_CC: 0.9990233655371656
+E_Module => NO_CC: 0.9980282826418103
+E_Module => T_CC: 0.9993051719020508
+E_Module => NT_EC: 0.9990233655371656
+E_Module => NO_CC: 0.9980282826418103
+E_Module => T_EC: 0.9993051719020508
+E_Module => T_Line: 0.19670546346788148
+
+nightwatch:SUPPORT - Spearman correlation:
+E_Line => NT_CC: 0.9990521976404317
+E_Line => NO_CC: 0.9981691312976122
+E_Line => T_CC: 0.9992987746907934
+E_Line => NT_EC: 0.9990521976404317
+E_Line => NO_CC: 0.9981691312976122
+E_Line => T_EC: 0.9992987746907934
+E_Line => T_Line: 0.19687027453464107
+
+nightwatch:OTHER - Pearsons correlation:
+E_Module => NT_CC: 0.7267338974721644
+E_Module => NO_CC: 0.6121704514847113
+E_Module => T_CC: 0.22084468158161785
+E_Module => NT_EC: 0.7267338974721644
+E_Module => NO_CC: 0.6121704514847113
+E_Module => T_EC: 0.22084468158161785
+E_Module => T_Line: 0.1600970723131322
+
+nightwatch:OTHER - Pearsons correlation:
+E_Line => NT_CC: 0.6025862755978402
+E_Line => NO_CC: 0.545481782289668
+E_Line => T_CC: 0.10683413716639964
+E_Line => NT_EC: 0.6025862755978402
+E_Line => NO_CC: 0.545481782289668
+E_Line => T_EC: 0.10683413716639964
+E_Line => T_Line: 0.11062578970173706
+
+nightwatch:OTHER - Spearman correlation:
+E_Module => NT_CC: 0.9764338834459694
+E_Module => NO_CC: 0.8522697460454337
+E_Module => T_CC: 0.9375061972999633
+E_Module => NT_EC: 0.9764338834459694
+E_Module => NO_CC: 0.8522697460454337
+E_Module => T_EC: 0.9375061972999633
+E_Module => T_Line: 0.5690992968634255
+
+nightwatch:OTHER - Spearman correlation:
+E_Line => NT_CC: 0.9718767962791713
+E_Line => NO_CC: 0.8504044235773909
+E_Line => T_CC: 0.9371844809041919
+E_Line => NT_EC: 0.9718767962791713
+E_Line => NO_CC: 0.8504044235773909
+E_Line => T_EC: 0.9371844809041919
+E_Line => T_Line: 0.5747626261654324
+

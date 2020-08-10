@@ -150,9 +150,9 @@ def calculated_rsquared_adj(X, X_test, rsquared):
     return rsquared_adj
 
 def get_logger():
-  logger = logging.getLogger("iROIEstimator")
+  logger = logging.getLogger("iESPEstimator")
   if not logger.handlers:
-    handler = logging.FileHandler('iROIEstimator.log')
+    handler = logging.FileHandler('iESPEstimator.log')
     formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
     handler.setFormatter(formatter)
     logger.addHandler(handler)

@@ -134,12 +134,12 @@ PRED_50 = "PRED_50"
 PRED_25_X = "PRED_25_X"
 PRED_50_X = "PRED_50_X"
 
-# roi output columns
-AMOUNT_INVESTED = "Amount_Invested"
-AMOUNT_RETURNED = "Amount_Returned"
-INVESTMENT_GAIN = "Investment_Gain"
-ROI = "ROI"
-ANNUALIZED_ROI = "Annualized_ROI"
+# esp output columns
+AMOUNT_INVESTED = "Effort_Incurred"
+AMOUNT_RETURNED = "Effort_Saved"
+INVESTMENT_GAIN = "Net_Effort_Saved"
+ESP = "ESP"
+ANNUALIZED_ROI = "Annualized_ESP"
 
 # PR fields
 CONTRIBUTIONS = "Contributions"
