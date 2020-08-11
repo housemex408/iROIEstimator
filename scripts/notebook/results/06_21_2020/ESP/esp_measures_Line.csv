@@ -1,4 +1,4 @@
-Project,Model,Effort_Incurred,Effort_Saved,Net_Effort_Saved,ESP,Annualized_ESP
+Project,Model,Effort,Effort_Saved,Net_Effort_Saved,ESP,Annualized_ESP
 tensorflow,Line,3874788.72,194251.78000000003,-3680536.94,-0.95,-0.632
 cli,Line,1472976.6999999997,170553.12000000002,-1302423.58,-0.884,-0.512
 orleans,Line,174167.97,5849.2,-168318.77,-0.966,-0.676

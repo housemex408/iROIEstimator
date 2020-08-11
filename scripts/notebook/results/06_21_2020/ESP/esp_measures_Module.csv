@@ -1,4 +1,4 @@
-Project,Model,Effort_Incurred,Effort_Saved,Net_Effort_Saved,ESP,Annualized_ESP
+Project,Model,Effort,Effort_Saved,Net_Effort_Saved,ESP,Annualized_ESP
 cli,Module,8827.82,7712.93,-1114.89,-0.126,-0.044
 orleans,Module,7023.23,652.8,-6370.43,-0.907,-0.547
 tensorflow,Module,1313.75,16588.93,15275.18,11.627,1.329

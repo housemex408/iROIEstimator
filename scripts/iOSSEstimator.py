@@ -225,9 +225,9 @@ class iROIEstimator:
       return formatted_cost
 
     def get_model_measurement(self):
-      measurement = "LOC (added/modified/deleted)"
+      measurement = "LOC"
       if self.model == c.MODULE:
-        measurement = "Files (added/modified/deleted)"
+        measurement = "Files"
       return measurement
 
     def calculate_results(self):
@@ -263,7 +263,7 @@ class iROIEstimator:
             self.amount_invested = self.amount_invested + effort_cc
             self.amount_returned = self.amount_returned + effort_ec
 
-            logger.info(" {0} CC Forecasted Effort Incurred: {1:,} {2}".format(key, round(effort_cc, 0), self.get_model_measurement()))
+            logger.info(" {0} CC Forecasted Effort: {1:,} {2}".format(key, round(effort_cc, 0), self.get_model_measurement()))
             # logger.info(" {0} CC Forecasted Costs: {1}".format(key, self.convert_currency(cost_cc)))
             logger.info(" {0} EC Forecasted Effort Saved: {1:,} {2}".format(key, round(effort_ec, 0), self.get_model_measurement()))
             # logger.info(" {0} EC Forecasted Costs Savings: {1}".format(key, self.convert_currency(cost_ec)))
@@ -273,7 +273,7 @@ class iROIEstimator:
         if self.cost_invested > 0:
           self.cost_returned = self.calculate_savings(self.amount_invested, self.cost_invested, self.amount_returned)
 
-        logger.info(" Total CC Forecasted Effort Incurred: {0:,} {1}".format(round(self.amount_invested, 0), self.get_model_measurement()))
+        logger.info(" Total CC Forecasted Effort: {0:,} {1}".format(round(self.amount_invested, 0), self.get_model_measurement()))
         # logger.info(" Total CC Forecasted Costs: {0}".format(self.convert_currency(self.cost_invested)))
         logger.info(" Total EC Forecasted Effort Saved: {0:,} {1}".format(round(self.amount_returned, 0), self.get_model_measurement()))
         # logger.info(" Total EC Forecasted Costs Savings: {0}\n".format( self.convert_currency(self.cost_returned)))
@@ -298,7 +298,13 @@ class iROIEstimator:
         # logger.info(" Team Size: {0}".format(self.team_size))
         # logger.info(" Hourly Wage: {0}".format(self.convert_currency(self.hourly_wage)))
         logger.info(" Analysis Years: {0}".format(self.prediction_years))
-        logger.info(" Model: {0}".format(self.model))
+        logger.info(" Effort Units: {0}".format(self.get_effort_units()))
+
+    def get_effort_units(self):
+      if self.model == c.MODULE:
+            return "Files"
+      else:
+            return "LOC"
 
     def save_results_roi_measures(self):
         roi_measures = pd.DataFrame({c.PROJECT: [self.project_name],
